@@ -2,6 +2,7 @@ const url="http://localhost:3000"
 export const getUser=async (setUserCB)=>{
     try {
       const response=await fetch("http://localhost:3000/private/test", {
+        method: "GET",
         headers: {
           "Content-Type": "application/json",
           "Authorization": localStorage.getItem("token"),

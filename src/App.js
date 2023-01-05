@@ -10,11 +10,12 @@ function App() {
     const setUserCB=(userInfo)=>{
         console.log(userInfo)
         setUser(userInfo)
-        setLoading(false)
+        
     }
  
   useEffect(()=>{
     getUser(setUserCB)
+    setLoading(false)
   },[])
   if(loading)
    return <h1>Loading</h1>
