@@ -1,10 +1,8 @@
-// import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
-// import Form from 'react-bootstrap/Form';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import Offcanvas from 'react-bootstrap/Offcanvas';
-import AddPost from './photos/AddPost';
+import AddPost from './posts/AddPost';
 import User from './user/User';
 const Header = ({user, setUserCB}) =>{
     return(
@@ -30,7 +28,7 @@ const Header = ({user, setUserCB}) =>{
         
                     <User user={user} setUserCB={setUserCB} />
                     
-  <AddPost />
+                    {user && <AddPost user_id={user.id} /> }
                   
                 </Nav>
                 

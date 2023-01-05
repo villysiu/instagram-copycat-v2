@@ -6,17 +6,18 @@ import { getUser } from './app/actions';
 
 function App() {
   const [user, setUser]=useState(null)
-   const [loading, setLoading] = useState(true)
-    const setUserCB=(userInfo)=>{
-        console.log(userInfo)
-        setUser(userInfo)
-        
-    }
+  const [loading, setLoading] = useState(true)
+  const setUserCB=(userInfo)=>{
+      console.log(userInfo)
+      setUser(userInfo)
+      
+  }
  
   useEffect(()=>{
     getUser(setUserCB)
     setLoading(false)
   },[])
+
   if(loading)
    return <h1>Loading</h1>
   return (
