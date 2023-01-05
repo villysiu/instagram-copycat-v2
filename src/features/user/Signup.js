@@ -1,13 +1,21 @@
-
+import { useRef } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import { signup } from '../../app/actions';
+const Signup=({toggleLogin, setUserCB})=>{
 
-const Signup=({toggleLogin})=>{
-
+    const formRef = useRef()
     
+
+    const handleSubmit=e=>{
+        e.preventDefault()
+        const formData=new FormData(formRef.current)
+        signup({user: Object.fromEntries(formData)}, setUserCB)
+        e.target.reset() 
+    }
     return(
         <>
-        <Form>
+        <Form ref={formRef} onSubmit={handleSubmit}>
             <Form.Text><h2>Sign up for free.</h2></Form.Text>
             <Form.Group className="mb-3" controlId="formBasicEmail">
                 <Form.Label>Email address</Form.Label>

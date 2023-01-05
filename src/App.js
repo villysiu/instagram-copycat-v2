@@ -1,16 +1,29 @@
-import { useState } from 'react';
+// import { useState } from 'react';
 import Header from './features/Header';
 import './App.css';
+import { useState, useEffect } from 'react';
+import { getUser } from './app/actions';
 
 function App() {
-  const [login, setLogin]= useState(false)
-  // const [loading, setLoading] = useState(true)
-  
+  const [user, setUser]=useState(null)
+   const [loading, setLoading] = useState(true)
+    const setUserCB=(userInfo)=>{
+        console.log(userInfo)
+        setUser(userInfo)
+        setLoading(false)
+    }
+ 
+  useEffect(()=>{
+    getUser(setUserCB)
+  },[])
+  if(loading)
+   return <h1>Loading</h1>
   return (
     <div className="App">
       <header className="App-header">
-        <Header login={login}/>
-       
+        <Header user={user} setUserCB={setUserCB} />
+        <br/><br/><br/><br/><br/><br/>
+        Hello {user && user.name}!
       </header>
     </div>
   );
