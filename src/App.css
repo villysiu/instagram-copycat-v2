@@ -36,3 +36,20 @@
     transform: rotate(360deg);
   }
 }
+#card {
+  width: 50%;
+}
+.card_header {
+  display: flex;
+  justify-content: space-between;
+}
+.card_img {
+  size: 'cover';
+  padding: '10px';
+}
+.card_desc {
+  text-align: left;
+}
+.card_likes {
+  text-align: left;
+}
