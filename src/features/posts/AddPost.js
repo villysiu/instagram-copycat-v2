@@ -29,9 +29,7 @@ const AddPost=({user_id})=>{
         formData.append('user_id', user_id)
         formData.append('desc', desc)
         formData.append('url', preview)
-        for (const [key, value] of formData) {
-            console.log(key, value)
-          }
+        
     
         dispatch(addNewPost(formData))
         e.target.reset();

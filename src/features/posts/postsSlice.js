@@ -1,16 +1,34 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 const url="http://localhost:3000"
+
 export const fetchPosts = createAsyncThunk(
   'posts/fetchPosts',
   async () => {
-    const response = await fetch('http://localhost:3000/photos.json')
-    return response.data
+    try {
+      const response = await fetch('http://localhost:3000/photos.json')
+      const data=await response.json()
+      console.log(response)
+      console.log(data)
+      if(!response.ok) 
+        throw new Error(response.statusText)
+      return {
+        // status: response.status,
+        data,
+       }
+    } catch(error){
+      console.log(error)
+      console.log(error.message? error.message : "")
+      return Promise.reject(error.message ? error.message : "no data")
+    }
   }
 )
 export const addNewPost = createAsyncThunk(
   'posts/addNewPost',
   async (formData)=>{
     console.log(formData)
+    for (const [key, value] of formData) {
+      console.log(key, value)
+    }
     try {
       const response=await fetch(`${url}/photos`, {
           method: 'POST',
@@ -20,12 +38,13 @@ export const addNewPost = createAsyncThunk(
           body: formData
       })
       const data=await response.json()
-      console.log(response)
-      console.log(data)
-      if(!response.ok) throw data.error
-      postAdded()
+      // console.log(response)
+      // console.log(data)
+      
+      if(!response.ok) 
+        throw new Error(response.statusText)
+      
      return {
-      status: response.status,
       data,
      }
     }catch(error){
@@ -46,18 +65,26 @@ const postsSlice = createSlice({
     error: null,
   },
   reducers: {
-    
-    // postAdded: (state, action) => {
-    //   state.posts.push(action.payload)
-    // },
-    // postsFetched: (state, action) => {
-    //   state.posts = state.posts.concat(action.payload)
-    // }
+  
   },
   extraReducers(builder) {
     builder
+      .addCase(fetchPosts.pending, (state, action) => {
+        state.status = 'loading'
+      })
+      .addCase(fetchPosts.fulfilled, (state, action) => {
+        console.log(action)
+        state.status = 'succeeded'
+        state.posts = state.posts.concat(action.payload.data)
+        // console.log(state.posts)
+      })
+      .addCase(fetchPosts.rejected, (state, action) => {
+        state.status = 'failed'
+        state.error = action.error.message
+      })
       .addCase(addNewPost.fulfilled, (state, action) => {
-        state.posts.push(action.payload)
+        console.log(action)
+        state.posts.push(action.payload.data)
       })
   }
 })
@@ -66,4 +93,7 @@ const postsSlice = createSlice({
 export const { postAdded, postsFetched } = postsSlice.actions
 
 export default postsSlice.reducer
-export const selectAllPosts = (state) => state.posts.posts
+export const selectAllPosts = (state) =>{
+  console.log(state)
+  return state.posts.posts
+} 

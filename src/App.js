@@ -3,7 +3,8 @@ import Header from './features/Header';
 import './App.css';
 import { useState, useEffect } from 'react';
 import { getUser } from './app/actions';
-import {Counter} from './features/counter/Counter'
+
+import PostList from './features/posts/PostList'
 function App() {
   const [user, setUser]=useState(null)
   const [loading, setLoading] = useState(true)
@@ -26,7 +27,8 @@ function App() {
         <Header user={user} setUserCB={setUserCB} />
         <br/><br/><br/><br/><br/><br/>
         Hello {user && user.name}!
-        <Counter />
+       
+        <PostList />
       </header>
     </div>
   );
