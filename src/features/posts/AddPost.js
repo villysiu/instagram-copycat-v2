@@ -1,13 +1,16 @@
 import AddPhotoForm from "./AddPhotoForm"
 import AddPhotoDesc from "./AddPhotoDesc"
 import { useState, useRef } from "react"
+import { useDispatch } from "react-redux"
 import { Form, Button } from "react-bootstrap"
-import { addPost } from "../../app/photo_actions"
+import { addNewPost } from "./postsSlice"
+
 const AddPost=({user_id})=>{
     const fileRef = useRef(null);
     const [preview, setPreview]=useState(null)
     const [desc, setDesc] = useState('')
-    
+    const dispatch = useDispatch()
+
     const handlePreview=(e)=>{
         e.preventDefault();
         if(e.target.files.length===0) 
@@ -30,9 +33,11 @@ const AddPost=({user_id})=>{
             console.log(key, value)
           }
     
-        addPost(formData)
-        // e.target.reset();
-        // setPreview(null)
+        dispatch(addNewPost(formData))
+        e.target.reset();
+        setPreview(null);
+    
+        
     }
    
     return (
