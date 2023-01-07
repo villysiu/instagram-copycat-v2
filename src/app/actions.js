@@ -11,7 +11,7 @@ export const getUser=async (setUserCB)=>{
       const data=await response.json()
   
       //{ user: {email: 'mickey@disney.com', name: 'mickey'}}
-
+console.log(data)
       if(!response.ok) throw data.error
       setUserCB(data.user)
     } catch (error) {

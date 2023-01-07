@@ -8,14 +8,20 @@ import { likeAPost, unlikeAPost } from './postsSlice'
 const Post =(params)=>{
     console.log("in post")
     const {photo_id, url, desc, owner_name, liked_users, user_id} = params
-    const [redHeart, toggleHeart]=useState(liked_users.includes(user_id))
+    
+    const temp=liked_users.find(user=>user.liked_user_id===user_id)
+console.log(temp)
+    const [redHeart, toggleHeart]=useState(temp===undefined ? false:true)
     const dispatch=useDispatch()
     const toggleHeartCB = ()=>{
         if(redHeart){
-            const like_id=liked_users.find(user=>user.liked_user_id===user_id)
-            dispatch(unlikeAPost(photo_id, like_id))
+            console.log("click red heart")
+            console.log(temp)
+            const obj={post_id: photo_id, liked_id: temp.liked_id}
+            dispatch(unlikeAPost(obj))
         }
         else{
+            console.log("no heart")
             dispatch(likeAPost(photo_id))
         }
         toggleHeart(prev=>!prev)

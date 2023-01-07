@@ -77,7 +77,8 @@ export const likeAPost = createAsyncThunk(
 )
 export const unlikeAPost = createAsyncThunk(
   'posts/unlikeAPost',
-  async (post_id, liked_id) =>{
+  async ({post_id, liked_id}) =>{
+    console.log(post_id, liked_id)
     try {
       //http://localhost:3000/photos/${photo_id}/likes/${liked_id}`
       const response=await fetch(`${url}/photos/${post_id}/likes/${liked_id}`, {
