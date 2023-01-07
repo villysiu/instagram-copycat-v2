@@ -28,7 +28,7 @@ function App() {
         <br/><br/><br/><br/><br/><br/>
         Hello {user && user.name}!
        
-        <PostList />
+        <PostList user_id={user? user.id : null}/>
       </header>
     </div>
   );

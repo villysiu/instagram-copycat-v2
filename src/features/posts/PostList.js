@@ -4,7 +4,7 @@ import Post from './Post'
 import { selectAllPosts } from './postsSlice'
 import { fetchPosts } from './postsSlice'
 
-const PostList = () => {
+const PostList = ({user_id}) => {
     const dispatch = useDispatch()
     const posts = useSelector(selectAllPosts)
     const postStatus = useSelector(state => state.posts.status)
@@ -29,7 +29,7 @@ const PostList = () => {
             <div>All posts</div>
             <div>
                 {posts.map(photo=>{
-                    return <Post key={photo.photo_id} {...photo} />
+                    return <Post key={photo.photo_id} {...photo} user_id={user_id} />
                     
                 })}
             

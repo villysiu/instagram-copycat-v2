@@ -1,8 +1,13 @@
 import { Heart, HeartFill } from 'react-bootstrap-icons'
 
-const Like = () => {
+const Like = ({redHeart, toggleHeartCB}) => {
+    const handleClick=e=>{
+        toggleHeartCB()
+    }
     return (
-        <HeartFill />
+        redHeart ? 
+        <HeartFill onClick={handleClick} /> :
+        <Heart onClick={handleClick} />
     )
 }
 export default Like

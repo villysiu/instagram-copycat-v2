@@ -25,10 +25,10 @@ export const fetchPosts = createAsyncThunk(
 export const addNewPost = createAsyncThunk(
   'posts/addNewPost',
   async (formData)=>{
-    console.log(formData)
-    for (const [key, value] of formData) {
-      console.log(key, value)
-    }
+    // console.log(formData)
+    // for (const [key, value] of formData) {
+    //   console.log(key, value)
+    // }
     try {
       const response=await fetch(`${url}/photos`, {
           method: 'POST',
@@ -38,21 +38,64 @@ export const addNewPost = createAsyncThunk(
           body: formData
       })
       const data=await response.json()
-      // console.log(response)
-      // console.log(data)
-      
+      console.log(response)
+      console.log(data)
       if(!response.ok) 
         throw new Error(response.statusText)
-      
      return {
       data,
      }
     }catch(error){
       console.log("Oops! Something went wrong. Please try again")
+      return Promise.reject(error.message ? error.message : "no data")
+    }
+  }
+)
+export const likeAPost = createAsyncThunk(
+  'posts/likeAPost',
+  async (post_id)=>{
+    try {
+      //`http://localhost:3000/photos/${photo_id}/likes`
+      const response=await fetch(`${url}/photos/${post_id}/likes`, {
+        method: 'POST',
+        headers: {
+          'Content-type': "application/json",
+          "Authorization": localStorage.getItem("token")
+        },
+      })
+      const data=await response.json()
+      if(!response.ok) 
+        throw new Error(response.statusText)
       return {
-        error: "Oops! Something went wrong. Please try again"
+        post_id,
+        data,
       }
-      // dispatch({type: 'ADD_ERROR', payload: "Oops! Something went wrong. Please try again"})
+    } catch (error) {
+      return Promise.reject(error.message ? error.message : "no data")
+    }
+  }
+)
+export const unlikeAPost = createAsyncThunk(
+  'posts/unlikeAPost',
+  async (post_id, liked_id) =>{
+    try {
+      //http://localhost:3000/photos/${photo_id}/likes/${liked_id}`
+      const response=await fetch(`${url}/photos/${post_id}/likes/${liked_id}`, {
+        method: "delete",
+        headers: {
+            'Content-type': "application/json",
+            'Authorization': localStorage.getItem('token'),
+        },
+      })
+      const data=await response.json()
+      if(!response.ok) 
+        throw new Error(response.statusText)
+      return {
+        post_id,
+        data //liked_id
+      }
+    } catch (error) {
+      return Promise.reject(error.message ? error.message : "no data")
     }
   }
 )
@@ -86,6 +129,16 @@ const postsSlice = createSlice({
         console.log(action)
         state.posts.push(action.payload.data)
       })
+      .addCase(likeAPost.fulfilled, (state, action)=>{
+        console.log(action)
+        const post=state.posts.find(post=>post.photo_id===action.payload.post_id)
+        post.liked_users.push(action.payload.data)
+      })
+      .addCase(unlikeAPost.fulfilled, (state, action)=>{
+        console.log(action)
+        const post=state.posts.find(post=>post.photo_id===action.payload.post_id)
+        post.liked_users.filter(liked=>liked.liked_id!==action.payload.liked_id)
+      })
   }
 })
 
@@ -97,3 +150,4 @@ export const selectAllPosts = (state) =>{
   console.log(state)
   return state.posts.posts
 } 
+
