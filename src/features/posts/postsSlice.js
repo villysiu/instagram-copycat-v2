@@ -91,11 +91,14 @@ export const unlikeAPost = createAsyncThunk(
       const data=await response.json()
       if(!response.ok) 
         throw new Error(response.statusText)
+        console.log(response)
+      console.log(data)
       return {
         post_id,
-        data //liked_id
+        liked_id,
       }
     } catch (error) {
+      console.log("i m here")
       return Promise.reject(error.message ? error.message : "no data")
     }
   }
@@ -131,14 +134,14 @@ const postsSlice = createSlice({
         state.posts.push(action.payload.data)
       })
       .addCase(likeAPost.fulfilled, (state, action)=>{
-        console.log(action)
+        // console.log(action)
         const post=state.posts.find(post=>post.photo_id===action.payload.post_id)
         post.liked_users.push(action.payload.data)
       })
       .addCase(unlikeAPost.fulfilled, (state, action)=>{
-        console.log(action)
+        // console.log(action)
         const post=state.posts.find(post=>post.photo_id===action.payload.post_id)
-        post.liked_users.filter(liked=>liked.liked_id!==action.payload.liked_id)
+        post.liked_users=post.liked_users.filter(liked=>liked.liked_id!==action.payload.liked_id)
       })
   }
 })
