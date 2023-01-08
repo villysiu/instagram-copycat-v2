@@ -1,34 +1,36 @@
-// import { useState } from 'react';
+import { useEffect } from 'react';
 import Header from './features/Header';
 import './App.css';
-import { useState, useEffect } from 'react';
-import { getUser } from './app/actions';
+import { useDispatch, useSelector } from 'react-redux'
+import { fetchUser } from './features/user/userSlice'; 
+import { currentUser } from './features/user/userSlice';
+import PostList from './features/posts/PostList';
 
-import PostList from './features/posts/PostList'
 function App() {
-  const [user, setUser]=useState(null)
-  const [loading, setLoading] = useState(true)
-  const setUserCB=(userInfo)=>{
-      console.log(userInfo)
-      setUser(userInfo)
-      
-  }
- 
-  useEffect(()=>{
-    getUser(setUserCB)
-    setLoading(false)
-  },[])
+  const dispatch = useDispatch()
+  const user = useSelector(currentUser)
+  const userStatus = useSelector(state => state.user.status)
+  const error = useSelector(state => state.user.error)
 
-  if(loading)
-   return <h1>Loading</h1>
+  useEffect(() => {
+    if (userStatus === 'idle') {
+        dispatch(fetchUser())
+    }
+}, [userStatus, dispatch])
+
+  if (userStatus === 'loading') 
+    return <h1>Loading</h1>
+  if (userStatus === 'failed')
+    return <div>{error}</div>
+
   return (
     <div className="App">
       <header className="App-header">
-        <Header user={user} setUserCB={setUserCB} />
+        <Header />
         <br/><br/><br/><br/><br/><br/>
         Hello {user && user.name}!
        
-        <PostList user_id={user? user.id : null}/>
+        <PostList />
       </header>
     </div>
   );
