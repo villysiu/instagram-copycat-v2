@@ -32,7 +32,7 @@ console.log(user)
         
                     <User user={user} />
                     
-                    {user && <AddPost user_id={user.user.id} /> }
+                    {user && <AddPost user_id={user.id} /> }
                   
                 </Nav>
                 

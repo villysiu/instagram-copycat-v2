@@ -42,10 +42,11 @@ export const loginUser=createAsyncThunk(
                 throw new Error(response.statusText)
             
             const data=await response.json()
+            console.log(data)
             localStorage.setItem('token', response.headers.get("Authorization"))
             return {
                 // status: response.status,
-                user: data.user,
+                data
             }
         } 
         catch(error){
@@ -71,7 +72,7 @@ export const signupUser=createAsyncThunk(
             localStorage.setItem('token', response.headers.get("Authorization"))
             return {
                 // status: response.status,
-                user: data.user,
+                data
             }
         } catch(error){
             return Promise.reject(error.message ? error.message : "no data")
@@ -123,10 +124,10 @@ const userSlice=createSlice({
             console.log(action)
             state.status = 'succeeded'
             state.user = action.payload.data
-            // console.log(state.posts)
+           
         })
         .addCase(fetchUser.rejected, (state, action) => {
-            console.log("I am heree")
+            console.log("No current user login")
             state.status = 'succeeded'
             state.user=null
             // state.status = 'failed'
@@ -140,7 +141,7 @@ const userSlice=createSlice({
             state.status = 'succeeded'
             state.user = action.payload.data
             
-            // console.log(state.posts)
+
         })
         .addCase(loginUser.rejected, (state, action) => {
             state.status = 'failed'
@@ -179,6 +180,6 @@ const userSlice=createSlice({
 export default userSlice.reducer
 export const currentUser = (state) =>{
     console.log(state)
-     return state.user.user
-    // return state.posts.posts
+     return state.user ? state.user.user : null
+   
   } 
