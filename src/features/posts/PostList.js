@@ -3,13 +3,15 @@ import { useSelector, useDispatch } from 'react-redux'
 import Post from './Post'
 import { selectAllPosts } from './postsSlice'
 import { fetchPosts } from './postsSlice'
-
-const PostList = ({user_id}) => {
+import { currentUser } from '../user/userSlice'
+const PostList = () => {
     const dispatch = useDispatch()
     const posts = useSelector(selectAllPosts)
     const postStatus = useSelector(state => state.posts.status)
     const error = useSelector(state => state.posts.error)
-    console.log()
+
+    const user=useSelector(currentUser) 
+    
     useEffect(() => {
         if (postStatus === 'idle') {
             dispatch(fetchPosts())
@@ -29,7 +31,7 @@ const PostList = ({user_id}) => {
             <div>All posts</div>
             <div>
                 {posts.map(photo=>{
-                    return <Post key={photo.photo_id} {...photo} user_id={user_id} />
+                    return <Post key={photo.photo_id} {...photo} user={user} />
                     
                 })}
             

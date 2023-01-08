@@ -28,7 +28,7 @@ function App() {
       <header className="App-header">
         <Header />
         <br/><br/><br/><br/><br/><br/>
-        Hello {user && user.name}!
+        Hello {user && user.user.name}!
        
         <PostList />
       </header>

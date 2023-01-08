@@ -1,16 +1,17 @@
 import { useRef } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import { signup } from '../../app/actions';
+import { useDispatch } from 'react-redux';
+import { signupUser } from './userSlice';
 const Signup=({toggleLogin, setUserCB})=>{
-
+    const dispatch=useDispatch()
     const formRef = useRef()
     
 
     const handleSubmit=e=>{
         e.preventDefault()
         const formData=new FormData(formRef.current)
-        signup({user: Object.fromEntries(formData)}, setUserCB)
+        dispatch(signupUser({user: Object.fromEntries(formData)}))
         e.target.reset() 
     }
     return(

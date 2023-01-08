@@ -2,9 +2,13 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import Offcanvas from 'react-bootstrap/Offcanvas';
+import { useSelector } from 'react-redux';
 import AddPost from './posts/AddPost';
 import User from './user/User';
-const Header = ({user, setUserCB}) =>{
+import { currentUser } from './user/userSlice';
+const Header = () =>{
+    const user=useSelector(currentUser) 
+console.log(user)
     return(
         <>
      
@@ -26,9 +30,9 @@ const Header = ({user, setUserCB}) =>{
               <Offcanvas.Body>
                 <Nav className="justify-content-end flex-grow-1 pe-3">
         
-                    <User user={user} setUserCB={setUserCB} />
+                    <User user={user} />
                     
-                    {user && <AddPost user_id={user.id} /> }
+                    {user && <AddPost user_id={user.user.id} /> }
                   
                 </Nav>
                 

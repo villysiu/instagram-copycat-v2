@@ -1,15 +1,17 @@
 import { useRef } from 'react';
+import { useDispatch } from 'react-redux';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 
-import { login } from '../../app/actions';
+import { loginUser } from './userSlice';
 const Login=({toggleLogin, setUserCB})=>{
   const formRef=useRef()
-    
+  const dispatch=useDispatch();
+
   const handleSubmit=e=>{
       e.preventDefault()
       const formData=new FormData(formRef.current)
-      login({user: Object.fromEntries(formData)}, setUserCB)
+      dispatch(loginUser({user: Object.fromEntries(formData)}))
       e.target.reset() 
   }
     return(

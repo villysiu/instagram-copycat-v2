@@ -1,9 +1,12 @@
 import Button from 'react-bootstrap/Button';
-import { logout } from '../../app/actions';
+import { useDispatch } from 'react-redux';
+import { logoutUser } from './userSlice';
 const Logout = ({setUserCB}) =>{
+    const dispatch=useDispatch();
     const handleClick=()=>{
+        
         console.log("logging out")
-        logout(setUserCB)
+        dispatch(logoutUser())
 
     }
     return (
