@@ -5,7 +5,7 @@ import { useDispatch } from "react-redux"
 import { Form, Button } from "react-bootstrap"
 import { addNewPost } from "./postsSlice"
 
-const AddPost=({user_id})=>{
+const AddPost=({user_id, showSidebarCB})=>{
     const fileRef = useRef(null);
     const [preview, setPreview]=useState(null)
     const [desc, setDesc] = useState('')
@@ -24,7 +24,7 @@ const AddPost=({user_id})=>{
         fileRef.current.value = null;
     }
     const handleSubmit=(e)=>{
-        e.preventDefault()
+        e.preventDefault();
         const formData=new FormData()
         formData.append('user_id', user_id)
         formData.append('desc', desc)
@@ -34,6 +34,7 @@ const AddPost=({user_id})=>{
         dispatch(addNewPost(formData))
         e.target.reset();
         setPreview(null);
+        showSidebarCB();
     
         
     }
@@ -46,7 +47,7 @@ const AddPost=({user_id})=>{
             <Form onSubmit={handleSubmit} >
                 
                 <AddPhotoForm fileRef={fileRef} preview={preview} handlePreview={handlePreview} handleRemove={handleRemove} />
-                <AddPhotoDesc handleDesc={handleDesc} />
+                <AddPhotoDesc desc={desc} handleDesc={handleDesc} />
                 
 
                 <Button variant="primary" type="submit">

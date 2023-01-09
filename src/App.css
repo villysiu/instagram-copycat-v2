@@ -53,3 +53,10 @@
 .card_likes {
   text-align: left;
 }
+.redheart {
+  color: red
+}
+.heart:hover {
+  transform: scale(1.3);
+  /* color: purple */
+}

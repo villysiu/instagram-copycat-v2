@@ -45,6 +45,53 @@ export const addNewPost = createAsyncThunk(
     }
   }
 )
+export const editAPost = createAsyncThunk(
+    'posts/editAPost',
+    async({postId, formData})=>{
+      console.log(postId)
+      // console.log(formData)
+      try{
+        const response=await fetch(`${url}/photos/${postId}`, {
+            method:'PATCH',
+            headers: {
+                'Authorization': localStorage.getItem('token'),
+            },
+            body: formData
+        })
+        const data=await response.json()
+        if(!response.ok) 
+          throw new Error(response.statusText)
+          console.log(data)
+        return {
+          postId,
+          data
+        }
+      } catch (error) {
+          return Promise.reject(error.message ? error.message : "no data")
+      }
+    }
+)
+export const deleteAPost = createAsyncThunk(
+  'posts/deleteAPost',
+  async(postId)=>{
+    try {
+      const response=await fetch(`${url}/photos/${postId}`, {
+        method: 'delete',
+        headers: {
+            // 'Content-Type': 'application/json',
+            'Authorization': localStorage.getItem('token')
+        },
+    })
+    const data=await response.json()
+    if(!response.ok) throw new Error(response.statusText)
+    return {
+      postId
+    }
+    } catch (error) {
+      return Promise.reject(error.message ? error.message : "no data")
+    }
+  }
+)
 export const likeAPost = createAsyncThunk(
   'posts/likeAPost',
   async (post_id)=>{
@@ -106,7 +153,7 @@ const postsSlice = createSlice({
     error: null,
   },
   reducers: {
-  
+    
   },
   extraReducers(builder) {
     builder
@@ -123,17 +170,55 @@ const postsSlice = createSlice({
         state.status = 'failed'
         state.error = action.error.message
       })
+      .addCase(addNewPost.pending, (state, action) => {
+        state.status = 'loading'
+      })
       .addCase(addNewPost.fulfilled, (state, action) => {
         // console.log(action)
-        state.posts.push(action.payload.data)
+        state.status = 'succeeded'
+        state.posts.unshift(action.payload.data)
+      })
+      .addCase(addNewPost.rejected, (state, action) => {
+        state.status = 'failed'
+        state.error = action.error.message
+      })
+      .addCase(editAPost.pending, (state, action) => {
+        state.status = 'loading'
+      })
+      .addCase(editAPost.fulfilled, (state, action) => {
+        console.log(action)
+        state.status = 'succeeded'
+        const post=state.posts.find(p=>p.photo_id===action.payload.postId)
+        post.desc=action.payload.data.desc
+        
+      })
+      .addCase(editAPost.rejected, (state, action) => {
+        state.status = 'failed'
+        state.error = action.error.message
+      })
+      .addCase(deleteAPost.pending, (state, action) => {
+        state.status = 'loading'
+      })
+      .addCase(deleteAPost.fulfilled, (state, action) => {
+        console.log(action)
+        state.status = 'succeeded'
+        state.posts=state.posts.filter(p=>p.photo_id!==action.payload.postId)
+        
+        
+      })
+      .addCase(deleteAPost.rejected, (state, action) => {
+        state.status = 'failed'
+        state.error = action.error.message
       })
       .addCase(likeAPost.fulfilled, (state, action)=>{
         // console.log(action)
+        state.status = 'succeeded'
         const post=state.posts.find(post=>post.photo_id===action.payload.post_id)
         post.liked_users.push(action.payload.data)
       })
       .addCase(unlikeAPost.fulfilled, (state, action)=>{
         // console.log(action)
+        state.status = 'succeeded'
         const post=state.posts.find(post=>post.photo_id===action.payload.post_id)
         post.liked_users=post.liked_users.filter(liked=>liked.liked_id!==action.payload.liked_id)
       })

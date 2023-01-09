@@ -30,8 +30,8 @@ const PostList = () => {
         <>
             <div>All posts</div>
             <div>
-                {posts.map(photo=>{
-                    return <Post key={photo.photo_id} {...photo} user={user} />
+                {posts.map(p=>{
+                    return <Post key={p.photo_id} post={p} user={user} />
                     
                 })}
             
