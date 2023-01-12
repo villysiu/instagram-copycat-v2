@@ -124,12 +124,14 @@ const userSlice=createSlice({
             console.log(action)
             state.status = 'succeeded'
             state.user = action.payload.data
+            state.error = null
            
         })
         .addCase(fetchUser.rejected, (state, action) => {
             console.log("No current user login")
             state.status = 'succeeded'
-            state.user=null
+            state.user = null
+            state.error = null
             // state.status = 'failed'
             // state.error = action.error.message
         })
@@ -154,6 +156,7 @@ const userSlice=createSlice({
             console.log(action)
             state.status = 'succeeded'
             state.user = action.payload.data
+            state.error = null
             
             // console.log(state.posts)
         })
@@ -182,4 +185,8 @@ export const currentUser = (state) =>{
     console.log(state)
      return state.user ? state.user.user : null
    
-  } 
+}
+export const getUserNameById = (state, id) =>{
+    console.log(state)
+    return "silly goose"
+} 

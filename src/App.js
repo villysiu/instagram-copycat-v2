@@ -19,7 +19,7 @@ function App() {
   useEffect(() => {
     dispatch(fetchUser())
     dispatch(fetchPosts())
-  }, [])
+  }, [dispatch])
 
   
   if (userStatus === 'loading') 

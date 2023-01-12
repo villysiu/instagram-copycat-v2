@@ -6,14 +6,11 @@ import { selectAllPosts } from './postsSlice'
 import { currentUser } from '../user/userSlice'
 
 const PostList = ({setUserPostsCB}) => {
-    // const dispatch = useDispatch()
-    const user=useSelector(currentUser) 
+    const currUser=useSelector(currentUser) 
     const posts = useSelector(selectAllPosts)
     const postStatus = useSelector(state => state.posts.status)
     const error = useSelector(state => state.posts.error)
 
-
-   
     if (postStatus === 'loading') {
         return <div>loading</div>
 }
@@ -32,8 +29,8 @@ if (postStatus === 'failed'){
             {/* {show &&  <AlertBar error={error} />} */}
             
             <div>
-                {posts.map(p=>{
-                    return <Post key={p.photo_id} post={p} user={user} setUserPostsCB={setUserPostsCB} />
+                {posts.map(post=>{
+                    return <Post key={post.id} post={post} currUser={currUser} setUserPostsCB={setUserPostsCB} />
                     
                 })}
             

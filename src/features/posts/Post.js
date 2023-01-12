@@ -5,10 +5,9 @@ import Like from './Like';
 
 import EditPost from './EditPost';
 
-const Post =({post, user, setUserPostsCB})=>{
-    console.log("in post "+post.photo_id)
+const Post =({post, currUser, setUserPostsCB})=>{
+    console.log("in post "+post.id)
     const [edit, showEdit] = useState(false)
-    
 
     return (
         <>
@@ -18,8 +17,8 @@ const Post =({post, user, setUserPostsCB})=>{
 
             <Card id="card" style={{ margin: '15px'}}>
                 <Card.Title className="card_header">
-                    <span><Button className="b-owner" onClick={()=>setUserPostsCB({id: post.owner_id, name:post.owner_name} )} >{post.owner_name} </Button></span>
-                    <span>{user && user.id===post.owner_id && <ThreeDots style = {{transform: 'rotate(90deg)'}}  onClick={()=>showEdit(true)}/> }</span>
+                    <span><Button className="b-owner" onClick={()=>setUserPostsCB({id: post.owner.id, name:post.owner.name} )} >{post.owner.name} </Button></span>
+                    <span>{currUser && currUser.id===post.owner_id && <ThreeDots style = {{transform: 'rotate(90deg)'}}  onClick={()=>showEdit(true)}/> }</span>
                 </Card.Title>
 
                 <Card.Img className="card_img" variant="top" src={`http://localhost:3000/${post.url}`} />
@@ -28,14 +27,14 @@ const Post =({post, user, setUserPostsCB})=>{
                 
                 <OverlayTrigger placement="top" overlay={ 
                     <Tooltip> 
-                        { post.liked_users.length===0 ? <div>No like yet.</div>:
-                            post.liked_users.map(u=><div key={u.liked_user_id}>{u.liked_user_name}</div>)}
+                        { post.likes.length===0 ? <div>No like yet.</div>:
+                            post.likes.map(like=><div key={like.user.id}>{like.user.name}</div>)}
                     </Tooltip>
                 }>
             
                 <span>
-                    { user?  <Like user={user} liked_users={post.liked_users} post_id={post.photo_id}/> : <Heart /> }
-                    {" "} {post.liked_users.length} likes
+                    { currUser?  <Like currUser={currUser} likes={post.likes} postId={post.id}/> : <Heart /> }
+                    {" "} {post.likes.length} likes
                 </span>
 
                 

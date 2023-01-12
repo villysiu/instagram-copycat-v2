@@ -4,6 +4,7 @@ const url="http://localhost:3000"
 export const fetchPosts = createAsyncThunk(
   'posts/fetchPosts',
   async () => {
+    console.log("hehehrehhrherherheh")
     try {
       const response = await fetch('http://localhost:3000/photos.json')
       const data=await response.json()
@@ -162,7 +163,7 @@ const postsSlice = createSlice({
         state.status = 'loading'
       })
       .addCase(fetchPosts.fulfilled, (state, action) => {
-        // console.log(action)
+        console.log(action)
         state.status = 'succeeded'
         state.posts = state.posts.concat(action.payload.data)
 
