@@ -13,16 +13,16 @@
   }
 }
 
-/* .App-header {
-  background-color: #282c34;
+.App-header {
+  
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-} */
+  /* font-size: calc(10px + 2vmin); */
+  
+}
 
 .App-link {
   color: #61dafb;
@@ -59,4 +59,39 @@
 .heart:hover {
   transform: scale(1.3);
   /* color: purple */
+}
+
+.b-owner  {
+  color: black;
+  background-color: transparent;
+  border-color: transparent;
+  
+}
+.b-owner:hover  {
+  transform: scale(1.3);
+  color: black;
+  background-color: transparent;
+  border-color: transparent;
+}
+.b-owner:active  { 
+  /* transform: scale(1.3); */
+  color: black !important;
+  background-color: transparent !important;
+  border-color: transparent !important;
+} 
+.b-title {
+  /* width: 60%; */
+  color: red;
+  background-color: transparent;
+  border-color: red;
+}
+.b-title:hover  {
+  color: black;
+  background-color: transparent;
+  border-color: transparent;
+}
+.b-title:active  {
+  color: black !important;
+  background-color: transparent !important;
+  border-color: transparent !important;
 }

@@ -1,37 +1,39 @@
-import React, { useEffect } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+// import React, { useState, useEffect } from 'react'
+import { useSelector } from 'react-redux'
 import Post from './Post'
 import { selectAllPosts } from './postsSlice'
-import { fetchPosts } from './postsSlice'
+
 import { currentUser } from '../user/userSlice'
-const PostList = () => {
-    const dispatch = useDispatch()
+
+const PostList = ({setUserPostsCB}) => {
+    // const dispatch = useDispatch()
+    const user=useSelector(currentUser) 
     const posts = useSelector(selectAllPosts)
     const postStatus = useSelector(state => state.posts.status)
     const error = useSelector(state => state.posts.error)
 
-    const user=useSelector(currentUser) 
-    
-    useEffect(() => {
-        if (postStatus === 'idle') {
-            dispatch(fetchPosts())
-        }
-    }, [postStatus, dispatch])
 
-
-    if (postStatus === 'loading') 
+   
+    if (postStatus === 'loading') {
         return <div>loading</div>
-    if (postStatus === 'failed')
-        return <div>{error}</div>
-    
-    if(posts.length===0)
-        return <div>No post yet. Add the first one here..</div>
+}
+if (postStatus === 'failed'){
+    return <div>{error}</div>
+}
+
+   
+    if(posts.length===0){
+        return (
+            <p>"No post yet. Add the first one here." </p>
+        )
+    }
     return (
         <>
-            <div>All posts</div>
+            {/* {show &&  <AlertBar error={error} />} */}
+            
             <div>
                 {posts.map(p=>{
-                    return <Post key={p.photo_id} post={p} user={user} />
+                    return <Post key={p.photo_id} post={p} user={user} setUserPostsCB={setUserPostsCB} />
                     
                 })}
             

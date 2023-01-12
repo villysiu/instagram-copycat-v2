@@ -1,11 +1,13 @@
 import AddPhotoForm from "./AddPhotoForm"
 import AddPhotoDesc from "./AddPhotoDesc"
 import { useState, useRef } from "react"
-import { useDispatch } from "react-redux"
-import { Form, Button } from "react-bootstrap"
+import { useDispatch, useSelector } from "react-redux"
+import { Form, Button, Modal } from "react-bootstrap"
 import { addNewPost } from "./postsSlice"
+import { currentUser } from "../user/userSlice"
 
-const AddPost=({user_id, showSidebarCB})=>{
+const AddPost=({showModalCB})=>{
+    const user=useSelector(currentUser) 
     const fileRef = useRef(null);
     const [preview, setPreview]=useState(null)
     const [desc, setDesc] = useState('')
@@ -26,7 +28,7 @@ const AddPost=({user_id, showSidebarCB})=>{
     const handleSubmit=(e)=>{
         e.preventDefault();
         const formData=new FormData()
-        formData.append('user_id', user_id)
+        formData.append('user_id', user.id)
         formData.append('desc', desc)
         formData.append('url', preview)
         
@@ -34,17 +36,20 @@ const AddPost=({user_id, showSidebarCB})=>{
         dispatch(addNewPost(formData))
         e.target.reset();
         setPreview(null);
-        showSidebarCB();
+        showModalCB();
     
         
     }
    
     return (
-        <div>
-            <hr/>
-            <h2>Add a new photo</h2>
-            
-            <Form onSubmit={handleSubmit} >
+<>
+   
+        <Modal.Header closeButton onClick={()=>showModalCB()}>
+          <Modal.Title>Add a new photo</Modal.Title>
+        </Modal.Header>
+
+        <Modal.Body>
+        <Form onSubmit={handleSubmit} >
                 
                 <AddPhotoForm fileRef={fileRef} preview={preview} handlePreview={handlePreview} handleRemove={handleRemove} />
                 <AddPhotoDesc desc={desc} handleDesc={handleDesc} />
@@ -55,7 +60,14 @@ const AddPost=({user_id, showSidebarCB})=>{
                 </Button>
         
             </Form>
-        </div>
+        </Modal.Body>
+
+        {/* <Modal.Footer>
+          <Button variant="secondary">Close</Button>
+          <Button variant="primary">Save changes</Button>
+        </Modal.Footer> */}
+
+       </>
     )
 }
 export default AddPost

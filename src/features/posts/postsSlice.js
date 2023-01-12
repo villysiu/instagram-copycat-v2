@@ -51,7 +51,8 @@ export const editAPost = createAsyncThunk(
       console.log(postId)
       // console.log(formData)
       try{
-        const response=await fetch(`${url}/photos/${postId}`, {
+        // const response=await fetch(`${url}/photos/${postId}`, {
+          const response=await fetch(`${url}/photos/1000`, {
             method:'PATCH',
             headers: {
                 'Authorization': localStorage.getItem('token'),
@@ -82,7 +83,7 @@ export const deleteAPost = createAsyncThunk(
             'Authorization': localStorage.getItem('token')
         },
     })
-    const data=await response.json()
+    // const data=await response.json()
     if(!response.ok) throw new Error(response.statusText)
     return {
       postId
@@ -129,7 +130,7 @@ export const unlikeAPost = createAsyncThunk(
             'Authorization': localStorage.getItem('token'),
         },
       })
-      const data=await response.json()
+      // const data=await response.json()
       if(!response.ok) 
         throw new Error(response.statusText)
       //   console.log(response)
@@ -232,5 +233,9 @@ export default postsSlice.reducer
 export const selectAllPosts = (state) =>{
   // console.log(state)
   return state.posts.posts
+} 
+export const selectPostsbyUserId = (state, userId) =>{
+  // console.log(state)
+  return state.posts.posts.filter(p=>p.owner_id===userId)
 } 
 

@@ -1,8 +1,10 @@
-import { selectPostByUser } from './postsSlice'
-import { useSelector } from 'react-redux'
-export const UserPostList = ({ match }) => {
-  const { postId } = match.params
-
-  const post = useSelector(state => selectPostByUser(state, userId))
-  // omit component logic
+import { useSelector } from "react-redux"
+import { selectPostsbyUserId } from "./postsSlice"
+const UserPostList = ({userId}) => {
+    const posts=useSelector(state=>selectPostsbyUserId(state, userId))
+    console.log(posts)
+    return(
+        <div>user post List</div>
+    )
 }
+export default UserPostList

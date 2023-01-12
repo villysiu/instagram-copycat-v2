@@ -140,7 +140,7 @@ const userSlice=createSlice({
             console.log(action)
             state.status = 'succeeded'
             state.user = action.payload.data
-            
+            state.error = null
 
         })
         .addCase(loginUser.rejected, (state, action) => {

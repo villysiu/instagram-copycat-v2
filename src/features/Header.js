@@ -1,59 +1,65 @@
 import { useState } from 'react';
 import Container from 'react-bootstrap/Container';
-import Nav from 'react-bootstrap/Nav';
+// import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
-import Offcanvas from 'react-bootstrap/Offcanvas';
+import Modal from 'react-bootstrap/Modal';
+import Button from 'react-bootstrap/Button'
 import { useSelector } from 'react-redux';
 import AddPost from './posts/AddPost';
 import User from './user/User';
 import { currentUser } from './user/userSlice';
-const Header = () =>{
-  const [sidebar, showSidebar]=useState(false)
-    const user=useSelector(currentUser) 
+import { PlusCircle, PersonCircle } from 'react-bootstrap-icons'
 
+const Header = ({setUserPostsCB}) =>{
+  const [sidebar, showSidebar]=useState(false)
+  const user=useSelector(currentUser) 
+  const [modal, showModal]=useState(false)
 console.log(user)
     const showSidebarCB = ()=>{
+      console.log("clicked")
       showSidebar(false)
     }
-    const Sidebar = () =>{
-      return (
-        <>
-        <Offcanvas.Header closeButton  >
-                <Offcanvas.Title id={`offcanvasNavbarLabel-expand-false`}>
-                  {}
-                </Offcanvas.Title>
-              </Offcanvas.Header>
-              <Offcanvas.Body>
-                <Nav className="justify-content-end flex-grow-1 pe-3">
-        
-                    <User user={user} />
-                    
-                    {user && <AddPost user_id={user.id} showSidebarCB={showSidebarCB} /> }
-                  
-                </Nav>
-                
-              </Offcanvas.Body>
-      
-      </>
-      )
+    const showModalCB=()=>{
+      showModal(false)
     }
     return(
         <>
-     
-        <Navbar key="false" bg="light" expand="false" fixed="top" className="mb-3">
-          <Container fluid>
-            <Navbar.Brand href="#">Instagram Copycat</Navbar.Brand>
-
-            <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-false`} onClick={()=>showSidebar(true)}/>
-            
-            <Navbar.Offcanvas
-              id={`offcanvasNavbar-expand-false`}
-              aria-labelledby={`offcanvasNavbarLabel-expand-false`}
+        <Modal show={modal} onHide={()=>showModal(false)}>
+          <AddPost showModalCB={showModalCB} />
+        </Modal>
+        <Navbar.Offcanvas
+              // id={`offcanvasNavbar-expand-false`}
+              // aria-labelledby={`offcanvasNavbarLabel-expand-false`}
               placement="end"
               show={sidebar}
+              onHide={()=>showSidebar(false)}
             >
-              <Sidebar />
-            </Navbar.Offcanvas>
+              <User showSidebarCB={showSidebarCB} /> 
+        </Navbar.Offcanvas>
+        
+
+
+        <Navbar key="false" bg="light" expand="false" fixed="top" className="mb-3">
+        <Container fluid>
+          
+          <Navbar.Brand>
+               <Button className="b-title" onClick={()=>setUserPostsCB(null)} width="60%"><h1>Instagram Copycat</h1></Button>
+          </Navbar.Brand>
+
+          <Navbar.Text >
+            {/* {user &&  */}
+              <Button className="b-title" onClick={()=>showModal(true)}> 
+                <PlusCircle color="black" style={{margin: "10px"}} /> 
+              </Button>
+            {/* }  */}
+            <Button className="b-title" onClick={()=>showSidebar(true)}> 
+              <PersonCircle color="black" style={{margin: "10px"}} />
+            </Button>
+          </Navbar.Text>
+        
+      
+            
+            
           </Container>
         </Navbar>
 
