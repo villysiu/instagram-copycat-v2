@@ -1,5 +1,4 @@
 import AddPhotoForm from "./AddPhotoForm"
-import AddPhotoDesc from "./AddPhotoDesc"
 import { useState, useRef } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { Form, Button, Modal } from "react-bootstrap"
@@ -19,7 +18,6 @@ const AddPost=({showModalCB})=>{
             return;
         setPreview(e.target.files[0])
     }
-    const handleDesc=(e)=>setDesc(e.target.value)
     
     const handleRemove=()=>{
         setPreview(null)
@@ -52,20 +50,22 @@ const AddPost=({showModalCB})=>{
         <Form onSubmit={handleSubmit} >
                 
                 <AddPhotoForm fileRef={fileRef} preview={preview} handlePreview={handlePreview} handleRemove={handleRemove} />
-                <AddPhotoDesc desc={desc} handleDesc={handleDesc} />
-                
+                {/* <AddPhotoDesc desc={desc} handleDesc={handleDesc} /> */}
 
-                <Button variant="primary" type="submit">
-                    Add Photo
-                </Button>
+                <Form.Group className="mb-3">
+                    <Form.Label>Description</Form.Label>
+                    <Form.Control as="textarea" name="desc" value={desc} placeholder="Description" 
+                        onChange={e=>setDesc(e.target.value)} />
+                </Form.Group>
+                
+                <Form.Group>
+                    <Button variant="primary" type="submit">
+                        Add Photo
+                    </Button>
+                </Form.Group>
         
             </Form>
         </Modal.Body>
-
-        {/* <Modal.Footer>
-          <Button variant="secondary">Close</Button>
-          <Button variant="primary">Save changes</Button>
-        </Modal.Footer> */}
 
        </>
     )

@@ -34,7 +34,7 @@ console.log(user)
               show={sidebar}
               onHide={()=>showSidebar(false)}
             >
-              <User showSidebarCB={showSidebarCB} /> 
+              <User showSidebarCB={showSidebarCB} setUserPostsCB={setUserPostsCB} /> 
         </Navbar.Offcanvas>
         
 
@@ -42,20 +42,23 @@ console.log(user)
         <Navbar key="false" bg="light" expand="false" fixed="top" className="mb-3">
         <Container fluid>
           
-          <Navbar.Brand>
-               <Button className="b-title" onClick={()=>setUserPostsCB(null)} width="60%"><h1>Instagram Copycat</h1></Button>
-          </Navbar.Brand>
-
-          <Navbar.Text >
-            {/* {user &&  */}
+          {/* <Navbar.Brand> */}
+          <span>
+               <Button className="b-title" onClick={()=>setUserPostsCB(null)}><h1>Inst</h1></Button>
+          {/* </Navbar.Brand> */}
+          </span>
+          {/* <Navbar.Text > */}
+          <span>
+            {user && 
               <Button className="b-title" onClick={()=>showModal(true)}> 
-                <PlusCircle color="black" style={{margin: "10px"}} /> 
+                <h3><PlusCircle color="black" size="100"/></h3>
               </Button>
-            {/* }  */}
+            }
             <Button className="b-title" onClick={()=>showSidebar(true)}> 
-              <PersonCircle color="black" style={{margin: "10px"}} />
+              <h3><PersonCircle color="black" /></h3>
             </Button>
-          </Navbar.Text>
+          {/* </Navbar.Text> */}
+          </span>
         
       
             

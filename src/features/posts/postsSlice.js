@@ -52,8 +52,8 @@ export const editAPost = createAsyncThunk(
       console.log(postId)
       // console.log(formData)
       try{
-        // const response=await fetch(`${url}/photos/${postId}`, {
-          const response=await fetch(`${url}/photos/1000`, {
+        const response=await fetch(`${url}/photos/${postId}`, {
+          // const response=await fetch(`${url}/photos/1000`, {
             method:'PATCH',
             headers: {
                 'Authorization': localStorage.getItem('token'),
@@ -61,6 +61,7 @@ export const editAPost = createAsyncThunk(
             body: formData
         })
         const data=await response.json()
+
         if(!response.ok) 
           throw new Error(response.statusText)
           console.log(data)
@@ -97,6 +98,7 @@ export const deleteAPost = createAsyncThunk(
 export const likeAPost = createAsyncThunk(
   'posts/likeAPost',
   async (post_id)=>{
+    console.log("like a post "+ post_id)
     try {
       //`http://localhost:3000/photos/${photo_id}/likes`
       const response=await fetch(`${url}/photos/${post_id}/likes`, {
@@ -107,6 +109,7 @@ export const likeAPost = createAsyncThunk(
         },
       })
       const data=await response.json()
+      
       if(!response.ok) 
         throw new Error(response.statusText)
       return {
@@ -176,7 +179,8 @@ const postsSlice = createSlice({
         state.status = 'loading'
       })
       .addCase(addNewPost.fulfilled, (state, action) => {
-        // console.log(action)
+        console.log(state)
+        console.log(action)
         state.status = 'succeeded'
         state.posts.unshift(action.payload.data)
       })
@@ -190,7 +194,7 @@ const postsSlice = createSlice({
       .addCase(editAPost.fulfilled, (state, action) => {
         console.log(action)
         state.status = 'succeeded'
-        const post=state.posts.find(p=>p.photo_id===action.payload.postId)
+        const post=state.posts.find(post=>post.id===action.payload.postId)
         post.desc=action.payload.data.desc
         
       })
@@ -204,7 +208,7 @@ const postsSlice = createSlice({
       .addCase(deleteAPost.fulfilled, (state, action) => {
         console.log(action)
         state.status = 'succeeded'
-        state.posts=state.posts.filter(p=>p.photo_id!==action.payload.postId)
+        state.posts=state.posts.filter(post=>post.id!==action.payload.postId)
         
         
       })
@@ -213,16 +217,17 @@ const postsSlice = createSlice({
         state.error = action.error.message
       })
       .addCase(likeAPost.fulfilled, (state, action)=>{
-        // console.log(action)
         state.status = 'succeeded'
-        const post=state.posts.find(post=>post.photo_id===action.payload.post_id)
-        post.liked_users.push(action.payload.data)
+        const post=state.posts.find(post=>post.id===action.payload.post_id)
+        console.log(post)
+        post.likes.push(action.payload.data)
       })
       .addCase(unlikeAPost.fulfilled, (state, action)=>{
-        // console.log(action)
+        console.log(action)
+        console.log(state.posts)
         state.status = 'succeeded'
-        const post=state.posts.find(post=>post.photo_id===action.payload.post_id)
-        post.liked_users=post.liked_users.filter(liked=>liked.liked_id!==action.payload.liked_id)
+        const post=state.posts.find(post=>post.id===action.payload.post_id)
+        post.likes=post.likes.filter(like=>like.id!==action.payload.liked_id)
       })
   }
 })
@@ -236,7 +241,8 @@ export const selectAllPosts = (state) =>{
   return state.posts.posts
 } 
 export const selectPostsbyUserId = (state, userId) =>{
-  // console.log(state)
-  return state.posts.posts.filter(p=>p.owner_id===userId)
+  console.log(state)
+  console.log(userId)
+  return state.posts.posts.filter(post=>post.owner.id===userId)
 } 
 

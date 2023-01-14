@@ -26,21 +26,22 @@ function App() {
     return <h1>Loading</h1>
 
 
-  const setUserPostsCB=(obj)=>{
-    setUserPosts(obj)
+  const setUserPostsCB=(user)=>{
+    setUserPosts(user)
     
 
   }
  
   return (
     <div className="App">  
-      <header className="App-header">
+      
         <Header setUserPostsCB={setUserPostsCB} />
         <br/><br/><br/><br></br>
         {/* { show && <AlertBar error={error}/>} */}
-       
-        {userPosts ? <UserPostList userPosts={userPosts}/> : <PostList setUserPostsCB={setUserPostsCB} /> }
-      </header>
+       <div className="list">
+        {userPosts ? <UserPostList user={userPosts}/> : <PostList setUserPostsCB={setUserPostsCB} /> }
+        </div>
+     
     </div>
   );
 }

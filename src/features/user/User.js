@@ -6,7 +6,7 @@ import Account from "./Account"
 import { Offcanvas } from "react-bootstrap"
 import { useSelector } from "react-redux"
 import { currentUser } from "./userSlice"
-const User = ({showSidebarCB}) =>{
+const User = ({showSidebarCB, setUserPostsCB}) =>{
     const user=useSelector(currentUser) 
     const [login, setLogin]=useState(true)
     const toggleLogin=()=>{
@@ -26,7 +26,7 @@ const User = ({showSidebarCB}) =>{
             <>
                 <h2> Hello {user.name}. </h2>
                 <Account />
-                <Logout /> 
+                <Logout setUserPostsCB={setUserPostsCB} /> 
             </>
         : 
             login? <Login toggleLogin={toggleLogin}  /> : <Signup toggleLogin={toggleLogin}  />

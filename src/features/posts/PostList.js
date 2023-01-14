@@ -28,13 +28,13 @@ if (postStatus === 'failed'){
         <>
             {/* {show &&  <AlertBar error={error} />} */}
             
-            <div>
+            
                 {posts.map(post=>{
                     return <Post key={post.id} post={post} currUser={currUser} setUserPostsCB={setUserPostsCB} />
                     
                 })}
             
-            </div>
+     
         </>
     )
 }
