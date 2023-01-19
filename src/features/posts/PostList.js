@@ -2,11 +2,10 @@
 import { useSelector } from 'react-redux'
 import Post from './Post'
 import { selectAllPosts } from './postsSlice'
+import { Card } from 'react-bootstrap'
 
-import { currentUser } from '../user/userSlice'
-
-const PostList = ({setUserPostsCB}) => {
-    const currUser=useSelector(currentUser) 
+const PostList = ({showUserPostsCB}) => {
+    
     const posts = useSelector(selectAllPosts)
     const postStatus = useSelector(state => state.posts.status)
     const error = useSelector(state => state.posts.error)
@@ -25,17 +24,21 @@ if (postStatus === 'failed'){
         )
     }
     return (
-        <>
+        <div className="list-600">
             {/* {show &&  <AlertBar error={error} />} */}
             
             
                 {posts.map(post=>{
-                    return <Post key={post.id} post={post} currUser={currUser} setUserPostsCB={setUserPostsCB} />
-                    
+                    // return <Post key={post.id} post={post} showUserPostsCB={showUserPostsCB} />
+                    return (
+                        <Card className='mb-3'>
+                            <Post key={post.id} post={post} showUserPostsCB={showUserPostsCB} />
+                        </Card>
+                    )
                 })}
             
      
-        </>
+        </div>
     )
 }
 export default PostList

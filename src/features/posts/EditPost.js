@@ -1,7 +1,7 @@
 import { useDispatch } from "react-redux"
 import { useState } from "react"
 import { editAPost, deleteAPost } from "./postsSlice"
-import { Modal, Form, Button, Image } from "react-bootstrap"
+import { Container, Row, Col, Modal, Form, Button, Image } from "react-bootstrap"
 
 const EditPost = ({post}) =>{
     const dispatch=useDispatch()
@@ -19,34 +19,49 @@ const EditPost = ({post}) =>{
         dispatch(deleteAPost(post.id))
     }
 
-
-    
     return (
-        <>
-        <Modal.Header closeButton ><Modal.Title>Edit photo</Modal.Title></Modal.Header>
-        <Modal.Body>
-            <Image width="100%" src={`http://localhost:3000/${post.url}`} />
-        </Modal.Body>
-        <Form onSubmit={handleSubmit} >
-            <Modal.Body>
-                <Form.Group className="mb-3">               
-                    <Form.Label>Description</Form.Label>
-                    <Form.Control as="textarea" rows="5" name="desc" value={desc} placeholder="Description" 
-                        onChange={e=>setDesc(e.target.value)} />
-                </Form.Group> 
-                <Form.Group className="tttt">
-                    <Button variant="danger" style={{marginRight: "5px"}} onClick={handleDelete}>
-                        Delete
-                    </Button>
+        <Container fluid>
+        <Row>
+            <Col className="lg_show">
+                <Image className="card_img" src={`http://localhost:3000/${post.url}`} />
+            </Col>
+            <Col>
+                <Row>
+                    <Col lg={12}>
+                        <Modal.Header closeButton >
+                            <Modal.Title>Edit post</Modal.Title>
+                        </Modal.Header>
+                    </Col>
+                    <Col className="xs_show">
+                        <Image className="card_img" src={`http://localhost:3000/${post.url}`} />
+                    </Col>
+                    <Col lg={12}>
+                        <Form onSubmit={handleSubmit} >
                     
-                    <Button variant="primary"  type='submit'>
-                        Save Changes
-                    </Button>
-                </Form.Group>
-            </Modal.Body>
+                            <Form.Group className="mb-3 px-3">               
+                                <Form.Label>Description</Form.Label>
+                                <Form.Control as="textarea" rows="5" name="desc" value={desc} placeholder="Description" 
+                                    onChange={e=>setDesc(e.target.value)} />
+                            </Form.Group> 
+                    
+                            
+                            <Modal.Footer>
+                                <Button variant="danger" onClick={handleDelete}>
+                                    Delete
+                                </Button>
+                                <Button variant="primary"  type='submit'>
+                                    Save Changes
+                                </Button>
+                            </Modal.Footer>
+                        </Form>
+
+                    </Col>
+                </Row>
+            </Col>
             
-        </Form>
-        </>
+        </Row>
+        
+        </Container>
     )
 }
 export default EditPost

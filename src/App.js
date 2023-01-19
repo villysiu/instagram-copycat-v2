@@ -14,8 +14,8 @@ function App() {
   const dispatch = useDispatch()
   const userStatus = useSelector(state => state.user.status)
   // const error = useSelector(state => state.user.error)
-  const [userPosts, setUserPosts]=useState(null)
-
+  const [userPosts, showUserPosts]=useState(false)
+  const [userToView, setUserToView] = useState(null)
   useEffect(() => {
     dispatch(fetchUser())
     dispatch(fetchPosts())
@@ -25,22 +25,18 @@ function App() {
   if (userStatus === 'loading') 
     return <h1>Loading</h1>
 
-
-  const setUserPostsCB=(user)=>{
-    setUserPosts(user)
-    
-
-  }
+const showUserPostsCB=(user)=>{
+  showUserPosts(user !== null ? true : false)
+  setUserToView(user)
+}
  
   return (
     <div className="App">  
-      
-        <Header setUserPostsCB={setUserPostsCB} />
-        <br/><br/><br/><br></br>
+        <Header showUserPostsCB={showUserPostsCB} /> 
+        <div style={{height: "80px"}}></div> 
         {/* { show && <AlertBar error={error}/>} */}
-       <div className="list">
-        {userPosts ? <UserPostList user={userPosts}/> : <PostList setUserPostsCB={setUserPostsCB} /> }
-        </div>
+       
+       {userPosts ? <UserPostList user={userToView} showUserPostsCB={showUserPostsCB} /> : <PostList showUserPostsCB={showUserPostsCB}/> }
      
     </div>
   );
