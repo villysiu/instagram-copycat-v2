@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 const url="http://localhost:3000"
+
 export const fetchUser=createAsyncThunk(
     'user/fetchUser',
     async () => {
@@ -104,6 +105,34 @@ export const logoutUser=createAsyncThunk(
         }
     }
 )
+export const editProfile = createAsyncThunk(
+    'user/editProfile',
+    async({formData})=>{
+        console.log("edit profile")
+      
+      console.log(formData)
+      try{
+        const response=await fetch(`${url}/private/update`, {
+            method:'PATCH',
+            headers: {
+                'Authorization': localStorage.getItem('token'),
+            },
+            body: formData
+        })
+        const data=await response.json()
+
+        if(!response.ok) 
+          throw new Error(response.statusText)
+        console.log(data)
+        return {
+        
+            data
+        }
+      } catch (error) {
+          return Promise.reject(error.message ? error.message : "no data")
+      }
+    }
+)
     
 const userSlice=createSlice({
     name: 'user',
@@ -175,6 +204,24 @@ const userSlice=createSlice({
             // console.log(state.posts)
         })
         .addCase(logoutUser.rejected, (state, action) => {
+            state.status = 'failed'
+            state.error = action.error.message
+        })
+        .addCase(editProfile.pending, (state, action) => {
+            state.status = 'loading'
+        })
+        .addCase(editProfile.fulfilled, (state, action) => {
+            console.log(action)
+            console.log(state.user)
+            state.status = 'succeeded'
+            
+            // state.user = {
+            //     ...state.user,
+            //     action.payload.data,
+            // }
+            // console.log(state.posts)
+        })
+        .addCase(editProfile.rejected, (state, action) => {
             state.status = 'failed'
             state.error = action.error.message
         })

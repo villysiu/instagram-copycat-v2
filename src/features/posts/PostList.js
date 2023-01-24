@@ -29,7 +29,7 @@ if (postStatus === 'failed'){
                    
                     return (
                         
-                            <Post post={post} handleClick={()=>showProfileCB(post.owner)} />
+                            <Post key={post.id} post={post} handleClick={()=>showProfileCB(post.owner)} />
                        
                     )
                 })}
