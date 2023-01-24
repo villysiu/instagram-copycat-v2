@@ -2,38 +2,40 @@ import { useState } from "react"
 import { useSelector } from "react-redux"
 import { selectPostsbyUserId } from "./postsSlice"
 import { Container, Row, Col, Image, Modal} from "react-bootstrap"
-import PostExpand from './PostExpand'
+import Post from "./post/Post"
 
-// import { currentUser } from "../user/userSlice"
-const UserPostList = ({user, showUserPostsCB}) => {
-    const posts=useSelector(state=>selectPostsbyUserId(state, user.id))
+import Caro from "./post/Caro"
+const UserPostList = ({userId}) => {
+    const posts=useSelector(state=>selectPostsbyUserId(state, userId))
     console.log(posts)
     const [show, setShow]=useState(false)
     const [postObj, setPostObj]=useState(null)
-
-    const handleClick=(p)=>{
+const [index, setIndex] = useState(0)
+    const handleClick=(p, idx)=>{
         
         setShow(true)
         setPostObj(p)
-        console.log("yryeurh")
+        setIndex(idx)
     }
     return(
+<>
 
          <Container fluid className="list-900">
+           
             <Modal
                 show={show}
                 onHide={() => setShow(false)}
-                dialogClassName="modal-90w"
+                dialogClassName="modal-100w"
             >
-                <PostExpand post={postObj} handleClick={()=>setShow(false)} />
+                <Modal.Header closeButton />
+                
+                <Caro posts={posts} idx={index} handleClick={()=>setShow(false)}/>
+                
             </Modal>
 
-            {/* <h5>Posts by {user.name}</h5> */}
-            
-            {/* <Container style={{maxWidth: '900px', margin:'0' }}> */}
                 <Row>
-                    { posts.map(post => {
-                        return <Col key={post.id} xs={4} className="square_img_300" onClick={()=>handleClick(post)}>
+                    { posts.map((post, idx)=> {
+                        return <Col key={post.id} xs={4} className="square_img_300" onClick={()=>handleClick(post, idx)}>
                            
                             <Image style={{ width: '100%', height:'100%', objectFit: 'cover' }} src={`http://localhost:3000/${post.url}`} />
                                 
@@ -42,7 +44,7 @@ const UserPostList = ({user, showUserPostsCB}) => {
                 </Row>
             </Container>
 
-        
+</>
     )
 }
 export default UserPostList

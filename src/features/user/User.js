@@ -1,40 +1,21 @@
 import { useState } from "react"
 import Login from "./Login"
-import Logout from "./Logout"
 import Signup from "./Signup"
-import Account from "./Account"
-import { Offcanvas } from "react-bootstrap"
-import { useSelector } from "react-redux"
-import { currentUser } from "./userSlice"
-const User = ({showSidebarCB, showUserPostsCB}) =>{
-    const user=useSelector(currentUser) 
-    const [login, setLogin]=useState(true)
-    const toggleLogin=()=>{
-        setLogin(prev=>!prev)
-    }
+import {  PersonCircle } from 'react-bootstrap-icons'
+import { Modal } from "react-bootstrap"
+
+const User = () =>{
+    // const user=useSelector(currentUser) 
+    const [modal, showModal]=useState(false)
+    const [login, toggleLogin] = useState(true)
+    
     return (
         <>
-        
-        <Offcanvas.Header closeButton onClick={()=>showSidebarCB()} >
-                <Offcanvas.Title id={`offcanvasNavbarLabel-expand-false`}>
-                  {}
-                </Offcanvas.Title>
-              </Offcanvas.Header>
-              <Offcanvas.Body>
-                {/* <Nav className="justify-content-end flex-grow-1 pe-3"> */}
-        {user ? 
-            <>
-                <h2> Hello {user.name}. </h2>
-                <Account />
-                <Logout showUserPostsCB={showUserPostsCB} /> 
-            </>
-        : 
-            login? <Login toggleLogin={toggleLogin}  /> : <Signup toggleLogin={toggleLogin}  />
-        }
-        {/* </Nav> */}
-                
-                </Offcanvas.Body>
-                
+            <Modal show={modal} onHide={()=>showModal(false)} >
+                {login? <Login toggleLogin={()=>toggleLogin(false) }  /> : <Signup toggleLogin={()=>toggleLogin(true)}  />}
+            </Modal>
+           
+            <h3><PersonCircle color="black" onClick={()=>showModal(true)}/></h3>
         </>
 
     )

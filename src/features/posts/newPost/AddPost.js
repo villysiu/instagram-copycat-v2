@@ -2,10 +2,10 @@ import AddPhotoForm from "./AddPhotoForm"
 import { useState, useRef } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { Form, Button, Modal } from "react-bootstrap"
-import { addNewPost } from "./postsSlice"
-import { currentUser } from "../user/userSlice"
+import { addNewPost } from "../postsSlice"
+import { currentUser } from "../../user/userSlice"
 
-const AddPost=({showModalCB})=>{
+const AddPost=({closeModal})=>{
     const user=useSelector(currentUser) 
     const fileRef = useRef(null);
     const [preview, setPreview]=useState(null)
@@ -30,42 +30,39 @@ const AddPost=({showModalCB})=>{
         formData.append('desc', desc)
         formData.append('url', preview)
         
-    
         dispatch(addNewPost(formData))
         e.target.reset();
         setPreview(null);
-        showModalCB();
+        closeModal();
     
         
     }
    
     return (
-<>
-   
-        <Modal.Header closeButton onClick={()=>showModalCB()}>
-          <Modal.Title>Add a new photo</Modal.Title>
-        </Modal.Header>
+        <>
+            <Modal.Header closeButton>
+                <Modal.Title>Add a new photo</Modal.Title>
+            </Modal.Header>
 
-        <Modal.Body>
-        <Form onSubmit={handleSubmit} >
-                
-                <AddPhotoForm fileRef={fileRef} preview={preview} handlePreview={handlePreview} handleRemove={handleRemove} />
-                {/* <AddPhotoDesc desc={desc} handleDesc={handleDesc} /> */}
+            <Form onSubmit={handleSubmit} >
+                <Modal.Body>
+                    <AddPhotoForm fileRef={fileRef} preview={preview} handlePreview={handlePreview} handleRemove={handleRemove} />
+            
+                    <Form.Group className="mb-3">
+                        <Form.Label>Description</Form.Label>
+                        <Form.Control as="textarea" name="desc" rows="5" value={desc} placeholder="Description" 
+                            onChange={e=>setDesc(e.target.value)} />
+                    </Form.Group>
 
-                <Form.Group className="mb-3">
-                    <Form.Label>Description</Form.Label>
-                    <Form.Control as="textarea" name="desc" value={desc} placeholder="Description" 
-                        onChange={e=>setDesc(e.target.value)} />
-                </Form.Group>
-                
-                <Form.Group>
+                </Modal.Body>
+
+                <Modal.Footer>
                     <Button variant="primary" type="submit">
                         Add Photo
                     </Button>
-                </Form.Group>
-        
+                </Modal.Footer>
+
             </Form>
-        </Modal.Body>
 
        </>
     )

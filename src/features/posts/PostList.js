@@ -1,15 +1,15 @@
 // import React, { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
-import Post from './Post'
+import Post from './post/Post'
 import { selectAllPosts } from './postsSlice'
 import { Card } from 'react-bootstrap'
 
-const PostList = ({showUserPostsCB}) => {
+const PostList = ({showProfileCB}) => {
     
     const posts = useSelector(selectAllPosts)
     const postStatus = useSelector(state => state.posts.status)
     const error = useSelector(state => state.posts.error)
-
+    console.log(posts)
     if (postStatus === 'loading') {
         return <div>loading</div>
 }
@@ -25,15 +25,12 @@ if (postStatus === 'failed'){
     }
     return (
         <div className="list-600">
-            {/* {show &&  <AlertBar error={error} />} */}
-            
-            
-                {posts.map(post=>{
-                    // return <Post key={post.id} post={post} showUserPostsCB={showUserPostsCB} />
+                {posts.map((post)=>{
+                   
                     return (
-                        <Card className='mb-3'>
-                            <Post key={post.id} post={post} showUserPostsCB={showUserPostsCB} />
-                        </Card>
+                        
+                            <Post post={post} handleClick={()=>showProfileCB(post.owner)} />
+                       
                     )
                 })}
             

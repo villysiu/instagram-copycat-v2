@@ -1,23 +1,21 @@
 import { Navbar } from 'react-bootstrap';
-import { ThreeDots } from 'react-bootstrap-icons';
+import PostDropdown from './PostDropdown';
 import { useSelector } from 'react-redux';
-import { currentUser } from '../user/userSlice';
+import { currentUser } from '../../user/userSlice';
 
-export const PostHeader=({owner, showEdit, handleClick})=>{
+export const PostHeader=({owner, postId, handleClick})=>{
     const currUser=useSelector(currentUser)
     return (
-        <Navbar style={{height: '60px'}}>
+        <Navbar>
             <Navbar.Brand className="transparent_button" as="button" onClick={handleClick}>
                 {owner.name}
             </Navbar.Brand>
 
             <Navbar.Collapse className="justify-content-end">
                 {currUser && currUser.id===owner.id && 
-                    <Navbar.Text className="ms-auto transparent_button" as="button" 
-                    onClick={()=>showEdit(true)}
-                    >
-                        <ThreeDots style = {{transform: 'rotate(90deg)'}}  /> 
-                    </Navbar.Text>
+
+                    <PostDropdown postId={postId}/>
+                    
                 } 
             </Navbar.Collapse>
         </Navbar>

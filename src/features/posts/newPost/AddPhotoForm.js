@@ -1,4 +1,4 @@
-import { Form, Button } from 'react-bootstrap'
+import { Form, Button, Image } from 'react-bootstrap'
 
 const AddPhotoForm=({fileRef, preview, handlePreview, handleRemove})=>{
 
@@ -10,7 +10,9 @@ const AddPhotoForm=({fileRef, preview, handlePreview, handleRemove})=>{
             
             {preview ?
             <>
-                <img src={URL.createObjectURL(preview)} alt="name" height="120px" border="1px" />
+                
+                <Image src={URL.createObjectURL(preview)} alt="name" className="preview_img" />
+                
                 <Button varaint="primary" size="sm" onClick={()=>handleRemove()}>Remove</Button>
             </> 
             :

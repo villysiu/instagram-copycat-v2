@@ -1,8 +1,12 @@
 .App {
   text-align: center;
 }
+.navbar {
+  --bs-navbar-padding-y: reset;
+}
+
 .list-600 {
-  width: 100%;
+  width: 90vw;
   margin-left: auto;
   margin-right: auto;
 }
@@ -40,7 +44,7 @@
   /* color: purple */
 }
 
-.preview_box {
+/* .preview_box {
   display: flex;
   width: 100%;
   height: width;  
@@ -48,7 +52,7 @@
 
   align-items: center;
   justify-content: center;
-}
+} */
 
 .container, .container-fluid {
   padding: 0;
@@ -65,6 +69,13 @@
   margin-left: auto;
   align-items: center;
   min-height: calc(100% - (0.5rem * 2));
+}
+.modal-100w {
+  display: flex;
+  width: 100%;
+  max-width: none!important;
+  --bs-modal-bg: reset;
+  --bs-modal-header-border-color: reset;
 }
 /* Card.js */
 .modal-backdrop {
@@ -90,14 +101,29 @@
   min-height: calc(100% - (0.5rem * 2));
  
 }
+
+.preview_img {
+  width: 70vw;
+  height: 70vw;
+  object-fit: cover;
+  border-radius: 0;
+}
 .card_img {
-  width: 90vw;
+  width: 100%;
   height: 90vw;
   object-fit: cover;
   border-radius: 0;
 }
 .post-expand-desc {
   height: auto;
+}
+.dropdown-toggle::after {
+  display: none;
+}
+.dropdown-menu[data-bs-popper] {
+  left: unset;
+  right: 0;
+
 }
 @media (min-width: 600px){
   .modal-90w {
@@ -114,9 +140,13 @@
   }
   
   .card_img {
-    width: 540px;
-    height: 540px;
+    width: 538.01px;
+    height: 538.01px;
     border-radius: 0;
+  }
+  .preview_img {
+    width: calc(600px*0.7);
+    height: calc(600px*0.7);
   }
 }
 @media (min-width: 900px){
@@ -140,9 +170,9 @@
     max-width: none!important;
     
   }
-  .card_img {
+  /* .card_img {
     border-radius: 0.5rem;
-  }
+  } */
   .post-expand-desc {
     height: calc(540px*0.7);
   }

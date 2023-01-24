@@ -1,21 +1,23 @@
 import { useState, useEffect } from 'react';
 // import { Alert } from 'react-bootstrap';
-import Header from './features/Header';
+import Header from './features/header/Header';
 import './App.css';
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchUser } from './features/user/userSlice'; 
 import { fetchPosts } from './features/posts/postsSlice'
 
 import PostList from './features/posts/PostList';
-import UserPostList from './features/posts/UserPostList';
+import Profile from './features/user/Profile';
 
 function App() {
   console.log("App")
   const dispatch = useDispatch()
   const userStatus = useSelector(state => state.user.status)
   // const error = useSelector(state => state.user.error)
-  const [userPosts, showUserPosts]=useState(false)
-  const [userToView, setUserToView] = useState(null)
+
+  const [profile, showProfile] = useState(null)
+
+
   useEffect(() => {
     dispatch(fetchUser())
     dispatch(fetchPosts())
@@ -25,19 +27,17 @@ function App() {
   if (userStatus === 'loading') 
     return <h1>Loading</h1>
 
-const showUserPostsCB=(user)=>{
-  showUserPosts(user !== null ? true : false)
-  setUserToView(user)
+const showProfileCB = (user) => {
+  showProfile(user);
 }
+
  
   return (
     <div className="App">  
-        <Header showUserPostsCB={showUserPostsCB} /> 
+        <Header handleClick={()=>showProfile(false)} showProfileCB={showProfileCB} /> 
         <div style={{height: "80px"}}></div> 
-        {/* { show && <AlertBar error={error}/>} */}
-       
-       {userPosts ? <UserPostList user={userToView} showUserPostsCB={showUserPostsCB} /> : <PostList showUserPostsCB={showUserPostsCB}/> }
-     
+
+        {profile ? <Profile user={profile} /> : <PostList showProfileCB={showProfileCB}/>}
     </div>
   );
 }

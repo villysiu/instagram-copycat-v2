@@ -182,7 +182,6 @@ const userSlice=createSlice({
 })
 export default userSlice.reducer
 export const currentUser = (state) =>{
-    console.log(state)
      return state.user ? state.user.user : null
    
 }
