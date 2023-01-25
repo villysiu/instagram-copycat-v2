@@ -10,10 +10,20 @@ const Profile = ({userId}) => {
     console.log(user)
     return (
         <>
-        <h2>{user.name}</h2> 
-        {currUser && currUser.id===user.id && <EditProfileButton /> }
+        {currUser ? 
+        <>
+            <h2>{currUser.name}</h2> 
+            {currUser.id===user.id && <EditProfileButton /> }
+            {currUser.bio}
+            </>
+            : 
+            <>
+            <h2>{user.name}</h2> 
+           
+            {user.bio}
+            </>
+        }
 
-        {user.bio}
        <br/>
             <UserPostList userId={user.id} />
            

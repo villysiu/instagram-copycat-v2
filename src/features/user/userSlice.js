@@ -129,6 +129,7 @@ export const editProfile = createAsyncThunk(
       }
     }
 )
+
     
 const userSlice=createSlice({
     name: 'user',
@@ -210,7 +211,6 @@ const userSlice=createSlice({
             console.log(action)
             console.log(state.user)
             state.status = 'succeeded'
-            
             state.user = action.payload.data
             
         })
@@ -218,6 +218,7 @@ const userSlice=createSlice({
             state.status = 'failed'
             state.error = action.error.message
         })
+   
     }
 })
 export default userSlice.reducer
@@ -225,7 +226,4 @@ export const currentUser = (state) =>{
      return state.user ? state.user.user : null
    
 }
-export const getUserNameById = (state, id) =>{
-    console.log(state)
-    return "silly goose"
-} 
+

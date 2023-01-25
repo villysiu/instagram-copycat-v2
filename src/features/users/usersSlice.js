@@ -16,6 +16,7 @@ export const fetchUsers=createAsyncThunk(
             const data=await response.json()
             if(!response.ok) 
                 throw new Error(response.statusText)
+                console.log("succeed fetching all users")
             console.log(data)
             return {
                 // status: response.status,
@@ -61,7 +62,7 @@ export const allUsers = (state) =>{
      return state.users.users
 }
 export const selectUserbyId = (state, userId) => {
-    console.log(state)
+    
     return state.users.users.find(user => user.id === userId)
   }
    

@@ -3,11 +3,11 @@ import PostDropdown from './PostDropdown';
 import { useSelector } from 'react-redux';
 import { currentUser } from '../../user/userSlice';
 
-export const PostHeader=({owner, postId, showProfileCB})=>{
+export const PostHeader=({owner, postId, handleClick})=>{
     const currUser=useSelector(currentUser)
     return (
         <Navbar>
-            <Navbar.Brand className="transparent_button" as="button" onClick={()=>showProfileCB(owner.id)}>
+            <Navbar.Brand className="transparent_button" as="button" onClick={handleClick}>
                 {owner.name}
             </Navbar.Brand>
 

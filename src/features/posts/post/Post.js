@@ -3,24 +3,24 @@ import { PostHeader } from "./PostHeader"
 
 import Desc from "./Desc"
 import Likes from "./Likes"
-
-const Post = ({ post, showProfileCB }) => {
-    
-
-    
+import { useSelector } from "react-redux"
+import { selectUserbyId } from "../../users/usersSlice"
+const Post = ({ post, handleClick }) => {
+    const owner=useSelector(state=> selectUserbyId(state, post.owner_id))
+    console.log(owner)
     return (
         <>
             
-            <Card key={post.id} className='mb-3' >
+            <Card className='mb-3' >
             <Card.Title>
-                <PostHeader owner={post.owner} postId={post.id} showProfileCB={showProfileCB}/>
+                <PostHeader owner={owner} postId={post.id} handleClick={handleClick}/>
             </Card.Title>
             
             <Card.Img className="card_img" variant="top" src={`http://localhost:3000/${post.url}`} />
             
              <Likes likes={post.likes} postId={post.id} />
         
-            <Desc owner={post.owner.name} desc={post.desc} />        
+            <Desc owner={owner.name} desc={post.desc} />        
             {/* <Comments comments={posts.comments} />     */}
        
                 </Card>

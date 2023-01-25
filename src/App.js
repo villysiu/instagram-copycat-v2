@@ -14,6 +14,8 @@ function App() {
   console.log("App")
   const dispatch = useDispatch()
   const userStatus = useSelector(state => state.user.status)
+  const usersStatus = useSelector(state => state.users.status)
+  const postsStatus = useSelector(state => state.posts.status)
   // const error = useSelector(state => state.user.error)
 
   const [profile, showProfile] = useState(null)
@@ -26,7 +28,7 @@ function App() {
   }, [dispatch])
 
   
-  if (userStatus === 'loading') 
+  if (userStatus === 'loading' || usersStatus==='loading' || postsStatus === 'loading') 
     return <h1>Loading</h1>
 
 const showProfileCB = (userId) => {

@@ -241,7 +241,7 @@ export const selectAllPosts = (state) =>{
 export const selectPostsbyUserId = (state, userId) =>{
   console.log(state)
   console.log(userId)
-  return state.posts.posts.filter(post=>post.owner.id===userId)
+  return state.posts.posts.filter(post=>post.owner_id===userId)
 } 
 export const selectPostbyId = (state, postId) => {
   return state.posts.posts.find(post => post.id === postId)
