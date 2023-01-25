@@ -2,7 +2,6 @@
 import { useSelector } from 'react-redux'
 import Post from './post/Post'
 import { selectAllPosts } from './postsSlice'
-import { Card } from 'react-bootstrap'
 
 const PostList = ({showProfileCB}) => {
     
@@ -25,14 +24,14 @@ if (postStatus === 'failed'){
     }
     return (
         <div className="list-600">
-                {posts.map((post)=>{
-                   
-                    return (
-                        
-                            <Post key={post.id} post={post} handleClick={()=>showProfileCB(post.owner)} />
-                       
-                    )
-                })}
+            {posts.map((post)=>{
+                
+                return (
+                    
+                    <Post key={post.id} post={post} showProfileCB={showProfileCB} />
+                    
+                )
+            })}
             
      
         </div>

@@ -6,13 +6,13 @@ import Navbar from 'react-bootstrap/Navbar';
 
 import { useSelector } from 'react-redux';
 
-import UserDropdown from '../user/UserDropdown';
+import UserDropdown from './UserDropdown';
 import User from '../user/User';
 import { currentUser } from '../user/userSlice';
 
 
 
-const Header = ({handleClick, showProfileCB}) =>{
+const Header = ({ showProfileCB }) =>{
   const currUser=useSelector(currentUser) 
 
     return(
@@ -20,7 +20,7 @@ const Header = ({handleClick, showProfileCB}) =>{
         
         <Navbar bg="light" fixed="top" style={{height: '80px'}}>
           
-            <Title handleClick={handleClick} />
+            <Title showProfileCB={showProfileCB} />
             
             <Navbar.Collapse className="justify-content-end">
               {currUser ? 

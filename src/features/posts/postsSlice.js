@@ -134,11 +134,9 @@ export const unlikeAPost = createAsyncThunk(
             'Authorization': localStorage.getItem('token'),
         },
       })
-      // const data=await response.json()
       if(!response.ok) 
         throw new Error(response.statusText)
-      //   console.log(response)
-      // console.log(data)
+    
       return {
         post_id,
         liked_id,
@@ -154,6 +152,7 @@ const postsSlice = createSlice({
   name: 'posts',
   initialState: {
     posts: [],
+    users: [],
     status: 'idle',
     error: null,
   },
@@ -169,7 +168,6 @@ const postsSlice = createSlice({
         console.log(action)
         state.status = 'succeeded'
         state.posts = state.posts.concat(action.payload.data)
-
       })
       .addCase(fetchPosts.rejected, (state, action) => {
         state.status = 'failed'
@@ -248,3 +246,4 @@ export const selectPostsbyUserId = (state, userId) =>{
 export const selectPostbyId = (state, postId) => {
   return state.posts.posts.find(post => post.id === postId)
 }
+

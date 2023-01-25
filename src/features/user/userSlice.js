@@ -108,9 +108,6 @@ export const logoutUser=createAsyncThunk(
 export const editProfile = createAsyncThunk(
     'user/editProfile',
     async({formData})=>{
-        console.log("edit profile")
-      
-      console.log(formData)
       try{
         const response=await fetch(`${url}/private/update`, {
             method:'PATCH',
@@ -125,7 +122,6 @@ export const editProfile = createAsyncThunk(
           throw new Error(response.statusText)
         console.log(data)
         return {
-        
             data
         }
       } catch (error) {
@@ -215,11 +211,8 @@ const userSlice=createSlice({
             console.log(state.user)
             state.status = 'succeeded'
             
-            // state.user = {
-            //     ...state.user,
-            //     action.payload.data,
-            // }
-            // console.log(state.posts)
+            state.user = action.payload.data
+            
         })
         .addCase(editProfile.rejected, (state, action) => {
             state.status = 'failed'

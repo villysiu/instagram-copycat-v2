@@ -1,8 +1,8 @@
 import { PersonCircle } from 'react-bootstrap-icons'
 import { NavDropdown } from 'react-bootstrap';
-import Logout from './Logout';
+import Logout from '../user/Logout';
 import { useSelector } from 'react-redux';
-import { currentUser } from './userSlice';
+import { currentUser } from '../user/userSlice';
 
 const UserDropdown = ({showProfileCB}) =>{
   const currUser=useSelector(currentUser)
@@ -11,7 +11,7 @@ const UserDropdown = ({showProfileCB}) =>{
     return (
       <NavDropdown title={title} >
         
-        <NavDropdown.Item onClick={()=>showProfileCB(currUser)} >
+        <NavDropdown.Item onClick={()=>showProfileCB(currUser.id)} >
             Profile
         </NavDropdown.Item>
         <NavDropdown.Divider />
