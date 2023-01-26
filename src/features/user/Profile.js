@@ -12,14 +12,13 @@ const Profile = ({userId}) => {
         <>
         {currUser ? 
         <>
-            <h2>{currUser.name}</h2> 
+            <h4>{currUser.name}</h4> 
             {currUser.id===user.id && <EditProfileButton /> }
             {currUser.bio}
             </>
             : 
             <>
-            <h2>{user.name}</h2> 
-           
+            <h4>{user.name}</h4> 
             {user.bio}
             </>
         }

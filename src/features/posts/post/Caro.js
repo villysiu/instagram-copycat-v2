@@ -11,19 +11,21 @@ const Caro = ({posts, idx, handleClick}) =>{
   };
 
     return (
-        <Carousel interval={null} activeIndex={index} onSelect={handleSelect} indicator="false">
+        <Carousel interval={null} activeIndex={index} onSelect={handleSelect} wrap={false}>
+          
           {posts.map(post=>{
             return (
               <Carousel.Item >
-                <div className="list-600" style={{height: '900px'}}>
+              
                   <Post post={post} handleClick={handleClick} />
-                </div> 
+               
                 {/* <Carousel.Caption>
                   <h3>{post.desc}</h3>
                   
                 </Carousel.Caption> */}
               </Carousel.Item>
             )})}
+        
 
           
       

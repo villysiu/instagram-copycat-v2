@@ -25,9 +25,11 @@ const [index, setIndex] = useState(0)
             <Modal
                 show={show}
                 onHide={() => setShow(false)}
-                dialogClassName="modal-100w"
+                dialogClassName="modal-60w modal-dialog-centered"
+                
+               
             >
-                <Modal.Header closeButton variant="white" />
+                {/* <Modal.Header closeButton /> */}
                 
                 <Caro posts={posts} idx={index} handleClick={()=>setShow(false)}/>
                 

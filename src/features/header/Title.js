@@ -2,7 +2,7 @@ import { Navbar } from "react-bootstrap"
 const Title = ({showProfileCB}) => {
     return (
         <Navbar.Brand className="transparent_button" as="button" onClick={()=>showProfileCB(false)}>
-            <h2>Instagram Copycat</h2>
+            <h3>Instagram Copycat</h3>
         </Navbar.Brand>
     )
 }
