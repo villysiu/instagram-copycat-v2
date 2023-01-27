@@ -7,7 +7,7 @@ import { useSelector } from "react-redux"
 import { selectUserbyId } from "../../users/usersSlice"
 const Post = ({ post, handleClick }) => {
     const owner=useSelector(state=> selectUserbyId(state, post.owner_id))
-    console.log(owner)
+    // console.log(owner)
     return (
         <>
             

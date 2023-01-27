@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
-const url="http://localhost:3000"
+// const url="http://localhost:3000"
 
 export const fetchUsers=createAsyncThunk(
     'users/fetchUsers',

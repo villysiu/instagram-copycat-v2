@@ -9,7 +9,7 @@ const EditProfileButton = () => {
     return (
         <>
       
-        <Modal show={show} onHide={()=>setShow(false)} >
+        <Modal show={show} onHide={()=>setShow(false)} dialogClassName="modal-dialog-centered">
             <EditProfile /> 
         </Modal>
 

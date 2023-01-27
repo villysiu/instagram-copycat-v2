@@ -17,7 +17,7 @@ const Likes = ({likes, postId}) => {
                     }
                 </Tooltip> }>
                 <span>
-                    { currUser?  <Like currUser={currUser} likes={likes} postId={postId}/> : <Heart /> }
+                    { currUser?  <Like currUserId={currUser.id} likes={likes} postId={postId} /> : <Heart /> }
                     {" "} {likes.length} likes
                 </span>
             </OverlayTrigger>

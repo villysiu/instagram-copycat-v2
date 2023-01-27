@@ -2,10 +2,10 @@ import { Heart, HeartFill } from 'react-bootstrap-icons'
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { likeAPost, unlikeAPost } from '../postsSlice'
-const Like = ({currUser, likes, postId}) => {
+const Like = ({currUserId, likes, postId}) => {
     const dispatch=useDispatch()
-    const likeObj=likes.find(like=> like.user.id===currUser.id )
-
+    const likeObj=likes.find(like=> like.user.id===currUserId )
+    console.log(likeObj)
     const [redHeart, toggleHeart]=useState(likeObj===undefined? false : true)
     
     const handleLike=()=>{
@@ -15,6 +15,7 @@ const Like = ({currUser, likes, postId}) => {
     const handleUnlike=()=>{
         toggleHeart(prev=>!prev)
         dispatch(unlikeAPost({post_id: postId, liked_id: likeObj.id}))
+        
     }
     
     return (

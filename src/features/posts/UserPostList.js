@@ -2,19 +2,18 @@ import { useState } from "react"
 import { useSelector } from "react-redux"
 import { selectPostsbyUserId } from "./postsSlice"
 import { Container, Row, Col, Image, Modal} from "react-bootstrap"
-import Post from "./post/Post"
 
 import Caro from "./post/Caro"
 const UserPostList = ({userId}) => {
     const posts=useSelector(state=>selectPostsbyUserId(state, userId))
     console.log(posts)
     const [show, setShow]=useState(false)
-    const [postObj, setPostObj]=useState(null)
+   
 const [index, setIndex] = useState(0)
     const handleClick=(p, idx)=>{
         
         setShow(true)
-        setPostObj(p)
+        // setPostObj(p)
         setIndex(idx)
     }
     return(

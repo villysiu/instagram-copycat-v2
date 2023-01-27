@@ -134,13 +134,17 @@ export const unlikeAPost = createAsyncThunk(
             'Authorization': localStorage.getItem('token'),
         },
       })
+      // const data=await response.json()
       if(!response.ok) 
         throw new Error(response.statusText)
     
+      // console.log(data)
       return {
         post_id,
         liked_id,
+       
       }
+
     } catch (error) {
       // console.log("i m here")
       return Promise.reject(error.message ? error.message : "no data")
@@ -221,8 +225,8 @@ const postsSlice = createSlice({
         post.likes.push(action.payload.data)
       })
       .addCase(unlikeAPost.fulfilled, (state, action)=>{
-        console.log(action)
-        console.log(state.posts)
+        // console.log(action)
+        // console.log(state.posts)
         state.status = 'succeeded'
         const post=state.posts.find(post=>post.id===action.payload.post_id)
         post.likes=post.likes.filter(like=>like.id!==action.payload.liked_id)

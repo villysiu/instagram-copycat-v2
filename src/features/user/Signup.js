@@ -27,7 +27,7 @@ const Signup=({toggleLogin})=>{
                     <Form.Control type="email" name="email" placeholder="Enter email" />
                 </Form.Group>
         
-                <Form.Group className="mb-3" controlId="formBasicEmail">
+                <Form.Group className="mb-3" controlId="formBasicName">
                     <Form.Label>User name</Form.Label>
                     <Form.Control type="name" name="name" placeholder="Enter user name" />
                 </Form.Group>

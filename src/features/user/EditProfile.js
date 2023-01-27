@@ -3,30 +3,43 @@ import { Modal, Form, Button } from "react-bootstrap"
 import { useDispatch, useSelector } from "react-redux"
 import { currentUser } from "./userSlice"
 import { editProfile } from "./userSlice"
+
+import Avator from "./Avator"
 const EditProfile = () =>{
     const currUser=useSelector(currentUser)
     const dispatch=useDispatch()
     const [name, setName] = useState(currUser.name)
     const [bio, setBio] = useState(currUser.bio)
-
+    const [preview, setPreview] = useState(currUser.avator)
+    
     const handleSubmit = (e) =>{
         e.preventDefault()
+        console.log(name)
+        console.log(preview)
         const formData=new FormData()
+
         formData.append("name", name)
         formData.append("bio", bio)
+        formData.append("avator", preview)
         
         dispatch(editProfile({formData: formData}))
         e.target.reset()
     }
+
+    
+    
     return (
         <>
+        
             <Modal.Header closeButton>
-                <Modal.Title>Edit porfile</Modal.Title>
+                <Modal.Title style={{fontSize: "20px"}}>Edit porfile</Modal.Title>
             </Modal.Header>
             
             <Modal.Body>
+                
             <Form onSubmit={handleSubmit}>
-
+            <Avator currUser={currUser} preview={preview} setPreview={setPreview} />
+               
                 <fieldset disabled>
                     <Form.Group className="mb-3">
                         <Form.Label>Email address</Form.Label>
