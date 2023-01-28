@@ -4,13 +4,13 @@ import { useDispatch, useSelector } from "react-redux"
 import { currentUser } from "./userSlice"
 import { editProfile } from "./userSlice"
 
-import Avator from "./Avator"
+import EditProfileHeader from "./EditProfileHeader"
 const EditProfile = () =>{
     const currUser=useSelector(currentUser)
     const dispatch=useDispatch()
     const [name, setName] = useState(currUser.name)
     const [bio, setBio] = useState(currUser.bio)
-    const [preview, setPreview] = useState(currUser.avator)
+    const [preview, setPreview] = useState(null)
     
     const handleSubmit = (e) =>{
         e.preventDefault()
@@ -26,8 +26,6 @@ const EditProfile = () =>{
         e.target.reset()
     }
 
-    
-    
     return (
         <>
         
@@ -38,7 +36,8 @@ const EditProfile = () =>{
             <Modal.Body>
                 
             <Form onSubmit={handleSubmit}>
-            <Avator currUser={currUser} preview={preview} setPreview={setPreview} />
+                <EditProfileHeader currUser={currUser} preview={preview} setPreview={setPreview} />
+           
                
                 <fieldset disabled>
                     <Form.Group className="mb-3">

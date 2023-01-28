@@ -27,9 +27,9 @@ if (postStatus === 'failed'){
             {posts.map((post)=>{
                 
                 return (
-                    
-                    <Post key={post.id} post={post} handleClick={()=>showProfileCB(post.owner_id)} />
-                    
+                    <div key={post.id}  className='mb-3'>
+                    <Post post={post} handleClick={()=>showProfileCB(post.owner_id)} />
+                    </div>
                 )
             })}
             

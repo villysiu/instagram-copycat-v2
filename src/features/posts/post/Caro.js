@@ -10,27 +10,16 @@ const Caro = ({posts, idx, handleClick}) =>{
     setIndex(selectedIndex);
   };
 
-    return (
-        <Carousel interval={null} activeIndex={index} onSelect={handleSelect} wrap={false}>
+  return (
+      <Carousel interval={null} activeIndex={index} onSelect={handleSelect} wrap={false}>
           
-          {posts.map(post=>{
-            return (
-              <Carousel.Item >
-              
-                  <Post post={post} handleClick={handleClick} />
-               
-                {/* <Carousel.Caption>
-                  <h3>{post.desc}</h3>
-                  
-                </Carousel.Caption> */}
-              </Carousel.Item>
-            )})}
-        
-
-          
-      
-      
-    </Carousel>
-    )
-    }
+        {posts.map(post=>{
+          return (
+            <Carousel.Item key={post.id} >
+              <Post post={post} handleClick={handleClick} />
+            </Carousel.Item>
+          )})}
+      </Carousel>
+  )
+}
     export default Caro

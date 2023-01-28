@@ -6,7 +6,7 @@ import Navbar from 'react-bootstrap/Navbar';
 
 import { useSelector } from 'react-redux';
 
-import UserDropdown from './UserDropdown';
+import ProfileDropdown from './ProfileDropdown';
 import User from '../user/User';
 import { currentUser } from '../user/userSlice';
 
@@ -26,7 +26,7 @@ const Header = ({ showProfileCB }) =>{
               {currUser ? 
                   <>
                       <Plus />
-                      <UserDropdown showProfileCB={showProfileCB} />
+                      <ProfileDropdown showProfileCB={showProfileCB} />
                   </>
                   :
                   <User />

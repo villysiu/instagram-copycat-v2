@@ -11,7 +11,7 @@ const Post = ({ post, handleClick }) => {
     return (
         <>
             
-            <Card className='mb-3' >
+            <Card  >
             <Card.Title>
                 <PostHeader owner={owner} postId={post.id} handleClick={handleClick}/>
             </Card.Title>
