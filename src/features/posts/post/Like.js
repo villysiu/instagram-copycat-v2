@@ -5,7 +5,7 @@ import { likeAPost, unlikeAPost } from '../postsSlice'
 const Like = ({currUserId, likes, postId}) => {
     const dispatch=useDispatch()
     const likeObj=likes.find(like=> like.user.id===currUserId )
-    console.log(likeObj)
+    
     const [redHeart, toggleHeart]=useState(likeObj===undefined? false : true)
     
     const handleLike=()=>{

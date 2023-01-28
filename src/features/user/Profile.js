@@ -2,8 +2,8 @@ import UserPostList from "../posts/UserPostList"
 import { useSelector } from "react-redux"
 import { currentUser } from "./userSlice"
 import { selectUserbyId } from '../users/usersSlice'
-import EditProfileButton from "./EditProfileButton"
-import { Navbar } from "react-bootstrap"
+
+import ProfileHeader from "./ProfileHeader"
 const Profile = ({userId}) => {
     
     const currUser=useSelector(currentUser)
@@ -12,24 +12,15 @@ const Profile = ({userId}) => {
     return (
         <>
         {currUser ? 
-        <>
-            <Navbar>
-            {/* {currUser.avator} */}
-                <Navbar.Brand> {currUser.name}</Navbar.Brand>
-
-                <Navbar.Collapse className="justify-content-end">
-                    {currUser.id===user.id && <EditProfileButton /> }
-                </Navbar.Collapse>
-        </Navbar>
-        
-            
-        {currUser.bio}
+            <>
+                <ProfileHeader user={currUser} isCurrUser={currUser.id===user.id}/>
+                {currUser.bio}
             
             </>
             : 
             <>
-            <h4>{user.name}</h4> 
-            {user.bio}
+                <ProfileHeader user={user} isCurrUser={false}/>
+                {user.bio}
             </>
         }
 
