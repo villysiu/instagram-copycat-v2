@@ -12,17 +12,10 @@ const Profile = ({userId}) => {
     return (
         <div className="list-900" >
             {currUser ? 
-                <>
-                    <ProfileHeader user={currUser} isCurrUser={currUser.id===user.id}/>
-                    <div style={{textAlign: "left"}}>{currUser.bio}</div>
-                </>
+                    <ProfileHeader user={currUser} bio={currUser.bio} isCurrUser={currUser.id===user.id}/>
                 : 
-                <>
-                    <ProfileHeader user={user} isCurrUser={false}/>
-                    <div style={{textAlign: "left"}}>{user.bio}</div>
-                </>
+                    <ProfileHeader user={user} bio={user.bio} isCurrUser={false}/>
             }
-        
             <UserPostList userId={user.id} />
         </div>  
 
