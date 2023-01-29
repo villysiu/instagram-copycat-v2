@@ -10,7 +10,7 @@ const EditProfileButton = () => {
         <>
       
         <Modal show={show} onHide={()=>setShow(false)} dialogClassName="modal-dialog-centered">
-            <EditProfile /> 
+            <EditProfile setShow={setShow} /> 
         </Modal>
 
         <Button variant = "light" onClick={handleClick}>Edit Profile</Button>

@@ -1,17 +1,18 @@
 import { useState } from "react"
-import { Modal, Form, Button } from "react-bootstrap"
+import { Modal, Form, Button, CloseButton } from "react-bootstrap"
 import { useDispatch, useSelector } from "react-redux"
 import { currentUser } from "./userSlice"
 import { editProfile } from "./userSlice"
 
-import EditProfileHeader from "./EditProfileHeader"
-const EditProfile = () =>{
+import EditAvatar from "./EditAvatar"
+const EditProfile = ({setShow}) =>{
     const currUser=useSelector(currentUser)
     const dispatch=useDispatch()
     const [name, setName] = useState(currUser.name)
     const [bio, setBio] = useState(currUser.bio)
     const [preview, setPreview] = useState(null)
-    
+    const [avatar, setAvatar] = useState(currUser.avator)
+
     const handleSubmit = (e) =>{
         e.preventDefault()
         console.log(name)
@@ -25,6 +26,9 @@ const EditProfile = () =>{
         dispatch(editProfile({formData: formData}))
         e.target.reset()
     }
+    const handleCancel = () => {
+        setShow(false)
+    }
 
     return (
         <>
@@ -36,7 +40,7 @@ const EditProfile = () =>{
             <Modal.Body>
                 
             <Form onSubmit={handleSubmit}>
-                <EditProfileHeader currUser={currUser} preview={preview} setPreview={setPreview} />
+                <EditAvatar currUser={currUser} avatar={avatar} setAvatar={setAvatar} preview={preview} setPreview={setPreview} />
            
                
                 <fieldset disabled>
@@ -58,6 +62,10 @@ const EditProfile = () =>{
                 <Button variant="primary" type="submit">
                     Submit
                 </Button>
+                <Button variant="primary" onClick={handleCancel} className="mx-3">
+                    Cancel
+                </Button>
+                
             </Form>
             </Modal.Body>
 
