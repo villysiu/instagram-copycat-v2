@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, memo } from "react"
 import { Modal, Form, Button, CloseButton } from "react-bootstrap"
 import { useDispatch, useSelector } from "react-redux"
 import { currentUser } from "./userSlice"
@@ -6,13 +6,13 @@ import { editProfile } from "./userSlice"
 
 import EditAvatar from "./EditAvatar"
 const EditProfile = ({setShow}) =>{
+    console.log("in edit porfile")
     const currUser=useSelector(currentUser)
     const dispatch=useDispatch()
     const [name, setName] = useState(currUser.name)
     const [bio, setBio] = useState(currUser.bio)
-    const [preview, setPreview] = useState(null)
-    const [avatar, setAvatar] = useState(currUser.avator)
-
+    const [preview, setPreview] = useState(currUser.avator)
+    
     const handleSubmit = (e) =>{
         e.preventDefault()
         console.log(name)
@@ -25,6 +25,10 @@ const EditProfile = ({setShow}) =>{
         
         dispatch(editProfile({formData: formData}))
         e.target.reset()
+    }
+    const handleChaneName = e => {
+        e.preventDefault()
+        setName(e.target.value)
     }
     const handleCancel = () => {
         setShow(false)
@@ -40,8 +44,8 @@ const EditProfile = ({setShow}) =>{
             <Modal.Body>
                 
             <Form onSubmit={handleSubmit}>
-                <EditAvatar currUser={currUser} avatar={avatar} setAvatar={setAvatar} preview={preview} setPreview={setPreview} />
-           
+                {/* <EditAvatar currUser={currUser} avatar={avatar} setAvatar={setAvatar} preview={preview} setPreview={setPreview} /> */}
+                <EditAvatar currUser={currUser} setPreview={setPreview} />
                
                 <fieldset disabled>
                     <Form.Group className="mb-3">
@@ -52,7 +56,7 @@ const EditProfile = ({setShow}) =>{
                 <Form.Group className="mb-3">
                     <Form.Label>Name</Form.Label>
                     <Form.Control type="name" name="name" value={name} placeholder="User Name" 
-                        onChange={e=>setName(e.target.value)} />
+                        onChange={handleChaneName} />
                 </Form.Group>
                 <Form.Group className="mb-3">
                     <Form.Label>Bio</Form.Label>
@@ -72,4 +76,4 @@ const EditProfile = ({setShow}) =>{
         </>
     )
 }
-export default EditProfile
+export default memo(EditProfile)

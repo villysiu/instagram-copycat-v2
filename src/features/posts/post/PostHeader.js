@@ -5,6 +5,7 @@ import { currentUser } from '../../user/userSlice';
 
 export const PostHeader=({owner, postId, handleClick})=>{
     const currUser=useSelector(currentUser)
+   
     return (
         <Navbar>
             {/* <Image className="round_avator thumbsize" src={`http://localhost:3000/${owner.avator}`}></Image> */}

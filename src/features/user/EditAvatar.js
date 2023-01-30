@@ -1,18 +1,21 @@
 import AvatarPreview from "./AvatarPreview"
-import {  useRef } from "react"
+import { useState, useRef } from "react"
 import { Button, Form } from "react-bootstrap"
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 
-const EditAvatar = ({currUser, avatar, setAvatar, preview, setPreview}) =>{
+const EditAvatar = ({currUser, setPreview}) =>{
+    const [link, setLink] = useState(currUser.avator && `http://localhost:3000/${currUser.avator}`)
+
     let fileRef = useRef(null);
     console.log(currUser)
     const handlePreview=(e)=>{
         e.preventDefault();
         if(e.target.files.length===0) 
-            return;
+            return;   
         setPreview(e.target.files[0])
+        setLink(URL.createObjectURL(e.target.files[0]))
     }
     const handleClick=()=>{
         console.log("i m clickes")
@@ -20,7 +23,8 @@ const EditAvatar = ({currUser, avatar, setAvatar, preview, setPreview}) =>{
     }
     const handleRemove=()=>{
         setPreview(null)
-        setAvatar(null)
+        setLink(null)
+        // setAvatar(null)
     }
     return (
         <>
@@ -28,9 +32,7 @@ const EditAvatar = ({currUser, avatar, setAvatar, preview, setPreview}) =>{
                 ref={refParam => fileRef = refParam}
                 type="file" hidden={true} name="avator" accept="image/*" onChange={e=>handlePreview(e)}
             />
-
-           
-            <AvatarPreview currAvatar={avatar} preview={preview} initial={currUser.name[0]} />
+            <AvatarPreview link={link} initial={currUser.name[0]} />
             {currUser.name }
             
             <DropdownButton
