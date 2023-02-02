@@ -11,11 +11,9 @@ const Profile = ({userId}) => {
     console.log(user)
     return (
         <div className="list-900" >
-            {/* {currUser ? 
-                    <ProfileHeader user={currUser} bio={currUser.bio} isCurrUser={currUser.id===user.id}/>
-                :  */}
-                    <ProfileHeader user={user} bio={user.bio} isCurrUser={currUser.id===user.id}/>
-            {/* } */}
+
+            <ProfileHeader user={user} bio={user.bio} isCurrUser={currUser && currUser.id===user.id}/>
+
             <UserPostList userId={user.id} />
         </div>  
 

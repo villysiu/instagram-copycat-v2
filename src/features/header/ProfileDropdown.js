@@ -6,10 +6,10 @@ import { currentUser } from '../user/userSlice';
 
 const UserDropdown = ({showProfileCB}) =>{
   const currUser=useSelector(currentUser)
-    const title = (<h3><PersonCircle color="black" /></h3>);
+    const title = (<PersonCircle className="circle_button" />);
     
     return (
-      <NavDropdown title={title} >
+      <NavDropdown  title={title} >
         
         <NavDropdown.Item onClick={()=>showProfileCB(currUser.id)} >
             Profile

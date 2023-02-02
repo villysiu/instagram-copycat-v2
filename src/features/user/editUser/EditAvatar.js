@@ -1,6 +1,6 @@
 import AvatarPreview from "./AvatarPreview"
 import { useState, useRef } from "react"
-import { Button, Form } from "react-bootstrap"
+import { Form } from "react-bootstrap"
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
@@ -24,7 +24,6 @@ const EditAvatar = ({currUser, setPreview}) =>{
     const handleRemove=()=>{
         setPreview(null)
         setLink(null)
-        // setAvatar(null)
     }
     return (
         <>
@@ -32,21 +31,25 @@ const EditAvatar = ({currUser, setPreview}) =>{
                 ref={refParam => fileRef = refParam}
                 type="file" hidden={true} name="avator" accept="image/*" onChange={e=>handlePreview(e)}
             />
-            <AvatarPreview link={link} initial={currUser.name[0]} />
-            {currUser.name }
-            
-            <DropdownButton
-                as={ButtonGroup}
-                variant="light"
-                title="change avator"
-            >
-                <Dropdown.Item onClick={handleClick} >Upload Photo</Dropdown.Item>
-                <Dropdown.Item onClick={handleRemove} >Remove Current Photo</Dropdown.Item>
+
+            <Form.Group className="mb-3">
+                <AvatarPreview link={link} initial={currUser.name[0]} />
+                {currUser.name}
                 
-                <Dropdown.Divider />
-                <Dropdown.Item>Cancel</Dropdown.Item>
-            </DropdownButton>
+                <DropdownButton
+                    as={ButtonGroup}
+                    variant="light" size="sm"
+                    title="Change Avatar"
+                    className="ms-2"
+                >
+                    <Dropdown.Item onClick={handleClick} >Upload Photo</Dropdown.Item>
+                    <Dropdown.Item onClick={handleRemove} >Remove Current Photo</Dropdown.Item>
+                    
+                    <Dropdown.Divider />
+                    <Dropdown.Item>Cancel</Dropdown.Item>
+                </DropdownButton>
                   
+            </Form.Group>
         </>
     )
 }

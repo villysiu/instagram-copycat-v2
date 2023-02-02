@@ -15,7 +15,7 @@ const User = () =>{
                 {login? <Login toggleLogin={()=>toggleLogin(false) }  /> : <Signup toggleLogin={()=>toggleLogin(true)}  />}
             </Modal>
            
-            <h3><PersonCircle color="black" onClick={()=>showModal(true)}/></h3>
+            <PersonCircle className="circle_button" onClick={()=>showModal(true)}/>
         </>
 
     )

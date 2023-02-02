@@ -1,5 +1,5 @@
 import { useDispatch } from "react-redux"
-import { deleteAPost } from "./postsSlice"
+import { deleteAPost } from "../postsSlice"
 import { NavDropdown } from "react-bootstrap"
 const DeletePost = ({postId}) => {
     const dispatch=useDispatch()

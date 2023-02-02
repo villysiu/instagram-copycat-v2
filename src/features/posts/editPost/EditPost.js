@@ -30,7 +30,7 @@ const EditPost = ({postId}) =>{
                           
         <Form onSubmit={handleSubmit} >
             <Modal.Body>                 
-                <Form.Group className="mb-3 px-3">               
+                <Form.Group className="mb-3">               
                     <Form.Label>Description</Form.Label>
                     <Form.Control as="textarea" rows="5" name="desc" value={desc} placeholder="Description" 
                         onChange={e=>setDesc(e.target.value)} />

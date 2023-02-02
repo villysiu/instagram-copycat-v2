@@ -6,7 +6,7 @@ import { currentUser } from "../../user/userSlice"
 const Likes = ({likes, postId}) => {
     const currUser=useSelector(currentUser)
     return (
-        <Card.Text>
+        <Card.Text className="mb-3">
             <OverlayTrigger placement="top" overlay={ 
                 <Tooltip> 
                     { 
@@ -18,7 +18,7 @@ const Likes = ({likes, postId}) => {
                 </Tooltip> }>
                 <span>
                     { currUser?  <Like currUserId={currUser.id} likes={likes} postId={postId} /> : <Heart /> }
-                    {" "} {likes.length} likes
+                    {likes.length} likes
                 </span>
             </OverlayTrigger>
         </Card.Text>  

@@ -3,7 +3,7 @@ import { useSelector } from "react-redux"
 import { selectPostsbyUserId } from "./postsSlice"
 import { Container, Row, Col, Image, Modal} from "react-bootstrap"
 
-import Caro from "./post/Caro"
+import UserPostCarousal from "./post/UserPostCarousal"
 const UserPostList = ({userId}) => {
     const posts=useSelector(state=>selectPostsbyUserId(state, userId))
     console.log(posts)
@@ -17,30 +17,22 @@ const [index, setIndex] = useState(0)
         setIndex(idx)
     }
     return(
-<>
-
-         <Container fluid className="list-900">
-           
+        <>
             <Modal
                 show={show}
                 onHide={() => setShow(false)}
-                dialogClassName="modal-60w modal-dialog-centered"
-                
-               
+                dialogClassName="modal-60w modal-dialog-centered" 
             >
-                {/* <Modal.Header closeButton /> */}
-                
-                <Caro posts={posts} idx={index} handleClick={()=>setShow(false)}/>
-                
+                <UserPostCarousal posts={posts} idx={index} handleClick={()=>setShow(false)}/>
             </Modal>
 
+            <Container fluid className="list-900">
                 <Row>
                     { posts.map((post, idx)=> {
-                        return <Col key={post.id} xs={4} className="square_img_300" onClick={()=>handleClick(post, idx)}>
-                           
-                            <Image style={{ width: '100%', height:'100%', objectFit: 'cover' }} src={`http://localhost:3000/${post.url}`} />
-                                
-                            </Col>
+                        return (
+                            <Col key={post.id} xs={4} className="square_300" onClick={()=>handleClick(post, idx)}>
+                                <Image className="square_img_300" src={`http://localhost:3000/${post.url}`} />
+                            </Col>)
                     })}
                 </Row>
             </Container>

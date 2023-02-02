@@ -16,9 +16,9 @@ const Header = ({ showProfileCB }) =>{
   const currUser=useSelector(currentUser) 
 
     return(
-      <Container fluid>
+      <Container fluid >
         
-        <Navbar bg="light" fixed="top" style={{height: '80px'}}>
+        <Navbar bg="light" fixed="top" className="header" >
           
             <Title showProfileCB={showProfileCB} />
             

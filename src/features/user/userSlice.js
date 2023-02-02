@@ -195,46 +195,47 @@ const userSlice=createSlice({
             // state.error = action.error.message
         })
         .addCase(loginUser.pending, (state, action) => {
-            state.status = 'loading'
+            state.cstatus = 'loading'
         })
         .addCase(loginUser.fulfilled, (state, action) => {
             console.log(action)
-            state.status = 'succeeded'
+            state.cstatus = 'succeeded'
             state.currentUserId = action.payload.data
             state.error = null
 
         })
         .addCase(loginUser.rejected, (state, action) => {
-            state.status = 'failed'
+            state.cstatus = 'failed'
             state.error = action.error.message
         })
         .addCase(signupUser.pending, (state, action) => {
-            state.status = 'loading'
+            state.cstatus = 'loading'
         })
         .addCase(signupUser.fulfilled, (state, action) => {
             console.log(action)
-            state.status = 'succeeded'
-            state.currentUserId = action.payload.data
+            state.cstatus = 'succeeded'
+            state.currentUserId = action.payload.data.id
             state.error = null
+            state.users.push(action.payload.data)
             
             // console.log(state.posts)
         })
         .addCase(signupUser.rejected, (state, action) => {
-            state.status = 'failed'
+            state.cstatus = 'failed'
             state.error = action.error.message
         })
         .addCase(logoutUser.pending, (state, action) => {
-            state.status = 'loading'
+            state.cstatus = 'loading'
         })
         .addCase(logoutUser.fulfilled, (state, action) => {
             console.log(action)
-            state.status = 'succeeded'
+            state.cstatus = 'succeeded'
             state.currentUserId = null
             
             // console.log(state.posts)
         })
         .addCase(logoutUser.rejected, (state, action) => {
-            state.status = 'failed'
+            state.cstatus = 'failed'
             state.error = action.error.message
         })
         .addCase(editProfile.pending, (state, action) => {
@@ -285,6 +286,6 @@ export const currentUser = (state) =>{
    
 }
 export const selectUserbyId = (state, userId) => {
-    console.log(state)
+    // console.log(state)
     return state.user.users.find(user => user.id === userId)
   }

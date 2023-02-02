@@ -28,7 +28,7 @@ if (postStatus === 'failed'){
                 
                 return (
                     <div key={post.id}  className='mb-3'>
-                    <Post post={post} handleClick={()=>showProfileCB(post.owner_id)} />
+                        <Post  key={post.id} post={post} handleClick={()=>showProfileCB(post.owner_id)} />
                     </div>
                 )
             })}

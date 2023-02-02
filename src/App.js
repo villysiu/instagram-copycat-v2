@@ -40,7 +40,7 @@ const showProfileCB = (userId) => {
   return (
     <div className="App">  
         <Header showProfileCB={showProfileCB} /> 
-        <div style={{height: "80px"}}></div> 
+        <div className="header" ></div> 
 
         {profile ? <Profile userId={profile} /> : <PostList showProfileCB={showProfileCB}/>}
     </div>

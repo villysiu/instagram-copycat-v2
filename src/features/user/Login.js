@@ -22,14 +22,14 @@ const Login=({toggleLogin})=>{
       </Modal.Header>
       <Modal.Body>
         <Form ref={formRef} onSubmit={handleSubmit}>
-          <Form.Group className="mb-3" controlId="formBasicEmail">
-            <Form.Label>Email address</Form.Label>
-            <Form.Control type="email" name="email" placeholder="Enter email" />
+          <Form.Group className="mb-3 shift-group" controlId="formBasicEmail">
+            <Form.Control type="email" id="email-input" className="shift-input" name="email" placeholder="Email address" />
+            <Form.Label className="shift-label" for="email-input">Email address</Form.Label>
           </Form.Group>
 
-          <Form.Group className="mb-3" controlId="formBasicPassword">
-            <Form.Label>Password</Form.Label>
-            <Form.Control type="password" name="password" placeholder="Password" />
+          <Form.Group className="mb-3 shift-group"  controlId="formBasicPassword">
+            <Form.Control type="password" id="password-input" className="shift-input" name="password" placeholder="Password" />
+            <Form.Label className='shift-label' for="password-input">Password</Form.Label>
           </Form.Group>
       
           <Button variant="primary" type="submit">
@@ -37,7 +37,9 @@ const Login=({toggleLogin})=>{
           </Button>
         </Form>
       </Modal.Body>
-    <Modal.Footer style={{justifyContent: 'flex-start'}}>Not registered yet, <a href="#signup" onClick={toggleLogin} >Signup</a> here</Modal.Footer>
+      <Modal.Footer style={{justifyContent: 'flex-start'}}>
+          Not registered yet, <Button variant="link" onClick={toggleLogin} className="p-0" >Signup</Button> here.
+      </Modal.Footer>
     </>
   );
 }

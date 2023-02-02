@@ -11,9 +11,9 @@ const Plus = () =>{
                 <AddPost closeModal={()=>showAdd(false)} />
             </Modal>
 
-            <Navbar.Text as="button" className="transparent_button" onClick={()=>showAdd(true)}> 
-                <h3><PlusCircle color="black"/></h3>
-            </Navbar.Text>
+            {/* <Navbar.Text as="button" className="transparent_button" onClick={()=>showAdd(true)}>  */}
+            <PlusCircle className="circle_button" onClick={()=>showAdd(true)} />
+            {/* </Navbar.Text> */}
         </>
     )
 }

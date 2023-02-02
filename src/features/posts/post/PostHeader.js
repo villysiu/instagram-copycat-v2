@@ -8,7 +8,7 @@ export const PostHeader=({owner, postId, handleClick})=>{
    
     return (
         <Navbar>
-            {/* <Image className="round_avator thumbsize" src={`http://localhost:3000/${owner.avator}`}></Image> */}
+           
             <Navbar.Brand className="transparent_button" as="button" onClick={handleClick}>
                 {owner.avator && <Image className="round_avator thumbsize" src={`http://localhost:3000/${owner.avator}`} /> }
                 {owner.name}

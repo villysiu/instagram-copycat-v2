@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { Modal, NavDropdown } from "react-bootstrap"
 import EditPost from "./EditPost"
-const EditPostPan = ({postId}) =>{
+const EditPostButton = ({postId}) =>{
     const [edit, showEdit] = useState(false)
     return (
         <>
@@ -17,4 +17,4 @@ const EditPostPan = ({postId}) =>{
         </>
     )
 }
-export default EditPostPan
+export default EditPostButton

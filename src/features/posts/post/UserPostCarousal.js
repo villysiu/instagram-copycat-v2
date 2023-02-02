@@ -1,7 +1,7 @@
 import { Carousel } from "react-bootstrap"
 import { useState } from "react";
 import Post from "./Post";
-const Caro = ({posts, idx, handleClick}) =>{
+const UserPostCarousal = ({posts, idx, handleClick}) =>{
 
   console.log(posts)
   const [index, setIndex] = useState(idx);
@@ -22,4 +22,4 @@ const Caro = ({posts, idx, handleClick}) =>{
       </Carousel>
   )
 }
-    export default Caro
+    export default UserPostCarousal 
