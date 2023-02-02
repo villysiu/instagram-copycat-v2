@@ -178,9 +178,7 @@
     max-width: none!important;
     
   }
-  /* .post-expand-desc {
-    height: calc(540px*0.7);
-  } */
+
   
 }
 
@@ -267,4 +265,13 @@
   padding-left: 5px;
   padding-right: 5px;
   visibility:visible
+}
+
+@media (max-width: 575px){
+  .modal-dialog  {
+    width: 87vw;
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 1.75rem;
+  }
 }

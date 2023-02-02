@@ -7,7 +7,7 @@ export const fetchCurrentUserId=createAsyncThunk(
     'user/fetchUser',
     async () => {
         try {
-            const response=await fetch("http://localhost:3000/private/test", {
+            const response=await fetch("http://localhost:3000/current_user", {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -111,7 +111,7 @@ export const editProfile = createAsyncThunk(
     'user/editProfile',
     async({formData})=>{
       try{
-        const response=await fetch(`${url}/private/update`, {
+        const response=await fetch(`${url}/update_user`, {
             method:'PATCH',
             headers: {
                 'Authorization': localStorage.getItem('token'),

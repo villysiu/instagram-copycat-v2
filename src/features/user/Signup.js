@@ -25,24 +25,24 @@ const Signup=({toggleLogin})=>{
         
             <Form ref={formRef} onSubmit={handleSubmit}>
      
-                <Form.Group className="mb-3 shift-group" controlId="formBasicEmail">
+                <Form.Group className="mb-3 shift-group">
                     
                     <Form.Control required type="email" id="email-input" className="shift-input" name="email" placeholder="Email address"/>
-                    <Form.Label className="shift-label" for="email-input">Email address</Form.Label>
+                    <Form.Label className="shift-label" htmlFor="email-input">Email address</Form.Label>
                     
                 </Form.Group>
         
-                <Form.Group className="mb-3 shift-group" controlId="formBasicName">
+                <Form.Group className="mb-3 shift-group">
                     <Form.Control required type="text" id="username-input" className="shift-input" name="name" placeholder="User name"  />
-                    <Form.Label className='shift-label' for="username-input">User name</Form.Label> 
+                    <Form.Label className='shift-label' htmlFor="username-input">User name</Form.Label> 
                 </Form.Group>
                 
                 
 
-                <Form.Group className="mb-3 shift-group" controlId="formBasicPassword">
+                <Form.Group className="mb-3 shift-group">
                     
                     <Form.Control required type="password" id="password-input" className="shift-input" name="password" placeholder="Password" />
-                    <Form.Label className='shift-label' for="password-input">Password</Form.Label>
+                    <Form.Label className='shift-label' htmlFor="password-input">Password</Form.Label>
                 </Form.Group>
                 
                 <Button variant="primary" type="submit">

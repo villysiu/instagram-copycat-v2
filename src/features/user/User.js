@@ -11,7 +11,7 @@ const User = () =>{
     
     return (
         <>
-            <Modal show={modal} onHide={()=>showModal(false)} >
+            <Modal show={modal} onHide={()=>showModal(false)} className="user-modal">
                 {login? <Login toggleLogin={()=>toggleLogin(false) }  /> : <Signup toggleLogin={()=>toggleLogin(true)}  />}
             </Modal>
            
