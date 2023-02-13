@@ -1,11 +1,14 @@
 import { PersonCircle } from 'react-bootstrap-icons'
 import { NavDropdown } from 'react-bootstrap';
-import Logout from '../user/Logout';
+import Logout from '../user/session/Logout';
 import { useSelector } from 'react-redux';
 import { currentUser } from '../user/userSlice';
 
-const UserDropdown = ({showProfileCB}) =>{
+
+const ProfileDropdown = ({showProfileCB}) =>{
   const currUser=useSelector(currentUser)
+ 
+
     const title = (<PersonCircle className="circle_button" />);
     
     return (
@@ -20,4 +23,4 @@ const UserDropdown = ({showProfileCB}) =>{
       </NavDropdown>
     )
 }
-export default UserDropdown
+export default ProfileDropdown

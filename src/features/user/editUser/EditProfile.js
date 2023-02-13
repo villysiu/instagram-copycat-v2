@@ -3,8 +3,7 @@ import { Modal, Form, Button } from "react-bootstrap"
 import { useDispatch, useSelector } from "react-redux"
 import { currentUser } from "../userSlice"
 import { editProfile } from "../userSlice"
-
-import EditAvatar from "./EditAvatar"
+import EditAvatar from "./editAvatar/EditAvatar"
 
 const EditProfile = ({setShow}) =>{
     console.log("in edit porfile")
@@ -12,7 +11,6 @@ const EditProfile = ({setShow}) =>{
     const dispatch=useDispatch()
     const [name, setName] = useState(currUser.name)
     const [bio, setBio] = useState(currUser.bio)
-    const [preview, setPreview] = useState(currUser.avator)
     
     const handleSubmit = (e) =>{
         e.preventDefault()
@@ -20,8 +18,6 @@ const EditProfile = ({setShow}) =>{
 
         formData.append("name", name)
         formData.append("bio", bio)
-        formData.append("avator", preview)
-        
         dispatch(editProfile({formData: formData}))
         e.target.reset()
     }
@@ -35,11 +31,11 @@ const EditProfile = ({setShow}) =>{
             <Modal.Header closeButton>
                 <Modal.Title style={{fontSize: "20px"}}>Edit porfile</Modal.Title>
             </Modal.Header>
-            <Form onSubmit={handleSubmit}>
-                <Modal.Body>
 
-                    <EditAvatar currUser={currUser} setPreview={setPreview} />
-                
+            <EditAvatar currUser={currUser} setShow={setShow}/>
+
+            <Form onSubmit={handleSubmit}>
+                <Modal.Body>    
                     <fieldset disabled>
                         <Form.Group className="mb-3">
                             <Form.Label>Email address</Form.Label>

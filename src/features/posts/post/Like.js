@@ -14,7 +14,7 @@ const Like = ({currUserId, likes, postId}) => {
     }
     const handleUnlike=()=>{
         toggleHeart(prev=>!prev)
-        dispatch(unlikeAPost({post_id: postId, liked_id: likeObj.id}))
+        dispatch(unlikeAPost({post_id: postId}))
         
     }
     

@@ -12,9 +12,7 @@ const PostList = ({showProfileCB}) => {
     if (postStatus === 'loading') {
         return <div>loading</div>
 }
-if (postStatus === 'failed'){
-    return <div>{error}</div>
-}
+
 
    
     if(posts.length===0){
@@ -24,6 +22,7 @@ if (postStatus === 'failed'){
     }
     return (
         <div className="list-600">
+            {/* { postStatus === 'failed' && <div>{error}</div> } */}
             {posts.map((post)=>{
                 
                 return (

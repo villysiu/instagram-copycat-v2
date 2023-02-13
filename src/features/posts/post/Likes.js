@@ -4,6 +4,7 @@ import { Heart } from "react-bootstrap-icons"
 import { useSelector } from "react-redux"
 import { currentUser } from "../../user/userSlice"
 const Likes = ({likes, postId}) => {
+    console.log("in Likes")
     const currUser=useSelector(currentUser)
     return (
         <Card.Text className="mb-3">
@@ -18,6 +19,7 @@ const Likes = ({likes, postId}) => {
                 </Tooltip> }>
                 <span>
                     { currUser?  <Like currUserId={currUser.id} likes={likes} postId={postId} /> : <Heart /> }
+                    &nbsp;
                     {likes.length} likes
                 </span>
             </OverlayTrigger>

@@ -29,20 +29,25 @@ export const addNewPost = createAsyncThunk(
       const response=await fetch(`${url}/photos`, {
           method: 'POST',
           headers: {
+            // "Content-Type": "application/json",
+            // 'Accept' : 'application/json',
               "Authorization": localStorage.getItem("token")
           },
           body: formData
       })
       const data=await response.json()
-
-      if(!response.ok) 
-        throw new Error(response.statusText)
+      if(!response.ok) {
+        throw new Error(response)
+      }
      return {
       data,
      }
     }catch(error){
-      // console.log("Oops! Something went wrong. Please try again")
-      return Promise.reject(error.message ? error.message : "no data")
+     
+      console.log(error.message.response)
+      // console.log(error)
+      // return Promise.reject(error.message ? error.message : "no data")
+      return Promise.reject(error)
     }
   }
 )
@@ -67,7 +72,7 @@ export const editAPost = createAsyncThunk(
           console.log(data)
         return {
           postId,
-          data
+          desc: formData.get("desc"),
         }
       } catch (error) {
           return Promise.reject(error.message ? error.message : "no data")
@@ -105,6 +110,7 @@ export const likeAPost = createAsyncThunk(
         method: 'POST',
         headers: {
           'Content-type': "application/json",
+          'Accept' : 'application/json',
           "Authorization": localStorage.getItem("token")
         },
       })
@@ -123,30 +129,59 @@ export const likeAPost = createAsyncThunk(
 )
 export const unlikeAPost = createAsyncThunk(
   'posts/unlikeAPost',
-  async ({post_id, liked_id}) =>{
+  async ({post_id}) =>{
     // console.log(post_id, liked_id)
     try {
       //http://localhost:3000/photos/${photo_id}/likes/${liked_id}`
-      const response=await fetch(`${url}/photos/${post_id}/likes/${liked_id}`, {
+      // const response=await fetch(`${url}/photos/${post_id}/likes/${liked_id}`, {
+        const response=await fetch(`${url}/photos/${post_id}/likes`, {
         method: "delete",
         headers: {
             'Content-type': "application/json",
             'Authorization': localStorage.getItem('token'),
         },
       })
-      // const data=await response.json()
+      const data=await response.json()
       if(!response.ok) 
         throw new Error(response.statusText)
     
-      // console.log(data)
+      console.log(data)
       return {
-        post_id,
-        liked_id,
-       
+        post_id: post_id,
+        like_id: data,
       }
 
     } catch (error) {
       // console.log("i m here")
+      return Promise.reject(error.message ? error.message : "no data")
+    }
+  }
+)
+export const addComment = createAsyncThunk(
+  'posts/addComment',
+  async ({postId, formData})=>{
+    console.log("comment a post "+ postId)
+    console.log(formData)
+    try {
+      //`http://localhost:3000/photos/${photo_id}/likes`
+      const response=await fetch(`${url}/photos/${postId}/comments`, {
+        method: 'POST',
+        headers: {
+          'Content-type': "application/json",
+          'Accept' : 'application/json',
+          "Authorization": localStorage.getItem("token")
+        },
+        body: JSON.stringify(formData)
+      })
+      const data=await response.json()
+      console.log(data)
+      if(!response.ok) 
+        throw new Error(response.statusText)
+      return {
+        postId: postId,
+        data,
+      }
+    } catch (error) {
       return Promise.reject(error.message ? error.message : "no data")
     }
   }
@@ -186,8 +221,12 @@ const postsSlice = createSlice({
         state.posts.unshift(action.payload.data)
       })
       .addCase(addNewPost.rejected, (state, action) => {
+        console.log(action)
+        console.log(state)
         state.status = 'failed'
-        state.error = action.error.message
+        state.error = "logged out"
+        localStorage.clear()
+        window.location.reload()
       })
       .addCase(editAPost.pending, (state, action) => {
         state.status = 'loading'
@@ -195,13 +234,17 @@ const postsSlice = createSlice({
       .addCase(editAPost.fulfilled, (state, action) => {
         console.log(action)
         state.status = 'succeeded'
-        const post=state.posts.find(post=>post.id===action.payload.postId)
-        post.desc=action.payload.data.desc
+        const {postId, desc} = action.payload
+        console.log( desc)
+        const post=state.posts.find(post=>post.id===postId)
+        post.desc=desc
         
       })
       .addCase(editAPost.rejected, (state, action) => {
         state.status = 'failed'
         state.error = action.error.message
+        localStorage.clear()
+        window.location.reload()
       })
       .addCase(deleteAPost.pending, (state, action) => {
         state.status = 'loading'
@@ -216,6 +259,8 @@ const postsSlice = createSlice({
       .addCase(deleteAPost.rejected, (state, action) => {
         state.status = 'failed'
         state.error = action.error.message
+        localStorage.clear()
+        window.location.reload()
       })
       .addCase(likeAPost.fulfilled, (state, action)=>{
         state.status = 'succeeded'
@@ -224,11 +269,19 @@ const postsSlice = createSlice({
         post.likes.push(action.payload.data)
       })
       .addCase(unlikeAPost.fulfilled, (state, action)=>{
-        // console.log(action)
-        // console.log(state.posts)
+        console.log(action)
+        const {post_id, like_id} = action.payload
         state.status = 'succeeded'
-        const post=state.posts.find(post=>post.id===action.payload.post_id)
-        post.likes=post.likes.filter(like=>like.id!==action.payload.liked_id)
+        const post=state.posts.find(post=>post.id===post_id)
+        
+        post.likes=post.likes.filter(like=>like.id!==like_id)
+      })
+      .addCase(addComment.fulfilled, (state, action)=>{
+        console.log(action.payload)
+        state.status = 'succeeded'
+        const post=state.posts.find(post=>post.id===action.payload.postId)
+        console.log(post)
+        post.comments.push(action.payload.data)
       })
   }
 })

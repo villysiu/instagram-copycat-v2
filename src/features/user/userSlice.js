@@ -16,15 +16,17 @@ export const fetchCurrentUserId=createAsyncThunk(
             })
             const data=await response.json()
             console.log(data)
+            console.log(response)
+            
             if(!response.ok) 
                 throw new Error(response.statusText)
             return {
-                // status: response.status,
                 data,
             }
         } 
         catch(error){
-            return Promise.reject(error.message ? error.message : "no data")
+            return Promise.reject(error);
+            // return Promise.reject(error.message ? error.message : "no data")
         }
     }
 )
@@ -73,6 +75,7 @@ export const signupUser=createAsyncThunk(
             const data=await response.json()
             if(!response.ok) throw new Error(response.statusText)
             localStorage.setItem('token', response.headers.get("Authorization"))
+
             return {
                 // status: response.status,
                 data
@@ -95,9 +98,10 @@ export const logoutUser=createAsyncThunk(
                     // 'Authorization': localStorage.getItem('token')
                 }
             })
-            if(!response.ok) throw new Error(response.statusText)
+            if(!response.ok) 
+                throw new Error(response.statusText)
             
-            localStorage.clear()
+            
             return {
                 
             }
@@ -111,12 +115,62 @@ export const editProfile = createAsyncThunk(
     'user/editProfile',
     async({formData})=>{
       try{
-        const response=await fetch(`${url}/update_user`, {
+        const response=await fetch(`${url}/user`, {
             method:'PATCH',
             headers: {
                 'Authorization': localStorage.getItem('token'),
             },
             body: formData
+        })
+        const data=await response.json()
+        console.log(data)
+        if(!response.ok) 
+          throw new Error(response.statusText)
+        
+        return {
+            id: data,
+            name: formData.get("name"),
+            bio: formData.get("bio"),
+        }
+      } catch (error) {
+          return Promise.reject(error.message ? error.message : "no data")
+      }
+    }
+)
+export const editAvatar = createAsyncThunk(
+    'user/editAvatar',
+    async({formData})=>{
+      try{
+        const response=await fetch(`${url}/avatar`, {
+            method:'PATCH',
+            headers: {
+                'Authorization': localStorage.getItem('token'),
+            },
+            body: formData
+        })
+        const data=await response.json()
+        console.log(data)
+        if(!response.ok) 
+          throw new Error(response.statusText)
+        
+        return {
+            data
+        }
+      } catch (error) {
+          return Promise.reject(error.message ? error.message : "no data")
+      }
+    }
+)
+export const deleteAvatar = createAsyncThunk(
+    'user/deleteAvatar',
+    async()=>{
+        console.log("are u here in remove??")
+      try{
+        const response=await fetch(`${url}/avatar`, {
+            method:'delete',
+            headers: {
+                'Authorization': localStorage.getItem('token'),
+            },
         })
         const data=await response.json()
         console.log(data)
@@ -187,21 +241,24 @@ const userSlice=createSlice({
            
         })
         .addCase(fetchCurrentUserId.rejected, (state, action) => {
-            console.log("No current user login")
-            state.cstatus = 'succeeded'
-            state.currentUserId = null
-            state.error = null
-            // state.status = 'failed'
-            // state.error = action.error.message
+            console.log(action)
+            localStorage.clear()
+
+            state.status = 'failed'
+            state.error = action.error.message
+           
         })
         .addCase(loginUser.pending, (state, action) => {
             state.cstatus = 'loading'
         })
         .addCase(loginUser.fulfilled, (state, action) => {
             console.log(action)
+            
             state.cstatus = 'succeeded'
             state.currentUserId = action.payload.data
             state.error = null
+            const expiry = Date.now()+60*1000
+            localStorage.setItem("expiry", expiry)
 
         })
         .addCase(loginUser.rejected, (state, action) => {
@@ -217,6 +274,9 @@ const userSlice=createSlice({
             state.currentUserId = action.payload.data.id
             state.error = null
             state.users.push(action.payload.data)
+
+            const expiry = Date.now()+60*1000
+            localStorage.setItem("expiry", expiry)
             
             // console.log(state.posts)
         })
@@ -231,7 +291,7 @@ const userSlice=createSlice({
             console.log(action)
             state.cstatus = 'succeeded'
             state.currentUserId = null
-            
+            localStorage.clear();
             // console.log(state.posts)
         })
         .addCase(logoutUser.rejected, (state, action) => {
@@ -242,20 +302,48 @@ const userSlice=createSlice({
             state.status = 'loading'
         })
         .addCase(editProfile.fulfilled, (state, action) => {
-            console.log(action)
-            console.log(state.user)
-            const u=action.payload.data
+           
+            const u=action.payload
             state.status = 'succeeded'
+            // const currUser=state.users.find(user => user.id===state.currentUserId)
             const currUser=state.users.find(user => user.id === u.id)
             currUser.name=u.name
             currUser.bio=u.bio
-            currUser.avator=u.avator
-            
         })
         .addCase(editProfile.rejected, (state, action) => {
             state.status = 'failed'
             state.error = action.error.message
         })
+        .addCase(editAvatar.pending, (state, action) => {
+            state.status = 'loading'
+        })
+        .addCase(editAvatar.fulfilled, (state, action) => {
+            console.log(action)
+            const u=action.payload.data
+            state.status = 'succeeded'
+            const currUser=state.users.find(user => user.id === u.id)
+            currUser.avatar=u.avatar
+            
+        })
+        .addCase(editAvatar.rejected, (state, action) => {
+            state.status = 'failed'
+            state.error = action.error.message
+        })
+        .addCase(deleteAvatar.pending, (state, action) => {
+            state.status = 'loading'
+        })
+        .addCase(deleteAvatar.fulfilled, (state, action) => {
+            console.log(action)
+            state.status = 'succeeded'
+            const currUser=state.users.find(user => user.id === action.payload.data)
+            currUser.avatar=null
+            
+        })
+        .addCase(deleteAvatar.rejected, (state, action) => {
+            state.status = 'failed'
+            state.error = action.error.message
+        })
+
         .addCase(fetchUsers.pending, (state, action) => {
             state.status = 'loading'
         })
@@ -279,9 +367,16 @@ export const fetchAllUsers = (state) =>{
 }
 export const currentUser = (state) =>{
     console.log(state)
-    return state.user.currentUserId ?
-      state.user.users.find(user=>user.id===state.user.currentUserId) 
-      : null
+    const expiry = localStorage.getItem("expiry")
+    const now = Date.now()
+    console.log(expiry>now)
+    if(state.user.currentUserId && expiry>now)
+      return state.user.users.find(user=>user.id===state.user.currentUserId) 
+    else{
+        localStorage.clear()
+        return null
+    }
+     
     
    
 }

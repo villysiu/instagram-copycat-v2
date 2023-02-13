@@ -22,7 +22,7 @@
   position: relative;
   width: calc(100vw/3);
   height: calc(100vw/3);
-  border: 1px solid rgb(105, 105, 101);
+  /* border: 1px solid rgb(105, 105, 101); */
 }
 .square_img_300 {
   width: 100%;
@@ -37,8 +37,8 @@
   border-color: transparent;
   align-items: center;
   justify-content: center;
-  font-size: 0.85rem;
-  font-weight: bold;
+  /* font-size: 0.85rem;
+  font-weight: bold; */
 }
 .card-text { 
   text-align: left;
@@ -86,7 +86,7 @@
 }
 /* Card.js */
 .modal-backdrop {
-  --bs-backdrop-opacity: 0.7;
+  --bs-backdrop-opacity: 0.6;
 }
 .modal {
   --bs-modal-border-width: 0px;
@@ -181,13 +181,20 @@
 
   
 }
+.carousal-close-btn {
+  position: fixed;
+  top: 15px;
+  right: 10px;
+  z-index: 1;
+  opacity: 1;
+}
 
 .carousel-indicators {
   display: none;
 }
 .carousel-inner{
   margin: auto;
-  width: 80vw;
+  /* width: 80vw; */
 
 }
 .carousel-control-next, .carousel-control-prev {
@@ -195,7 +202,14 @@
   top: 50%;
   bottom: 50%;
   width: 32px;
+  opacity: 1;
 }
+/* .carousel-control-next-icon {
+
+  background-image: url("http://localhost:3000//rails/active_storage/blobs/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBDUT09IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--b615c36959f0445913b51500d82b2022d193b41e/Mickey_Mouse_Disney_1.webp") !important;
+
+} */
+
 
 @media (min-width: 600px){
   .carousel-inner{
@@ -218,7 +232,7 @@
 }
 .empty_avator {
   text-align: center;
-  padding: 40px; 
+  /* padding: 40px;  */
 
 }
 .thumbsize {
@@ -241,6 +255,9 @@
   color:#000;
   margin-left: 2px;
   margin-right: 2px;
+}
+.circle_button:hover {
+  transform: scale(1.2);
 }
 
 /* form input label */
@@ -266,7 +283,11 @@
   padding-right: 5px;
   visibility:visible
 }
-
+.password-input {
+  position: absolute;
+  right: 10px;
+  top: 9px;
+}
 @media (max-width: 575px){
   .modal-dialog  {
     width: 87vw;
@@ -274,4 +295,17 @@
     margin-left: auto;
     margin-top: 1.75rem;
   }
+}
+
+.comment-btn {
+  --bs-btn-border-color: unset;
+  --bs-btn-hover-bg: transparent;
+  --bs-btn-hover-color: black;
+  --bs-btn-padding-x: 0;
+ --bs-btn-padding-y: 0;
+
+}
+.ccc {
+  flex: 0 0 auto;
+  width: 50px;
 }

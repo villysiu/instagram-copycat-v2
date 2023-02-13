@@ -1,5 +1,5 @@
 import { useDispatch } from 'react-redux';
-import { logoutUser } from './userSlice';
+import { logoutUser } from '../userSlice';
 import { NavDropdown } from 'react-bootstrap';
 
 const Logout = ({showProfileCB}) =>{

@@ -1,14 +1,14 @@
 import { useState } from "react"
 import { useSelector } from "react-redux"
 import { selectPostsbyUserId } from "./postsSlice"
-import { Container, Row, Col, Image, Modal} from "react-bootstrap"
+import { Container, Row, Col, Image, Modal, CloseButton} from "react-bootstrap"
 
 import UserPostCarousal from "./post/UserPostCarousal"
 const UserPostList = ({userId}) => {
     const posts=useSelector(state=>selectPostsbyUserId(state, userId))
     console.log(posts)
     const [show, setShow]=useState(false)
-   
+  
 const [index, setIndex] = useState(0)
     const handleClick=(p, idx)=>{
         
@@ -23,6 +23,7 @@ const [index, setIndex] = useState(0)
                 onHide={() => setShow(false)}
                 dialogClassName="modal-60w modal-dialog-centered" 
             >
+                <CloseButton onClick={() => setShow(false)} variant="white" className="carousal-close-btn" />
                 <UserPostCarousal posts={posts} idx={index} handleClick={()=>setShow(false)}/>
             </Modal>
 

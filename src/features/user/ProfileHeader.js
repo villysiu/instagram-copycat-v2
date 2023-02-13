@@ -1,18 +1,22 @@
-import { Navbar, Image } from "react-bootstrap"
+import { Navbar, Nav } from "react-bootstrap"
 import EditProfileButton from "./editUser/EditProfileButton"
-
+import Avatar from "./Avatar"
+import UserName from "./UserName"
 const ProfileHeader=({user, bio, isCurrUser})=>{
     return(
         <div className="m-3">
         <Navbar>
             <Navbar.Brand>
-                {user.avator && <Image className="round_avator thumbsize" src={`http://localhost:3000/${user.avator}`} /> }
-                {user.name}
+                <Nav>
+                    <Avatar avatar={user.avatar} name={user.name} />
+                    <UserName name={user.name} />
+               
+                </Nav>
             </Navbar.Brand>
-
             <Navbar.Collapse className="justify-content-end">
                 {isCurrUser && <EditProfileButton /> }
             </Navbar.Collapse>
+            
         </Navbar>
         <div style={{textAlign: "left"}}>{bio}</div>
         </div>

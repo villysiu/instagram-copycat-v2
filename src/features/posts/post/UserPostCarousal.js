@@ -11,8 +11,8 @@ const UserPostCarousal = ({posts, idx, handleClick}) =>{
   };
 
   return (
-      <Carousel interval={null} activeIndex={index} onSelect={handleSelect} wrap={false}>
-          
+      <Carousel interval={null} activeIndex={index} onSelect={handleSelect} wrap={false} >
+        
         {posts.map(post=>{
           return (
             <Carousel.Item key={post.id} >
