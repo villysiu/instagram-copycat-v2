@@ -2,23 +2,28 @@ import { Navbar, Nav } from "react-bootstrap"
 import EditProfileButton from "./editUser/EditProfileButton"
 import Avatar from "./Avatar"
 import UserName from "./UserName"
-const ProfileHeader=({user, bio, isCurrUser})=>{
+import { useSelector } from "react-redux"
+import { currentUser } from "./userSlice"
+import Bio from "./Bio"
+const ProfileHeader=({user_id})=>{
+    const currUser=useSelector(currentUser)
     return(
         <div className="m-3">
         <Navbar>
             <Navbar.Brand>
                 <Nav>
-                    <Avatar avatar={user.avatar} name={user.name} />
-                    <UserName name={user.name} />
+                    <Avatar user_id={user_id} />
+                    {/* <Nav.Item>{user.name}</Nav.Item> */}
+                    <UserName user_id={user_id} />
                
                 </Nav>
             </Navbar.Brand>
             <Navbar.Collapse className="justify-content-end">
-                {isCurrUser && <EditProfileButton /> }
+                {currUser && currUser.id=== user_id && <EditProfileButton user={currUser}/> }
             </Navbar.Collapse>
             
         </Navbar>
-        <div style={{textAlign: "left"}}>{bio}</div>
+        <Bio user_id={user_id} />
         </div>
     )
 }

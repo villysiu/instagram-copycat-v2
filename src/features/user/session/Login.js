@@ -20,7 +20,7 @@ const Login=({toggleLogin})=>{
     <>
     
       <Modal.Header closeButton >
-        <Modal.Title>Welcome back! </Modal.Title>
+        <Modal.Title className="mx-3 my-1">Welcome back! </Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form ref={formRef} onSubmit={handleSubmit}>

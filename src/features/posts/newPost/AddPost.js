@@ -1,28 +1,27 @@
 import AddPhotoForm from "./AddPhotoForm"
 import { useState, useRef } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { Form, Button, Modal } from "react-bootstrap"
+import { Form, Button, Modal, Image } from "react-bootstrap"
 import { addNewPost } from "../postsSlice"
 import { currentUser } from "../../user/userSlice"
-
+import UploadImage from "./UploadImage"
 const AddPost=({closeModal})=>{
-    const user=useSelector(currentUser) 
-    const fileRef = useRef(null);
+    const user=useSelector(currentUser)
+    
+    // const fileRef = useRef(null);
     const [preview, setPreview]=useState(null)
     const [desc, setDesc] = useState('')
     const dispatch = useDispatch()
 
     const handlePreview=(e)=>{
+        console.log(e.target.files)
         e.preventDefault();
         if(e.target.files.length===0) 
             return;
         setPreview(e.target.files[0])
     }
     
-    const handleRemove=()=>{
-        setPreview(null)
-        fileRef.current.value = null;
-    }
+    
     const handleSubmit=(e)=>{
         e.preventDefault();
         const formData=new FormData()
@@ -34,35 +33,32 @@ const AddPost=({closeModal})=>{
         e.target.reset();
         setPreview(null);
         closeModal();
-    
-        
+
     }
-   
+  
+    if(preview===null){
+        return (
+            <UploadImage handlePreview={handlePreview}/>
+        
+        )
+    }
     return (
         <>
-            <Modal.Header closeButton>
-                <Modal.Title>Add a new photo</Modal.Title>
-            </Modal.Header>
+        <Form onSubmit={handleSubmit} >
+            <div className="new-post-header">
+                <Button className="transparent_button" onClick={closeModal}>Cancel</Button>
+                <h5>Create new post</h5>
+                <Button className="transparent_button" type="submit">Share</Button>
+            </div>
 
-            <Form onSubmit={handleSubmit} >
-                <Modal.Body>
-                    <AddPhotoForm fileRef={fileRef} preview={preview} handlePreview={handlePreview} handleRemove={handleRemove} />
-            
-                    <Form.Group className="mb-3">
-                        <Form.Label>Description</Form.Label>
-                        <Form.Control as="textarea" name="desc" rows="5" value={desc} placeholder="Description" 
-                            onChange={e=>setDesc(e.target.value)} />
-                    </Form.Group>
-
-                </Modal.Body>
-
-                <Modal.Footer>
-                    <Button variant="primary" type="submit">
-                        Add Photo
-                    </Button>
-                </Modal.Footer>
-
-            </Form>
+            <div className="mb-1">
+                <Image src={URL.createObjectURL(preview)} alt="name" className="preview_img" />
+            </div>
+                
+            <Form.Control as="textarea" bsPrefix="comment_input" name="desc" rows="5" value={desc} 
+                placeholder="Write a caption..." onChange={e=>setDesc(e.target.value)} />
+         
+        </Form>
 
        </>
     )

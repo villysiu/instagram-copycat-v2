@@ -1,9 +1,13 @@
-import { Navbar } from "react-bootstrap"
-const Title = ({showProfileCB}) => {
+
+import { memo } from "react"
+import { Link } from "react-router-dom"
+const Title = () => {
     return (
-        <Navbar.Brand className="transparent_button" as="button" onClick={()=>showProfileCB(false)}>
-            <h3>Instagram Copycat</h3>
-        </Navbar.Brand>
+        <Link to={"/instagram-copycat-v2"} className="linkBtn">
+            <h3 className="px-3">Instagram Copycat</h3>
+            
+        </Link>
+        
     )
 }
-export default Title
+export default memo(Title)

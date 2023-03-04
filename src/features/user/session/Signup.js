@@ -22,7 +22,7 @@ const Signup=({toggleLogin})=>{
     return(
         <>
         <Modal.Header closeButton >
-            <Modal.Title>Sign up for free.</Modal.Title>
+            <Modal.Title className="mx-3 my-1">Sign up for free.</Modal.Title>
         </Modal.Header>
         <Modal.Body>
         

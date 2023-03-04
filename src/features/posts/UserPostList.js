@@ -13,7 +13,6 @@ const [index, setIndex] = useState(0)
     const handleClick=(p, idx)=>{
         
         setShow(true)
-        // setPostObj(p)
         setIndex(idx)
     }
     return(
@@ -21,18 +20,19 @@ const [index, setIndex] = useState(0)
             <Modal
                 show={show}
                 onHide={() => setShow(false)}
-                dialogClassName="modal-60w modal-dialog-centered" 
+                dialogClassName="modal-60w" 
+                
             >
                 <CloseButton onClick={() => setShow(false)} variant="white" className="carousal-close-btn" />
                 <UserPostCarousal posts={posts} idx={index} handleClick={()=>setShow(false)}/>
             </Modal>
 
-            <Container fluid className="list-900">
+            <Container fluid className="list-768">
                 <Row>
                     { posts.map((post, idx)=> {
                         return (
-                            <Col key={post.id} xs={4} className="square_300" onClick={()=>handleClick(post, idx)}>
-                                <Image className="square_img_300" src={`http://localhost:3000/${post.url}`} />
+                            <Col key={post.id} xs={4} className="square_256" onClick={()=>handleClick(post, idx)}>
+                                <Image className="square_img_256" src={`http://localhost:3000/${post.url}`} />
                             </Col>)
                     })}
                 </Row>

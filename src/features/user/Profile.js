@@ -1,20 +1,21 @@
 import UserPostList from "../posts/UserPostList"
 import { useSelector } from "react-redux"
-import { currentUser } from "./userSlice"
 import { selectUserbyId } from '../user/userSlice'
+import { useParams } from "react-router-dom"
 
 import ProfileHeader from "./ProfileHeader"
-const Profile = ({userId}) => {
+
+const Profile = () => {
+    console.log("in profile")
+    const { userId } = useParams();
     console.log(userId)
-    const currUser=useSelector(currentUser)
-    const user=useSelector(state=>selectUserbyId(state, userId))
-    console.log(user)
+    const data=useSelector(state=>selectUserbyId(state, Number(userId)))
+    console.log(data)
+   
     return (
         <div className="list-900" >
-
-            <ProfileHeader user={user} bio={user.bio} isCurrUser={currUser && currUser.id===user.id}/>
-
-            <UserPostList userId={user.id} />
+            <ProfileHeader user_id={Number(userId)} />
+            <UserPostList userId={Number(userId)} />
         </div>  
 
     )

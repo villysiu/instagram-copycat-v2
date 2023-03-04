@@ -2,11 +2,12 @@ import { useDispatch } from 'react-redux';
 import { logoutUser } from '../userSlice';
 import { NavDropdown } from 'react-bootstrap';
 
-const Logout = ({showProfileCB}) =>{
+const Logout = () =>{
+    console.log("in Logout")
     const dispatch=useDispatch();
     const handleClick=()=>{
         dispatch(logoutUser())
-        showProfileCB(false)
+        // showProfileCB(false)
     }
     return (
         <NavDropdown.Item onClick={handleClick} type="logout" >

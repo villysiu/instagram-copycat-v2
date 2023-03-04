@@ -1,39 +1,41 @@
-// import React, { useState, useEffect } from 'react'
-import { useSelector } from 'react-redux'
+import { useEffect, useMemo } from 'react';
+import { useDispatch, useSelector } from 'react-redux'
 import Post from './post/Post'
+import { fetchPosts } from './postsSlice';
 import { selectAllPosts } from './postsSlice'
 
-const PostList = ({showProfileCB}) => {
-    
+const PostList = () => {
+    console.log("in PostList")
     const posts = useSelector(selectAllPosts)
-    const postStatus = useSelector(state => state.posts.status)
-    const error = useSelector(state => state.posts.error)
-    console.log(posts)
-    if (postStatus === 'loading') {
-        return <div>loading</div>
-}
-
-
-   
-    if(posts.length===0){
+    const postsStatus = useSelector(state => state.posts.status)
+    
+    if(postsStatus === 'loading' ||  postsStatus === 'idle'){
         return (
-            <p>"No post yet. Add the first one here." </p>
+            <div><h1>Loading</h1></div>
         )
     }
+    if(posts.length===0){
+        return (
+            <div>"No post yet. Add the first one here." </div>
+        )
+    }
+    
     return (
         <div className="list-600">
             {/* { postStatus === 'failed' && <div>{error}</div> } */}
             {posts.map((post)=>{
                 
                 return (
-                    <div key={post.id}  className='mb-3'>
-                        <Post  key={post.id} post={post} handleClick={()=>showProfileCB(post.owner_id)} />
-                    </div>
+                    
+                    <Post key={post.id} post={post}  />
+                   
                 )
             })}
             
      
         </div>
     )
+// },[posts, postsStatus])
+       
 }
 export default PostList

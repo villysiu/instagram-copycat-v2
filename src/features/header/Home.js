@@ -1,7 +1,11 @@
 import { House } from "react-bootstrap-icons"
-const Home = ({showProfileCB}) => {
+import { Link } from "react-router-dom"
+const Home = () => {
     return (
-        <House className="circle_button" onClick={()=>showProfileCB(false)} />
+
+        <Link to={"/instagram-copycat-v2"} >
+            <House className="circle_button"  />
+        </Link>
     )
 }
 export default Home

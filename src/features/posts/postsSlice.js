@@ -4,7 +4,6 @@ const url="http://localhost:3000"
 export const fetchPosts = createAsyncThunk(
   'posts/fetchPosts',
   async () => {
-    console.log("hehehrehhrherherheh")
     try {
       const response = await fetch('http://localhost:3000/photos.json')
       const data=await response.json()
@@ -120,7 +119,8 @@ export const likeAPost = createAsyncThunk(
         throw new Error(response.statusText)
       return {
         post_id,
-        data,
+        data
+        
       }
     } catch (error) {
       return Promise.reject(error.message ? error.message : "no data")
@@ -161,17 +161,17 @@ export const addComment = createAsyncThunk(
   'posts/addComment',
   async ({postId, formData})=>{
     console.log("comment a post "+ postId)
-    console.log(formData)
+    console.log(formData.get("comment"),)
     try {
-      //`http://localhost:3000/photos/${photo_id}/likes`
+      
       const response=await fetch(`${url}/photos/${postId}/comments`, {
         method: 'POST',
         headers: {
-          'Content-type': "application/json",
-          'Accept' : 'application/json',
+          // 'Content-type': "application/json",
+          // 'Accept' : 'application/json',
           "Authorization": localStorage.getItem("token")
         },
-        body: JSON.stringify(formData)
+        body: formData
       })
       const data=await response.json()
       console.log(data)
@@ -301,5 +301,12 @@ export const selectPostsbyUserId = (state, userId) =>{
 } 
 export const selectPostbyId = (state, postId) => {
   return state.posts.posts.find(post => post.id === postId)
+}
+export const likedByUserId = (state, postId) => {
+  console.log(state)
+  const post = state.posts.posts.find(p=>p.id===postId)
+  const userId=state.user.currentUserId
+  console.log(userId)
+  return post.likes.find(l=>l.user_id === userId) ? true : false
 }
 

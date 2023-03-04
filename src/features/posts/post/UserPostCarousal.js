@@ -11,7 +11,7 @@ const UserPostCarousal = ({posts, idx, handleClick}) =>{
   };
 
   return (
-      <Carousel interval={null} activeIndex={index} onSelect={handleSelect} wrap={false} >
+      <Carousel interval={null} indicators={false} activeIndex={index} onSelect={handleSelect} wrap={false} variant="dark">
         
         {posts.map(post=>{
           return (

@@ -8,7 +8,7 @@ const EditPostButton = ({postId}) =>{
             <Modal show={edit} 
                 onHide={() => showEdit(false)}
                 dialogClassName="modal-60w">
-                <EditPost postId={postId} />
+                <EditPost postId={postId} showEdit={showEdit} />
             </Modal>
         
             <NavDropdown.Item onClick={()=>showEdit(true)} >

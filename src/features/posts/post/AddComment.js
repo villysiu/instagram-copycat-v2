@@ -1,36 +1,38 @@
-import { useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
-// import { currentUser } from "../../user/userSlice";
-import { Form, Button, Row, Col, Container } from "react-bootstrap";
+import { useState, useMemo } from "react";
+import { useDispatch } from "react-redux";
+
+import { Form, Button} from "react-bootstrap";
 import { addComment } from "../postsSlice";
+
 const AddComment = ({post_id}) => {
     const dispatch = useDispatch();
     
-    const formRef=useRef()
+    // const formRef=useRef()
+    const [comment, setComment]=useState("")
     const handleSubmit=(e)=>{
-        console.log(e.target)
+        
+        console.log(e.target.value)
         e.preventDefault();
-        const formData=new FormData(formRef.current)
-        
-        dispatch(addComment( {postId: post_id, formData: Object.fromEntries(formData) } ))
-        e.target.reset();
+        const formData=new FormData()
+        formData.append("comment", comment)
+        dispatch(addComment( {postId: post_id, formData: formData } ))
+        setComment("")
     }
+    return useMemo(()=>{
     return (
-      <Container>
-        <Form ref={formRef} onSubmit={handleSubmit} >
-        <Row><Col>
-       
-        <Form.Group>
-          <Form.Control as="textarea" name="comment" rows="1" placeholder="Add a comment" />
-        </Form.Group>
-       </Col><Col className="ccc">
-          <Button variant="outline-primary" type="submit" className="comment-btn">
-              post
-          </Button>
-          </Col></Row>
-      </Form>
-      </Container>
-        
+      <Form  onSubmit={handleSubmit} >
+          <div style={{textAlign: "left", display: "flex", fontSize: "13.6px"}}>
+             <Form.Control as="textarea" bsPrefix="comment_input"
+            name="comment" rows="1" placeholder="Add a comment" 
+            value={comment} onChange={e=>setComment(e.target.value)} /> 
+          
+          
+          <Button className="submit_comment" type='submit'>
+                Post
+            </Button>
+          </div>
+        </Form>
     )
+    },[comment])
 }
 export default AddComment

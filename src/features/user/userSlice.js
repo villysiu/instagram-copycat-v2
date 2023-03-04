@@ -2,9 +2,8 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 const url="http://localhost:3000"
 
-
 export const fetchCurrentUserId=createAsyncThunk(
-    'user/fetchUser',
+    'user/fetchCurrentUserId',
     async () => {
         try {
             const response=await fetch("http://localhost:3000/current_user", {
@@ -16,10 +15,12 @@ export const fetchCurrentUserId=createAsyncThunk(
             })
             const data=await response.json()
             console.log(data)
-            console.log(response)
             
             if(!response.ok) 
                 throw new Error(response.statusText)
+            if(data)
+                timeoutUser(Date.now())
+            
             return {
                 data,
             }
@@ -49,8 +50,11 @@ export const loginUser=createAsyncThunk(
             const data=await response.json()
             console.log(data)
             localStorage.setItem('token', response.headers.get("Authorization"))
-            return {
+            localStorage.setItem("expired", Date.now()+(1000*60*30))
+            timeoutUser(Date.now());
+            return{
                 // status: response.status,
+               
                 data
             }
         } 
@@ -75,7 +79,8 @@ export const signupUser=createAsyncThunk(
             const data=await response.json()
             if(!response.ok) throw new Error(response.statusText)
             localStorage.setItem('token', response.headers.get("Authorization"))
-
+            localStorage.setItem("expired", Date.now()+(1000*60*30))
+            timeoutUser(Date.now());
             return {
                 // status: response.status,
                 data
@@ -90,6 +95,7 @@ export const signupUser=createAsyncThunk(
 export const logoutUser=createAsyncThunk(
     'user/logoutUser',
     async () => {
+        console.log("looooooggging out")
         try{
             const response=await fetch(`${url}/logout`, {
                 method: 'DELETE',
@@ -189,20 +195,20 @@ export const fetchUsers=createAsyncThunk(
 
     'user/fetchUsers',
     async () => {
-        console.log("getting users")
+        // console.log("getting all users")
         try {
-            const response=await fetch("http://localhost:3000/users", {
+            const response=await fetch(`http://localhost:3000/users/`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
-                    // "Authorization": localStorage.getItem("token"),
+                    
                 }
             })
             const data=await response.json()
             if(!response.ok) 
                 throw new Error(response.statusText)
-            console.log("succeed fetching all users")
-            console.log(data)
+            // console.log("succeed fetching all users")
+            // console.log(data)
             return {
                 // status: response.status,
                 data,
@@ -213,16 +219,16 @@ export const fetchUsers=createAsyncThunk(
         }
     }
 )
-    
+
 const userSlice=createSlice({
     name: 'user',
     initialState: {
-        users: null,
+        currentUserId: null,
         status: 'idle',
         error: null,
 
-        currentUserId: null,
-        cstatus: 'idle',
+        users: [],
+        usersStatus: 'idle',
         
     },
     reducers: {
@@ -231,84 +237,78 @@ const userSlice=createSlice({
     extraReducers(builder) {
       builder
         .addCase(fetchCurrentUserId.pending, (state, action) => {
-            state.cstatus = 'loading'
+            state.status = 'loading'
         })
         .addCase(fetchCurrentUserId.fulfilled, (state, action) => {
             console.log(action)
-            state.cstatus = 'succeeded'
+            state.status = 'succeeded'
             state.currentUserId = action.payload.data
             state.error = null
+            
            
         })
         .addCase(fetchCurrentUserId.rejected, (state, action) => {
             console.log(action)
-            localStorage.clear()
+            // localStorage.clear()
 
             state.status = 'failed'
             state.error = action.error.message
            
         })
         .addCase(loginUser.pending, (state, action) => {
-            state.cstatus = 'loading'
+            state.status = 'loading'
         })
         .addCase(loginUser.fulfilled, (state, action) => {
             console.log(action)
             
-            state.cstatus = 'succeeded'
+            state.status = 'succeeded'
             state.currentUserId = action.payload.data
             state.error = null
-            const expiry = Date.now()+60*1000
-            localStorage.setItem("expiry", expiry)
-
         })
         .addCase(loginUser.rejected, (state, action) => {
-            state.cstatus = 'failed'
+            state.status = 'failed'
             state.error = action.error.message
         })
         .addCase(signupUser.pending, (state, action) => {
-            state.cstatus = 'loading'
+            state.status = 'loading'
         })
         .addCase(signupUser.fulfilled, (state, action) => {
             console.log(action)
-            state.cstatus = 'succeeded'
+            
+            state.status = 'succeeded'
             state.currentUserId = action.payload.data.id
             state.error = null
             state.users.push(action.payload.data)
 
-            const expiry = Date.now()+60*1000
-            localStorage.setItem("expiry", expiry)
-            
-            // console.log(state.posts)
         })
         .addCase(signupUser.rejected, (state, action) => {
-            state.cstatus = 'failed'
+            state.status = 'failed'
             state.error = action.error.message
         })
         .addCase(logoutUser.pending, (state, action) => {
-            state.cstatus = 'loading'
+            state.status = 'loading'
         })
         .addCase(logoutUser.fulfilled, (state, action) => {
             console.log(action)
-            state.cstatus = 'succeeded'
+            state.status = 'succeeded'
             state.currentUserId = null
             localStorage.clear();
             // console.log(state.posts)
         })
         .addCase(logoutUser.rejected, (state, action) => {
-            state.cstatus = 'failed'
+            state.status = 'failed'
             state.error = action.error.message
         })
         .addCase(editProfile.pending, (state, action) => {
             state.status = 'loading'
         })
         .addCase(editProfile.fulfilled, (state, action) => {
-           
-            const u=action.payload
+
             state.status = 'succeeded'
-            // const currUser=state.users.find(user => user.id===state.currentUserId)
-            const currUser=state.users.find(user => user.id === u.id)
-            currUser.name=u.name
-            currUser.bio=u.bio
+            const user=state.users.find(u => action.payload.id === u.id)
+            user.name=action.payload.name
+            user.bio=action.payload.bio
+            
         })
         .addCase(editProfile.rejected, (state, action) => {
             state.status = 'failed'
@@ -319,10 +319,10 @@ const userSlice=createSlice({
         })
         .addCase(editAvatar.fulfilled, (state, action) => {
             console.log(action)
-            const u=action.payload.data
+            // const u=action.payload.data
             state.status = 'succeeded'
-            const currUser=state.users.find(user => user.id === u.id)
-            currUser.avatar=u.avatar
+            const user=state.users.find(u => u.id === action.payload.data.id)
+            user.avatar=action.payload.data.avatar
             
         })
         .addCase(editAvatar.rejected, (state, action) => {
@@ -335,8 +335,8 @@ const userSlice=createSlice({
         .addCase(deleteAvatar.fulfilled, (state, action) => {
             console.log(action)
             state.status = 'succeeded'
-            const currUser=state.users.find(user => user.id === action.payload.data)
-            currUser.avatar=null
+            const user=state.users.find(u => u.id === action.payload.data)
+            user.avatar=null
             
         })
         .addCase(deleteAvatar.rejected, (state, action) => {
@@ -345,42 +345,45 @@ const userSlice=createSlice({
         })
 
         .addCase(fetchUsers.pending, (state, action) => {
-            state.status = 'loading'
+            state.usersStatus = 'loading'
         })
         .addCase(fetchUsers.fulfilled, (state, action) => {
             console.log(action)
-            state.status = 'succeeded'
+            state.usersStatus = 'succeeded'
             state.users = action.payload.data
             state.error = null
         })
         .addCase(fetchUsers.rejected, (state, action) => {
-            state.status = 'failed'
+            state.usersStatus = 'failed'
             state.error = action.error.message
         })
    
     }
 })
 export default userSlice.reducer
-export const fetchAllUsers = (state) =>{
-    console.log(state)
-     return state.users.users
-}
+
+// export const fetchAllUsers = (state) =>{
+//     console.log(state)
+//      return state.users.users
+// }
 export const currentUser = (state) =>{
-    console.log(state)
-    const expiry = localStorage.getItem("expiry")
-    const now = Date.now()
-    console.log(expiry>now)
-    if(state.user.currentUserId && expiry>now)
-      return state.user.users.find(user=>user.id===state.user.currentUserId) 
-    else{
-        localStorage.clear()
-        return null
-    }
-     
-    
-   
+    // console.log(state)
+    return state.user.users.find(u=> u.id === state.user.currentUserId)
 }
 export const selectUserbyId = (state, userId) => {
-    // console.log(state)
-    return state.user.users.find(user => user.id === userId)
-  }
+    console.log(state)
+    return state.user.users.find(u => u.id === userId)
+}
+export const timeoutUser = (now) => {
+    console.log("in timeoutUser")
+    const exp=localStorage.getItem("expired")
+    const due = exp-now
+
+    const s=setTimeout(()=>{
+        console.log("kick user out")
+        localStorage.clear()
+        window.location.reload();
+        }, due )
+
+    return ()=>clearTimeout(s)
+}

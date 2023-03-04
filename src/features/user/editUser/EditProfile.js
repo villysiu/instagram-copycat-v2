@@ -1,16 +1,19 @@
 import { useState, memo } from "react"
 import { Modal, Form, Button } from "react-bootstrap"
-import { useDispatch, useSelector } from "react-redux"
-import { currentUser } from "../userSlice"
+import { useDispatch } from "react-redux"
+
 import { editProfile } from "../userSlice"
 import EditAvatar from "./editAvatar/EditAvatar"
 
-const EditProfile = ({setShow}) =>{
+const EditProfile = ({setShow, user}) =>{
     console.log("in edit porfile")
-    const currUser=useSelector(currentUser)
+    // const { data } = useLoaderData();
+    // console.log(data)
+    // const currUser=useSelector(currentUser)
+    // console.log(currUser)
     const dispatch=useDispatch()
-    const [name, setName] = useState(currUser.name)
-    const [bio, setBio] = useState(currUser.bio)
+    const [name, setName] = useState(user.name)
+    const [bio, setBio] = useState(user.bio)
     
     const handleSubmit = (e) =>{
         e.preventDefault()
@@ -28,40 +31,44 @@ const EditProfile = ({setShow}) =>{
 
     return (
         <>
-            <Modal.Header closeButton>
-                <Modal.Title style={{fontSize: "20px"}}>Edit porfile</Modal.Title>
+        <Form onSubmit={handleSubmit}>
+            <Modal.Header>
+                
+                <Button variant="primary" onClick={handleCancel} className="transparent_button">
+                    Cancel
+                </Button>
+                <Modal.Title>Edit porfile</Modal.Title>
+                <Button className="transparent_button" type="submit">
+                    Done
+                </Button>
             </Modal.Header>
 
-            <EditAvatar currUser={currUser} setShow={setShow}/>
+            <EditAvatar user={user} setShow={setShow}/>
 
-            <Form onSubmit={handleSubmit}>
+            
                 <Modal.Body>    
                     <fieldset disabled>
-                        <Form.Group className="mb-3">
-                            <Form.Label>Email address</Form.Label>
-                            <Form.Control type="email" placeholder={currUser.email} />
-                        </Form.Group>
+
+                        <Form.Group className="mb-3 float-group">
+                        <Form.Control className="float-input" htmlFor="email-input" value={user.email} readOnly />
+                        <Form.Label className='float-label' htmlFor="email-input">Email address</Form.Label> 
+                    </Form.Group>
                     </fieldset>
-                    <Form.Group className="mb-3">
-                        <Form.Label>Name</Form.Label>
-                        <Form.Control type="name" name="name" value={name} placeholder="User Name" 
-                            onChange={e=>setName(e.target.value)} />
+                  
+
+                    <Form.Group className="mb-3 float-group">
+                        <Form.Control required type="text" id="username-input" className="float-input" name="name" placeholder="User name"
+                            value={name}  onChange={e=>setName(e.target.value)} />
+                        <Form.Label className='float-label' htmlFor="username-input">User name</Form.Label> 
                     </Form.Group>
-                    <Form.Group>
-                        <Form.Label>Bio</Form.Label>
-                        <Form.Control type="text" name="bio" as="textarea" rows="5" value={bio} placeholder="Bio"
-                            onChange={e=>setBio(e.target.value)}  />
+
+                    <Form.Group className="mb-3 float-group">
+                        <Form.Control required type="text" as="textarea" rows="5" id="bio-input" className="float-input" name="name" placeholder="Bio"
+                            value={bio}  onChange={e=>setBio(e.target.value)} />
+                        <Form.Label className='float-label' htmlFor="bio-input">Bio</Form.Label> 
                     </Form.Group>
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="primary" type="submit">
-                        Submit
-                    </Button>
-                    <Button variant="primary" onClick={handleCancel} className="mx-2">
-                        Cancel
-                    </Button>
-                </Modal.Footer>
-                
+
+                </Modal.Body>            
             </Form>
         
         </>
