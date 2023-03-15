@@ -1,28 +1,45 @@
-import React from 'react';
-
+import React, {useEffect} from 'react';
 import Header from './features/header/Header';
 import './App.css';
-
-
-import {Outlet } from "react-router-dom";
-
-// import Test from './features/Test';
-
-
+import { Outlet } from "react-router-dom";
+import Error from './features/error/Error';
+import { useSelector, useDispatch } from 'react-redux';
+import { fetchUsers } from './features/user/usersSlice';
+import { fetchPosts } from './features/posts/postsSlice';
+import { fetchCurrentUserId } from './features/user/userSlice';
+import { ScrollRestoration } from 'react-router-dom';
 function App() {
-  console.log("in App")
+    console.log("in App")
+    const dispatch=useDispatch();
 
-  return (
-   
-    <div className="App">
-      <div className="header" ></div> 
-      <Header />
-
-     < Outlet />
-    </div>
+    const usersStatus = useSelector(state => state.users.status)
+    const userStatus = useSelector(state => state.user.status)
+    const postStatus = useSelector(state => state.posts.status)
 
     
-  );
+    useEffect(()=>{
+      if(usersStatus==="idle")
+          dispatch(fetchUsers())
+
+      if(userStatus === 'idle' )
+        dispatch(fetchCurrentUserId())
+      
+      if(postStatus === 'idle')
+        dispatch(fetchPosts()) 
+  },[dispatch, usersStatus, userStatus, postStatus])
+
+    return (
+    
+      <div className="App">
+          <div style={{height: "50px"}} ></div> 
+          <Header />
+          <Error />
+          <Outlet />
+          <ScrollRestoration />
+      </div>
+
+      
+    );
 }
 
 export default App;

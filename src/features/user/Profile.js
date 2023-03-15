@@ -1,21 +1,32 @@
-import UserPostList from "../posts/UserPostList"
-import { useSelector } from "react-redux"
-import { selectUserbyId } from '../user/userSlice'
-import { useParams } from "react-router-dom"
-
 import ProfileHeader from "./ProfileHeader"
+import UserPostList from "../posts/UserPostList"
+import { useParams, Navigate } from "react-router-dom"
+import { useSelector } from "react-redux"
+
+import { selectUserbyId } from "./usersSlice"
+import { Spinner } from "react-bootstrap"
 
 const Profile = () => {
     console.log("in profile")
     const { userId } = useParams();
-    console.log(userId)
-    const data=useSelector(state=>selectUserbyId(state, Number(userId)))
-    console.log(data)
-   
+  
+    const user=useSelector(state=>selectUserbyId(state, Number(userId)))
+    const usersStatus = useSelector(state=>state.users.status)
+console.log(user)
+console.log(usersStatus)
+    if(!user){
+        if(usersStatus==="loading" || usersStatus==="idle")
+            return <Spinner />
+    
+        else if(usersStatus==="succeeded"){
+            console.log("no user and secceed")
+            return <Navigate to="/instagram-copycat-v2" replace={true} />
+        }
+    }  
     return (
         <div className="list-900" >
-            <ProfileHeader user_id={Number(userId)} />
-            <UserPostList userId={Number(userId)} />
+            <ProfileHeader user={user} />
+            <UserPostList userId={Number(userId)}  />
         </div>  
 
     )

@@ -1,18 +1,12 @@
 import { useSelector } from "react-redux"
-import { selectUserbyId } from "./userSlice"
+import { selectUserbyId } from "./usersSlice"
 
-const Bio = ({user_id}) => {
-    const usersStatus = useSelector(state => state.user.usersStatus)
-    const user= useSelector(state=>selectUserbyId(state, user_id))
+const Bio = ({bio}) => {
+    console.log("in bio")
 
-    if (usersStatus === 'loading' || usersStatus === 'idle'){ 
-        return (
-            <p>Loading</p>
-        )
-    }
     
     return (
-        <div style={{textAlign: "left"}}>{user.bio}</div>
+        <div style={{textAlign: "left"}}>{bio}</div>
     )
 }
 export default Bio

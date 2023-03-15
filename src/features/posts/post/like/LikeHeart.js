@@ -1,13 +1,12 @@
 import LikeButton from "./LikeButton"
 import { Heart } from "react-bootstrap-icons"
 import { useSelector } from "react-redux"
-import { currentUser } from "../../../user/userSlice"
+import { currentUserId } from "../../../user/userSlice"
 const LikeHeart = ({postId}) => {
-    const currUser = useSelector(currentUser)
-    console.log(currUser)
+    const currUserId=useSelector(currentUserId)
     return (
         <>
-        { currUser?  
+        { currUserId?  
             <LikeButton postId={postId} /> 
             : 
             <Heart /> 

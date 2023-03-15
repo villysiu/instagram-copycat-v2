@@ -1,29 +1,30 @@
 // import { useMemo } from "react"
-import { Nav, Image } from "react-bootstrap"
+import { Spinner, Image } from "react-bootstrap"
 import { useSelector } from "react-redux"
-import { selectUserbyId } from "./userSlice"
+import { selectUserbyId } from "./usersSlice"
+import { Circle } from "react-bootstrap-icons"
 
-const Avatar=({user_id})=>{
-    const usersStatus = useSelector(state => state.user.usersStatus)
-    const user= useSelector(state=>selectUserbyId(state, user_id))
 
-    if (usersStatus === 'loading' || usersStatus === 'idle'){ 
-        return (
-            <Nav.Item className="round_avator empty_avator thumbsize"></Nav.Item>
-                
-        )
-    }
+const Avatar=({userId, circleSize, initialStyle})=>{
+    const usersStatus = useSelector(state=>state.users.status)
+    const user= useSelector(state=>selectUserbyId(state, userId))
+   
+    if(!user && usersStatus==="loading")
+        return <Spinner />
     
-    // return useMemo(()=>{
+    
+    
     return(
         <>
             {user.avatar ?
-                <Image className="round_avator thumbsize" src={`http://localhost:3000/${user.avatar}`} /> 
+                <Image className={`round_avator ${circleSize}`} src={`http://localhost:3000/${user.avatar}`} /> 
                 
             :
-                <Nav.Item className="round_avator empty_avator thumbsize">
-                    {user.name[0]}
-                </Nav.Item>
+
+                <div className={circleSize}>
+                    <div ><Circle style={{width: "100%", height: "100%"}} /></div>
+                    <div className={initialStyle}>{user.name[0].toUpperCase()}</div>
+                </div>
     
             }
             

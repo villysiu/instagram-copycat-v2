@@ -1,33 +1,36 @@
-import { Navbar } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import PostDropdown from './PostDropdown';
 import UserName from '../../user/UserName';
 import Avatar from '../../user/Avatar';
 // import { useMemo } from 'react';
 
-export const PostHeader=({owner_id, postId, handleClick})=>{
-    console.log("in PostHeader")
-    // const currUser=useSelector(currentUser)
+export const PostHeader=({ownerId, postId, handleClick})=>{
+    // console.log("in PostHeader")
     
+    const PostHeaderDetails = () =>{
+        return(
+            <div style={{display: "flex", alignItems: "center"}}>
+                <Avatar userId={ownerId} initialStyle={"initialStyle"} circleSize={"thumbsize"}  />
+                <UserName userId={ownerId}  nameSize={"13.6px"} />
+            </div>
+        )
+    }
     return (
-        <Navbar>
+        <div className='p-2 post_header'>
             {handleClick ? 
-                <div className="p-2 linkBtn linkBtnR" onClick={()=>handleClick()} >
-                    <Avatar user_id={owner_id} />
-                    <UserName user_id={owner_id} />
+                <div className="post_header_user_link" onClick={()=>handleClick()} >
+                    <PostHeaderDetails />
                 </div>
 
             :
-                
-                <Link to={`users/${owner_id}`} className="p-2 linkBtn linkBtnR">
-                    <Avatar user_id={owner_id} />
-                    <UserName user_id={owner_id} />
+                <Link to={`../users/${ownerId}`} className="post_header_user_link">
+                    <PostHeaderDetails />
                 </Link>
             }
-            <Navbar.Collapse className="justify-content-end">
-                <PostDropdown postId={postId} ownerId={owner_id}/>
-            </Navbar.Collapse>
-        </Navbar>
+            
+            <PostDropdown postId={postId} ownerId={ownerId}/>
+            
+        </div>
     )
           
 }

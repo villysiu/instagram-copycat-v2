@@ -8,34 +8,24 @@ const PostList = () => {
     console.log("in PostList")
     const posts = useSelector(selectAllPosts)
     const postsStatus = useSelector(state => state.posts.status)
-    
-    if(postsStatus === 'loading' ||  postsStatus === 'idle'){
-        return (
-            <div><h1>Loading</h1></div>
-        )
-    }
+console.log(postsStatus)
     if(posts.length===0){
-        return (
-            <div>"No post yet. Add the first one here." </div>
-        )
+        if(postsStatus === 'loading' || postsStatus === 'idle'){
+            return <div>Loading</div>
+        }
+        else if(postsStatus === 'succeeded' ){
+            return <div>"No post yet. Add the first one here." </div>
+        }
     }
-    
+    else {
     return (
         <div className="list-600">
-            {/* { postStatus === 'failed' && <div>{error}</div> } */}
-            {posts.map((post)=>{
-                
-                return (
-                    
-                    <Post key={post.id} post={post}  />
-                   
-                )
-            })}
-            
-     
+            {posts.map( post =>
+              <Post key={post.id} post={post}  />
+            )}
         </div>
     )
-// },[posts, postsStatus])
-       
+
+       }
 }
 export default PostList

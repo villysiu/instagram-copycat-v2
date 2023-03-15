@@ -7,7 +7,6 @@ const Logout = () =>{
     const dispatch=useDispatch();
     const handleClick=()=>{
         dispatch(logoutUser())
-        // showProfileCB(false)
     }
     return (
         <NavDropdown.Item onClick={handleClick} type="logout" >

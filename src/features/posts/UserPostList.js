@@ -1,20 +1,29 @@
-import { useState } from "react"
-import { useSelector } from "react-redux"
-import { selectPostsbyUserId } from "./postsSlice"
+import { useState, useEffect } from "react"
+import { useSelector, useDispatch } from "react-redux"
+import { selectPostsbyUserId, fetchPosts } from "./postsSlice"
 import { Container, Row, Col, Image, Modal, CloseButton} from "react-bootstrap"
-
+import { useParams } from "react-router-dom"
 import UserPostCarousal from "./post/UserPostCarousal"
-const UserPostList = ({userId}) => {
+import {Spinner} from "react-bootstrap"
+const UserPostList = ( { userId }) => {
+    const postsStatus = useSelector(state => state.posts.status)
     const posts=useSelector(state=>selectPostsbyUserId(state, userId))
     console.log(posts)
+
     const [show, setShow]=useState(false)
-  
-const [index, setIndex] = useState(0)
+    const [index, setIndex] = useState(0)
+
     const handleClick=(p, idx)=>{
-        
         setShow(true)
         setIndex(idx)
     }
+
+    if(!posts && postsStatus === 'loading'){
+        return <Spinner />
+    }
+    if(posts.length===0 && postsStatus==="succeeded")
+        return "User has no post."
+        
     return(
         <>
             <Modal

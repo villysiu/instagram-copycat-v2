@@ -1,18 +1,15 @@
+import { Spinner } from "react-bootstrap"
 import { useSelector } from "react-redux"
-import { selectUserbyId } from "./userSlice"
+import { selectUserbyId } from "./usersSlice"
 
-const UserName = ({user_id}) => {
-    const usersStatus = useSelector(state => state.user.usersStatus)
-    const user= useSelector(state=>selectUserbyId(state, user_id))
+const UserName = ({userId, nameSize}) => {
+    const usersStatus = useSelector(state=>state.users.status)
+    const user= useSelector(state=>selectUserbyId(state, userId))
 
-    if (usersStatus === 'loading' || usersStatus === 'idle'){ 
-        return (
-            <>Loading</>
-        )
-    }
-    
+    if(!user && usersStatus==="loading")
+        return <Spinner />
     return (
-        <b className="username">{user.name}</b>
+        <b style={{fontSize: nameSize}}>{user.name}</b>
     )
 }
 export default UserName

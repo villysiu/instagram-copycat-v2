@@ -1,18 +1,30 @@
 import { Button, Modal } from "react-bootstrap"
-import { useState } from "react"
-import EditProfile from "./EditProfile"
+import { useState, useEffect } from "react"
+import { useSelector, useDispatch } from "react-redux"
 
-const EditProfileButton = ({user}) => {
+import EditProfile from "./EditProfile"
+// import { currentUserId, fetchCurrentUserId 
+import { currentUserId, fetchCurrentUserId } from "../userSlice"
+import { Spinner } from "react-bootstrap"
+const EditProfileButton = ({userId}) => {
     const [show, setShow] = useState(false)
+
+    const userStatus = useSelector(state => state.user.status)
+    const currUserId = useSelector(currentUserId)
+    console.log( currUserId)
+
+    if(!currUserId && userStatus==="loading")
+        return (<Spinner />)
     return(
         <>
       
-        <Modal show={show} onHide={()=>setShow(false)} dialogClassName="modal-dialog-centered">
-            <EditProfile setShow={setShow} user={user}/> 
-        </Modal>
-
-        <Button variant = "light" onClick={()=>setShow(true)}>Edit Profile</Button>
-       
+            <Modal show={show} onHide={()=>setShow(false)} dialogClassName="modal-dialog-centered">
+                <EditProfile setShow={setShow} /> 
+            </Modal>
+    
+            {currUserId===userId && 
+                <Button variant = "light" onClick={()=>setShow(true)}>Edit Profile</Button>
+            }
         </>
     )
 }

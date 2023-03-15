@@ -1,19 +1,20 @@
-import { useDispatch } from "react-redux";
+// import { useDispatch } from "react-redux";
 import { useRef } from "react";
 import { Dropdown } from "react-bootstrap";
 import { Form } from "react-bootstrap";
-import { editAvatar } from "../../userSlice";
+// import { editAvatar } from "../../userSlice";
 
-const UploadAvatar = ({setPreview}) => {
-    const dispatch=useDispatch()
+const UploadAvatar = ({setPreview, setAvatar}) => {
+    // const dispatch=useDispatch()
     let fileRef = useRef(null);
     const handleSubmit=(e)=>{
         if(e.target.files.length===0)  return;   
         
         setPreview(URL.createObjectURL(e.target.files[0]))
-        const formData=new FormData()
-        formData.append("avatar", e.target.files[0])
-        dispatch(editAvatar({formData: formData}))
+        setAvatar(e.target.files[0])
+        // const formData=new FormData()
+        // formData.append("avatar", e.target.files[0])
+        // dispatch(editAvatar({formData: formData}))
 
     }
     const handleClick=()=>{

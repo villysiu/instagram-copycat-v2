@@ -10,9 +10,7 @@ const AddPhotoForm=({fileRef, preview, handlePreview, handleRemove})=>{
             
             {preview ?
             <>
-                
                 <Image src={URL.createObjectURL(preview)} alt="name" className="preview_img" />
-                
                 <Button varaint="primary" size="sm" onClick={()=>handleRemove()}>Remove</Button>
             </> 
             :

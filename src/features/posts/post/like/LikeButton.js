@@ -5,10 +5,10 @@ import { likeAPost, unlikeAPost } from '../../postsSlice'
 import { useSelector } from 'react-redux'
 import { likedByUserId } from '../../postsSlice'
 const LikeButton = ({postId}) => {
-    console.log("in likebutton")
+    // console.log("in likebutton")
     const dispatch=useDispatch()
     const res=useSelector(state=>likedByUserId(state, postId))
-    console.log(res)
+    
     const [redHeart, toggleHeart]=useState(res)
     
     const handleLike=()=>{
@@ -22,8 +22,9 @@ const LikeButton = ({postId}) => {
    
     return (
         redHeart ? 
-        <HeartFill className="redheart" onClick={handleUnlike} /> :
-        <Heart className="heart" onClick={handleLike} />
+            <HeartFill className="redheart" onClick={handleUnlike} /> 
+            :
+            <Heart className="heart" onClick={handleLike} />
     )
     
 }

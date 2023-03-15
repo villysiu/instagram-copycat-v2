@@ -120,6 +120,8 @@ export const logoutUser=createAsyncThunk(
 export const editProfile = createAsyncThunk(
     'user/editProfile',
     async({formData})=>{
+    //     console.log("in edit profile???")
+    // console.log(formData.get("name"),)
       try{
         const response=await fetch(`${url}/user`, {
             method:'PATCH',
@@ -129,7 +131,7 @@ export const editProfile = createAsyncThunk(
             body: formData
         })
         const data=await response.json()
-        console.log(data)
+        // console.log(data)
         if(!response.ok) 
           throw new Error(response.statusText)
         
@@ -146,6 +148,7 @@ export const editProfile = createAsyncThunk(
 export const editAvatar = createAsyncThunk(
     'user/editAvatar',
     async({formData})=>{
+        console.log(formData)
       try{
         const response=await fetch(`${url}/avatar`, {
             method:'PATCH',
@@ -191,45 +194,14 @@ export const deleteAvatar = createAsyncThunk(
       }
     }
 )
-export const fetchUsers=createAsyncThunk(
 
-    'user/fetchUsers',
-    async () => {
-        // console.log("getting all users")
-        try {
-            const response=await fetch(`http://localhost:3000/users/`, {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                    
-                }
-            })
-            const data=await response.json()
-            if(!response.ok) 
-                throw new Error(response.statusText)
-            // console.log("succeed fetching all users")
-            // console.log(data)
-            return {
-                // status: response.status,
-                data,
-            }
-        } 
-        catch(error){
-            return Promise.reject(error.message ? error.message : "no data")
-        }
-    }
-)
 
 const userSlice=createSlice({
     name: 'user',
     initialState: {
         currentUserId: null,
         status: 'idle',
-        error: null,
-
-        users: [],
-        usersStatus: 'idle',
-        
+        error: null,    
     },
     reducers: {
   
@@ -240,34 +212,26 @@ const userSlice=createSlice({
             state.status = 'loading'
         })
         .addCase(fetchCurrentUserId.fulfilled, (state, action) => {
-            console.log(action)
+            // console.log(action)
             state.status = 'succeeded'
             state.currentUserId = action.payload.data
-            state.error = null
-            
-           
         })
         .addCase(fetchCurrentUserId.rejected, (state, action) => {
-            console.log(action)
-            // localStorage.clear()
-
-            state.status = 'failed'
-            state.error = action.error.message
+            localStorage.clear()
+            state.status = 'succeeded'
            
         })
         .addCase(loginUser.pending, (state, action) => {
             state.status = 'loading'
         })
         .addCase(loginUser.fulfilled, (state, action) => {
-            console.log(action)
-            
             state.status = 'succeeded'
             state.currentUserId = action.payload.data
             state.error = null
         })
         .addCase(loginUser.rejected, (state, action) => {
             state.status = 'failed'
-            state.error = action.error.message
+            state.error = "Failed to login. Please check if email and password are correct."
         })
         .addCase(signupUser.pending, (state, action) => {
             state.status = 'loading'
@@ -278,12 +242,14 @@ const userSlice=createSlice({
             state.status = 'succeeded'
             state.currentUserId = action.payload.data.id
             state.error = null
-            state.users.push(action.payload.data)
+            // state.users.push(action.payload.data)
 
         })
+        
         .addCase(signupUser.rejected, (state, action) => {
+            console.log(action)
             state.status = 'failed'
-            state.error = action.error.message
+            state.error = "Email already existed"
         })
         .addCase(logoutUser.pending, (state, action) => {
             state.status = 'loading'
@@ -301,15 +267,12 @@ const userSlice=createSlice({
         })
         .addCase(editProfile.pending, (state, action) => {
             state.status = 'loading'
-        })
-        .addCase(editProfile.fulfilled, (state, action) => {
-
-            state.status = 'succeeded'
-            const user=state.users.find(u => action.payload.id === u.id)
-            user.name=action.payload.name
-            user.bio=action.payload.bio
             
         })
+        .addCase(editProfile.fulfilled, (state, action) => {
+            state.status = 'succeeded'    
+        })
+
         .addCase(editProfile.rejected, (state, action) => {
             state.status = 'failed'
             state.error = action.error.message
@@ -318,12 +281,7 @@ const userSlice=createSlice({
             state.status = 'loading'
         })
         .addCase(editAvatar.fulfilled, (state, action) => {
-            console.log(action)
-            // const u=action.payload.data
             state.status = 'succeeded'
-            const user=state.users.find(u => u.id === action.payload.data.id)
-            user.avatar=action.payload.data.avatar
-            
         })
         .addCase(editAvatar.rejected, (state, action) => {
             state.status = 'failed'
@@ -333,47 +291,22 @@ const userSlice=createSlice({
             state.status = 'loading'
         })
         .addCase(deleteAvatar.fulfilled, (state, action) => {
-            console.log(action)
-            state.status = 'succeeded'
-            const user=state.users.find(u => u.id === action.payload.data)
-            user.avatar=null
-            
+            state.status = 'succeeded'    
         })
         .addCase(deleteAvatar.rejected, (state, action) => {
             state.status = 'failed'
             state.error = action.error.message
         })
 
-        .addCase(fetchUsers.pending, (state, action) => {
-            state.usersStatus = 'loading'
-        })
-        .addCase(fetchUsers.fulfilled, (state, action) => {
-            console.log(action)
-            state.usersStatus = 'succeeded'
-            state.users = action.payload.data
-            state.error = null
-        })
-        .addCase(fetchUsers.rejected, (state, action) => {
-            state.usersStatus = 'failed'
-            state.error = action.error.message
-        })
    
     }
 })
 export default userSlice.reducer
 
-// export const fetchAllUsers = (state) =>{
-//     console.log(state)
-//      return state.users.users
-// }
-export const currentUser = (state) =>{
-    // console.log(state)
-    return state.user.users.find(u=> u.id === state.user.currentUserId)
+export const currentUserId = state => {
+    return state.user.currentUserId
 }
-export const selectUserbyId = (state, userId) => {
-    console.log(state)
-    return state.user.users.find(u => u.id === userId)
-}
+
 export const timeoutUser = (now) => {
     console.log("in timeoutUser")
     const exp=localStorage.getItem("expired")

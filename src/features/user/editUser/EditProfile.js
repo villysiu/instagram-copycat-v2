@@ -1,33 +1,47 @@
 import { useState, memo } from "react"
 import { Modal, Form, Button } from "react-bootstrap"
-import { useDispatch } from "react-redux"
-
+import { useDispatch, useSelector } from "react-redux"
+import { currentUserId } from "../userSlice"
 import { editProfile } from "../userSlice"
+import { editAvatar, deleteAvatar } from "../userSlice"
+import { selectUserbyId } from "../usersSlice"
 import EditAvatar from "./editAvatar/EditAvatar"
 
-const EditProfile = ({setShow, user}) =>{
+const EditProfile = ({setShow}) =>{
     console.log("in edit porfile")
-    // const { data } = useLoaderData();
-    // console.log(data)
-    // const currUser=useSelector(currentUser)
-    // console.log(currUser)
-    const dispatch=useDispatch()
-    const [name, setName] = useState(user.name)
-    const [bio, setBio] = useState(user.bio)
-    
+
+    const dispatch=useDispatch();
+    const currUserId = useSelector(currentUserId)
+    const currUser=useSelector(state=>selectUserbyId(state, currUserId))
+    const [avatar, setAvatar] = useState(currUser? currUser.avatar : null)
+
     const handleSubmit = (e) =>{
         e.preventDefault()
+        console.log(e.target.username.value)
         const formData=new FormData()
+        if(e.target.username.value !== currUser.name || e.target.bio.value !== currUser.bio ){
+            formData.append("name", e.target.username.value)
+            formData.append("bio", e.target.bio.value)
+            
+            dispatch(editProfile({formData: formData}))
+        }
 
-        formData.append("name", name)
-        formData.append("bio", bio)
-        dispatch(editProfile({formData: formData}))
-        e.target.reset()
+        const formData2=new FormData()
+        if(avatar !== currUser.avatar){
+            // console.log("different")
+            if(avatar){
+                formData2.append("avatar", avatar)
+                dispatch(editAvatar({formData: formData2}))
+            }
+            else{
+                dispatch(deleteAvatar())}
+        }
+        setShow(false)
+
     }
    
-    const handleCancel = () => {
-        setShow(false)
-    }
+    const handleCancel = () => setShow(false)
+
 
     return (
         <>
@@ -43,33 +57,32 @@ const EditProfile = ({setShow, user}) =>{
                 </Button>
             </Modal.Header>
 
-            <EditAvatar user={user} setShow={setShow}/>
+            <EditAvatar currUser={currUser} setAvatar={setAvatar} />
 
-            
-                <Modal.Body>    
-                    <fieldset disabled>
-
-                        <Form.Group className="mb-3 float-group">
-                        <Form.Control className="float-input" htmlFor="email-input" value={user.email} readOnly />
-                        <Form.Label className='float-label' htmlFor="email-input">Email address</Form.Label> 
-                    </Form.Group>
-                    </fieldset>
-                  
+            <Modal.Body>    
+                <fieldset disabled>
 
                     <Form.Group className="mb-3 float-group">
-                        <Form.Control required type="text" id="username-input" className="float-input" name="name" placeholder="User name"
-                            value={name}  onChange={e=>setName(e.target.value)} />
-                        <Form.Label className='float-label' htmlFor="username-input">User name</Form.Label> 
-                    </Form.Group>
+                    <Form.Control className="float-input" htmlFor="email-input" value={currUser.email} readOnly />
+                    <Form.Label className='float-label' htmlFor="email-input">Email address</Form.Label> 
+                </Form.Group>
+                </fieldset>
+                
 
-                    <Form.Group className="mb-3 float-group">
-                        <Form.Control required type="text" as="textarea" rows="5" id="bio-input" className="float-input" name="name" placeholder="Bio"
-                            value={bio}  onChange={e=>setBio(e.target.value)} />
-                        <Form.Label className='float-label' htmlFor="bio-input">Bio</Form.Label> 
-                    </Form.Group>
+                <Form.Group className="mb-3 float-group">
+                    <Form.Control required type="text" id="username-input" className="float-input" name="username" placeholder="User name"
+                        defaultValue={currUser.name} />
+                    <Form.Label className='float-label' htmlFor="username-input">User name</Form.Label> 
+                </Form.Group>
 
-                </Modal.Body>            
-            </Form>
+                <Form.Group className="mb-3 float-group">
+                    <Form.Control required type="text" as="textarea" rows="5" id="bio-input" className="float-input" name="bio" placeholder="Bio"
+                        defaultValue={currUser.bio} />
+                    <Form.Label className='float-label' htmlFor="bio-input">Bio</Form.Label> 
+                </Form.Group>
+
+            </Modal.Body>            
+        </Form>
         
         </>
     )

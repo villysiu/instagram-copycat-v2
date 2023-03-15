@@ -9,7 +9,7 @@ const LikeList = ({likes}) =>{
                         <div>No like yet.</div> 
                         :
                         likes.map(like=><div key={like.id}>
-                            <UserName user_id={like.user_id} />
+                            <UserName userId={like.user_id} />
                         </div>)
                 }
             </Tooltip> }>

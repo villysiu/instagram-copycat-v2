@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+
 const url="http://localhost:3000"
 
 export const fetchPosts = createAsyncThunk(
@@ -11,7 +12,6 @@ export const fetchPosts = createAsyncThunk(
       if(!response.ok) 
         throw new Error(response.statusText)
       return {
-        // status: response.status,
         data,
        }
     } catch(error){
@@ -23,7 +23,6 @@ export const fetchPosts = createAsyncThunk(
 export const addNewPost = createAsyncThunk(
   'posts/addNewPost',
   async (formData)=>{
-    
     try {
       const response=await fetch(`${url}/photos`, {
           method: 'POST',
@@ -35,29 +34,25 @@ export const addNewPost = createAsyncThunk(
           body: formData
       })
       const data=await response.json()
+    // console.log(response)
       if(!response.ok) {
-        throw new Error(response)
+        throw new Error(response.status+" "+response.statusText)
       }
      return {
       data,
      }
     }catch(error){
-     
-      console.log(error.message.response)
       // console.log(error)
-      // return Promise.reject(error.message ? error.message : "no data")
       return Promise.reject(error)
     }
   }
 )
 export const editAPost = createAsyncThunk(
     'posts/editAPost',
-    async({postId, formData})=>{
-      console.log(postId)
-      // console.log(formData)
+    async(postData)=>{
+      const { postId, formData } = postData
       try{
         const response=await fetch(`${url}/photos/${postId}`, {
-          // const response=await fetch(`${url}/photos/1000`, {
             method:'PATCH',
             headers: {
                 'Authorization': localStorage.getItem('token'),
@@ -65,16 +60,17 @@ export const editAPost = createAsyncThunk(
             body: formData
         })
         const data=await response.json()
-
-        if(!response.ok) 
-          throw new Error(response.statusText)
-          console.log(data)
+        console.log(response)
+        if(!response.ok) {
+          throw new Error(response.status+" "+response.statusText)
+        }  
         return {
           postId,
           desc: formData.get("desc"),
         }
       } catch (error) {
-          return Promise.reject(error.message ? error.message : "no data")
+        
+        return Promise.reject(error)
       }
     }
 )
@@ -90,12 +86,13 @@ export const deleteAPost = createAsyncThunk(
         },
     })
     // const data=await response.json()
-    if(!response.ok) throw new Error(response.statusText)
+    if(!response.ok) 
+      throw new Error(response.status+" "+response.statusText)
     return {
       postId
     }
     } catch (error) {
-      return Promise.reject(error.message ? error.message : "no data")
+      return Promise.reject(error)
     }
   }
 )
@@ -104,7 +101,7 @@ export const likeAPost = createAsyncThunk(
   async (post_id)=>{
     console.log("like a post "+ post_id)
     try {
-      //`http://localhost:3000/photos/${photo_id}/likes`
+
       const response=await fetch(`${url}/photos/${post_id}/likes`, {
         method: 'POST',
         headers: {
@@ -116,24 +113,21 @@ export const likeAPost = createAsyncThunk(
       const data=await response.json()
       
       if(!response.ok) 
-        throw new Error(response.statusText)
+        throw new Error(response.status+" "+response.statusText)
       return {
         post_id,
         data
         
       }
     } catch (error) {
-      return Promise.reject(error.message ? error.message : "no data")
+      return Promise.reject(error)
     }
   }
 )
 export const unlikeAPost = createAsyncThunk(
   'posts/unlikeAPost',
   async ({post_id}) =>{
-    // console.log(post_id, liked_id)
     try {
-      //http://localhost:3000/photos/${photo_id}/likes/${liked_id}`
-      // const response=await fetch(`${url}/photos/${post_id}/likes/${liked_id}`, {
         const response=await fetch(`${url}/photos/${post_id}/likes`, {
         method: "delete",
         headers: {
@@ -143,7 +137,7 @@ export const unlikeAPost = createAsyncThunk(
       })
       const data=await response.json()
       if(!response.ok) 
-        throw new Error(response.statusText)
+        throw new Error(response.status+" "+response.statusText)
     
       console.log(data)
       return {
@@ -152,8 +146,7 @@ export const unlikeAPost = createAsyncThunk(
       }
 
     } catch (error) {
-      // console.log("i m here")
-      return Promise.reject(error.message ? error.message : "no data")
+      return Promise.reject(error)
     }
   }
 )
@@ -176,13 +169,13 @@ export const addComment = createAsyncThunk(
       const data=await response.json()
       console.log(data)
       if(!response.ok) 
-        throw new Error(response.statusText)
+        throw new Error(response.status+" "+response.statusText)
       return {
         postId: postId,
         data,
       }
     } catch (error) {
-      return Promise.reject(error.message ? error.message : "no data")
+      return Promise.reject(error)
     }
   }
 )
@@ -205,62 +198,57 @@ const postsSlice = createSlice({
       .addCase(fetchPosts.fulfilled, (state, action) => {
         console.log(action)
         state.status = 'succeeded'
-        state.posts = state.posts.concat(action.payload.data)
+        // state.posts = state.posts.concat(action.payload.data)
+        state.posts = action.payload.data
       })
       .addCase(fetchPosts.rejected, (state, action) => {
         state.status = 'failed'
-        state.error = action.error.message
+        // console.log(action.error.message)
+        state.error = "Something went wrong. Please try again later."
       })
-      .addCase(addNewPost.pending, (state, action) => {
-        state.status = 'loading'
-      })
+
       .addCase(addNewPost.fulfilled, (state, action) => {
         console.log(state)
         console.log(action)
         state.status = 'succeeded'
-        state.posts.unshift(action.payload.data)
+        state.posts.push(action.payload.data)
+        // state.posts.unshift(action.payload.data)
       })
       .addCase(addNewPost.rejected, (state, action) => {
-        console.log(action)
-        console.log(state)
+        // console.log(action)
+        // console.log(state)
         state.status = 'failed'
-        state.error = "logged out"
-        localStorage.clear()
-        window.location.reload()
+        state.error = "Adding new post failed. Please try again later"
       })
-      .addCase(editAPost.pending, (state, action) => {
+      .addCase(editAPost.pending, (state) => {
         state.status = 'loading'
       })
       .addCase(editAPost.fulfilled, (state, action) => {
-        console.log(action)
         state.status = 'succeeded'
         const {postId, desc} = action.payload
-        console.log( desc)
         const post=state.posts.find(post=>post.id===postId)
         post.desc=desc
+      })
+      .addCase(editAPost.rejected, (state) => {
         
-      })
-      .addCase(editAPost.rejected, (state, action) => {
         state.status = 'failed'
-        state.error = action.error.message
-        localStorage.clear()
-        window.location.reload()
+        state.error = `Editing post failed. Please try again later`
+     
       })
-      .addCase(deleteAPost.pending, (state, action) => {
+      .addCase(deleteAPost.pending, (state) => {
         state.status = 'loading'
       })
       .addCase(deleteAPost.fulfilled, (state, action) => {
         console.log(action)
         state.status = 'succeeded'
         state.posts=state.posts.filter(post=>post.id!==action.payload.postId)
-        
-        
       })
-      .addCase(deleteAPost.rejected, (state, action) => {
+      .addCase(deleteAPost.rejected, (state) => {
         state.status = 'failed'
-        state.error = action.error.message
-        localStorage.clear()
-        window.location.reload()
+        state.error = `Deleting post failed. Please try again later`
+      })
+      .addCase(likeAPost.pending, (state) => {
+        state.status = 'loading'
       })
       .addCase(likeAPost.fulfilled, (state, action)=>{
         state.status = 'succeeded'
@@ -268,13 +256,27 @@ const postsSlice = createSlice({
         console.log(post)
         post.likes.push(action.payload.data)
       })
+      .addCase(likeAPost.rejected, (state) => {
+        state.status = 'failed'
+        state.error = `Like a post failed. Please try again later`
+      })
+
+      .addCase(unlikeAPost.pending, (state) => {
+        state.status = 'loading'
+      })
       .addCase(unlikeAPost.fulfilled, (state, action)=>{
         console.log(action)
         const {post_id, like_id} = action.payload
         state.status = 'succeeded'
         const post=state.posts.find(post=>post.id===post_id)
-        
         post.likes=post.likes.filter(like=>like.id!==like_id)
+      })
+      .addCase(unlikeAPost.rejected, (state) => {
+        state.status = 'failed'
+        state.error = `Unlike a post failed. Please try again later`
+      })
+      .addCase(addComment.pending, (state) => {
+        state.status = 'loading'
       })
       .addCase(addComment.fulfilled, (state, action)=>{
         console.log(action.payload)
@@ -282,6 +284,10 @@ const postsSlice = createSlice({
         const post=state.posts.find(post=>post.id===action.payload.postId)
         console.log(post)
         post.comments.push(action.payload.data)
+      })
+      .addCase(addComment.rejected, (state) => {
+        state.status = 'failed'
+        state.error = `Comment a post failed. Please try again later`
       })
   }
 })
@@ -295,18 +301,18 @@ export const selectAllPosts = (state) =>{
   return state.posts.posts
 } 
 export const selectPostsbyUserId = (state, userId) =>{
-  console.log(state)
-  console.log(userId)
+  // console.log(state)
+  // console.log(userId)
   return state.posts.posts.filter(post=>post.owner_id===userId)
 } 
 export const selectPostbyId = (state, postId) => {
   return state.posts.posts.find(post => post.id === postId)
 }
 export const likedByUserId = (state, postId) => {
-  console.log(state)
+  // console.log(state)
   const post = state.posts.posts.find(p=>p.id===postId)
   const userId=state.user.currentUserId
-  console.log(userId)
+  // console.log(userId)
   return post.likes.find(l=>l.user_id === userId) ? true : false
 }
 

@@ -3,43 +3,47 @@ import { useState, useRef } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { Form, Button, Modal, Image } from "react-bootstrap"
 import { addNewPost } from "../postsSlice"
-import { currentUser } from "../../user/userSlice"
 import UploadImage from "./UploadImage"
+import { currentUserId } from "../../user/userSlice"
+import { useHref, useNavigate } from "react-router-dom"
+
 const AddPost=({closeModal})=>{
-    const user=useSelector(currentUser)
-    
-    // const fileRef = useRef(null);
+    const currUseId=useSelector(currentUserId)
+    // const userStatus = useSelector(state => state.user.status)
+
     const [preview, setPreview]=useState(null)
     const [desc, setDesc] = useState('')
     const dispatch = useDispatch()
-
+    const navigate=useNavigate();
+    const href=useHref();
     const handlePreview=(e)=>{
-        console.log(e.target.files)
+        
         e.preventDefault();
-        if(e.target.files.length===0) 
-            return;
+        if(e.target.files.length===0) return;
         setPreview(e.target.files[0])
     }
-    
     
     const handleSubmit=(e)=>{
         e.preventDefault();
         const formData=new FormData()
-        formData.append('user_id', user.id)
+        formData.append('user_id', currUseId)
         formData.append('desc', desc)
         formData.append('url', preview)
-        
+
         dispatch(addNewPost(formData))
+
         e.target.reset();
         setPreview(null);
         closeModal();
 
+        if(href!=="instagram-copycat-v2")
+            navigate("instagram-copycat-v2")
+        
     }
   
     if(preview===null){
         return (
             <UploadImage handlePreview={handlePreview}/>
-        
         )
     }
     return (

@@ -1,16 +1,21 @@
-import { Image, Nav } from "react-bootstrap"
+import { Image } from "react-bootstrap"
+import { Circle } from "react-bootstrap-icons"
 const AvatarPreview = ({preview, initial}) => {
    console.log(preview)
     return (
         <>
         {preview ?
-            <Nav.Item>
-                <Image src={preview} alt="avatar" className="avator round_avator" />
-            </Nav.Item>
+            <div>
+                <Image src={preview} alt="avatar" className="thumbsize_lg round_avator" />
+            </div>
             : 
-            <Nav.Item className="round_avator empty_avator">
-                {initial}
-            </Nav.Item>
+           
+            <div className="thumbsize_lg">
+                <div ><Circle style={{width: "100%", height: "100%"}} /></div>
+                <div className="initialStyle_lg">{initial.toUpperCase()}</div>
+            </div>
+
+
         }
        </>
         
