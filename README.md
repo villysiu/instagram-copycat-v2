@@ -36,7 +36,7 @@ to install the gems 💎
 5. Proceed to localhost:3000 in your browser.
 
 ### React Frontend
-The React frontend has been deployed to GitHub. After the API is started up in localhost:3000, visit [https://villysiu.github.io/instagram-copycat-v2/](https://villysiu.github.io/instagram-copycat-v2/) to see the site in action.
+<!-- The React frontend has been deployed to GitHub. After the API is started up in localhost:3000, visit [https://villysiu.github.io/instagram-copycat-v2/](https://villysiu.github.io/instagram-copycat-v2/) to see the site in action. -->
 
 Or if preferred, you can start up the frontend locally:
 1. Open your terminal and type 

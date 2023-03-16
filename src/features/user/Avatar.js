@@ -8,16 +8,13 @@ import { Circle } from "react-bootstrap-icons"
 const Avatar=({userId, circleSize, initialStyle})=>{
     const usersStatus = useSelector(state=>state.users.status)
     const user= useSelector(state=>selectUserbyId(state, userId))
-   
+   console.log(user.avatar)
     if(!user && usersStatus==="loading")
         return <Spinner />
-    
-    
-    
     return(
         <>
             {user.avatar ?
-                <Image className={`round_avator ${circleSize}`} src={`http://localhost:3000/${user.avatar}`} /> 
+                <Image className={`round_avator ${circleSize}`} src={`http://localhost:3000${user.avatar}`} /> 
                 
             :
 

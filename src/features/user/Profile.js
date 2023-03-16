@@ -12,14 +12,12 @@ const Profile = () => {
   
     const user=useSelector(state=>selectUserbyId(state, Number(userId)))
     const usersStatus = useSelector(state=>state.users.status)
-console.log(user)
-console.log(usersStatus)
+
     if(!user){
         if(usersStatus==="loading" || usersStatus==="idle")
             return <Spinner />
     
         else if(usersStatus==="succeeded"){
-            console.log("no user and secceed")
             return <Navigate to="/instagram-copycat-v2" replace={true} />
         }
     }  
