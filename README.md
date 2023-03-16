@@ -9,7 +9,7 @@ ReactJS, Ruby on Rails, JavaScript, HTML and CSS.
 * Maintained states in Redux stores and dispatched actions to update state using React Redux.
 * Used createAsyncThunk with async/await to communicate with the backend asynchronously. 
 * Handled URL and state with React Router Dom to allow navigating without refreshing the page.
-* Applied Rails Devise gem with devise-jwt to authenticate users on signup, login, and logout.
+* Applied Rails Devise gem with devise-jwt to aut . .henticate users on signup, login, and logout.
 * Implemented RESTful APIs with Ruby on Rails and interacted with APIs using AJAX and JSON
 * Built responsive UI elements with React Bootstrap, media queries and CSS to enhance user experience in all devices and screen sizes.
 * Applied optimization to reduce load time and avoid re-rendering.
@@ -17,9 +17,11 @@ ReactJS, Ruby on Rails, JavaScript, HTML and CSS.
 
 
 ## Getting Started
-Frontend: [https://github.com/villysiu/instagram-copycat-v2/tree/master](https://github.com/villysiu/ig-copycat-v2-api)
-APi: [https://github.com/villysiu/ig-copycat-v2-api]
+<!-- Frontend: https://github.com/villysiu/instagram-copycat-v2/tree/master
 
+API: https://github.com/villysiu/ig-copycat-v2-api -->
+
+### API
 To start up the API locally:
 
 1. Open your terminal and type 
@@ -33,9 +35,10 @@ to install the gems 💎
 4. Run ``` rails s ```
 5. Proceed to localhost:3000 in your browser.
 
+### React Frontend
 The React frontend has been deployed to GitHub. After the API is started up in localhost:3000, visit [https://villysiu.github.io/instagram-copycat-v2/](https://villysiu.github.io/instagram-copycat-v2/) to see the site in action.
 
-Or you can start up the frontend locally:
+Or if preferred, you can start up the frontend locally:
 1. Open your terminal and type 
 ```
 git clone https://github.com/villysiu/instagram-copycat-v2/tree/master
@@ -43,13 +46,12 @@ git clone https://github.com/villysiu/instagram-copycat-v2/tree/master
 2. cd into the new folder and type 
 ``` npm install ```
 to install the required dependencies.
-
 3.  Run the React application by typing 
 ``` npm start ```
 
 ## YouTube
 <!-- Check it out on [YouTUbe](https://youtu.be/) -->
-
+Coming soon.
  
 
 Have feedback, email me at [villysiu@gmail.com](villysiu@gmail.com)
