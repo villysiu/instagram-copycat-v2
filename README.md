@@ -38,7 +38,7 @@ to install the gems 💎
 ### React Frontend
 <!-- The React frontend has been deployed to GitHub. After the API is started up in localhost:3000, visit [https://villysiu.github.io/instagram-copycat-v2/](https://villysiu.github.io/instagram-copycat-v2/) to see the site in action. -->
 
-Or if preferred, you can start up the frontend locally:
+To start up the frontend locally:
 1. Open your terminal and type 
 ```
 git clone https://github.com/villysiu/instagram-copycat-v2/tree/master
