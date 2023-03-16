@@ -1,70 +1,57 @@
-# Getting Started with Create React App
+# Instagram Copycat
+An independently developed simplified photo sharing single page application inspired by Instagram.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+<!-- <img src="https://villysiu.github.io/zoo-logic-v3/static/media/ZL_gameflow.a3798e2f4513666a7a67.gif" width="200"> -->
 
-## Available Scripts
+## Tech Stack
+ReactJS, Ruby on Rails, JavaScript, HTML and CSS.
 
-In the project directory, you can run:
+* Maintained states in Redux stores and dispatched actions to update state using React Redux.
+* Used createAsyncThunk with async/await to communicate with the backend asynchronously. 
+* Handled URL and state with React Router Dom to allow navigating without refreshing the page.
+* Applied Rails Devise gem with devise-jwt to authenticate users on signup, login, and logout.
+* Implemented RESTful APIs with Ruby on Rails and interacted with APIs using AJAX and JSON
+* Built responsive UI elements with React Bootstrap, media queries and CSS to enhance user experience in all devices and screen sizes.
+* Applied optimization to reduce load time and avoid re-rendering.
+* Handled cross browser compatibility with React’s code reusability
 
-### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Getting Started
+Frontend: [https://github.com/villysiu/instagram-copycat-v2/tree/master](https://github.com/villysiu/ig-copycat-v2-api)
+APi: [https://github.com/villysiu/ig-copycat-v2-api]
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+To start up the API locally:
 
-### `npm test`
+1. Open your terminal and type 
+```
+git clone https://github.com/villysiu/ig-copycat-v2-api
+```
+2. cd into the new folder and type 
+``` bundle install ``` 
+to install the gems 💎
+3. Run ``` rails db:migrate ``` to setup the database.
+4. Run ``` rails s ```
+5. Proceed to localhost:3000 in your browser.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+The React frontend has been deployed to GitHub. After the API is started up in localhost:3000, visit [https://villysiu.github.io/instagram-copycat-v2/](https://villysiu.github.io/instagram-copycat-v2/) to see the site in action.
 
-### `npm run build`
+Or you can start up the frontend locally:
+1. Open your terminal and type 
+```
+git clone https://github.com/villysiu/instagram-copycat-v2/tree/master
+``` 
+2. cd into the new folder and type 
+``` npm install ```
+to install the required dependencies.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+3.  Run the React application by typing 
+``` npm start ```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## YouTube
+<!-- Check it out on [YouTUbe](https://youtu.be/) -->
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+ 
 
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Have feedback, email me at [villysiu@gmail.com](villysiu@gmail.com)
+Check out my [GitHub Pages](https://github.com/villysiu) and 
+    [LinkedIn](https://www.linkedin.com/in/villy-siu-384b81132/).
