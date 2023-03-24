@@ -7,7 +7,6 @@ export const fetchUsers=createAsyncThunk(
 
     'users/fetchUsers',
     async () => {
-        console.log("getting all users")
         try {
             const response=await fetch(`${url}/users/`, {
                 method: "GET",
@@ -19,8 +18,7 @@ export const fetchUsers=createAsyncThunk(
             const data=await response.json()
             if(!response.ok) 
                 throw new Error(response.statusText)
-            // console.log("succeed fetching all users")
-            console.log(data)
+         
             return {
                 // status: response.status,
                 data,
@@ -49,7 +47,7 @@ const usersSlice=createSlice({
             
         })
         .addCase(fetchUsers.fulfilled, (state, action) => {
-            console.log(action)
+            
             state.status = 'succeeded'
             state.users = action.payload.data
             state.error = null

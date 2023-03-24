@@ -10,7 +10,7 @@ import { fetchCurrentUserId } from './features/user/userSlice';
 import { ScrollRestoration } from 'react-router-dom';
 import { timeoutUser } from './app/data';
 function App() {
-    console.log("in App")
+    
     const dispatch=useDispatch();
 
     const usersStatus = useSelector(state => state.users.status)

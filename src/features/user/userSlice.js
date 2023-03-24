@@ -24,7 +24,7 @@ export const fetchCurrentUserId=createAsyncThunk(
             }
         } 
         catch(error){
-            // console.log(error)
+            
             return Promise.reject("No user logged in");
         }
     }
@@ -46,7 +46,7 @@ export const loginUser=createAsyncThunk(
                 throw new Error(response.status+" "+response.statusText)
             
             const data=await response.json()
-            // console.log(data)
+
             localStorage.setItem('token', response.headers.get("Authorization"))
             
             return{
@@ -54,7 +54,7 @@ export const loginUser=createAsyncThunk(
             }
         } 
         catch(error){
-            console.log(error)
+   
             return Promise.reject(error.message)
         }
     }
@@ -90,7 +90,7 @@ export const signupUser=createAsyncThunk(
 export const logoutUser=createAsyncThunk(
     'user/logoutUser',
     async () => {
-        console.log("looooooggging out")
+
         try{
             const response=await fetch(`${url}/logout`, {
                 method: 'DELETE',
@@ -113,8 +113,7 @@ export const logoutUser=createAsyncThunk(
 export const editProfile = createAsyncThunk(
     'user/editProfile',
     async({formData})=>{
-    //     console.log("in edit profile???")
-    // console.log(formData.get("name"),)
+    
       try{
         const response=await fetch(`${url}/user`, {
             method:'PATCH',
@@ -124,7 +123,7 @@ export const editProfile = createAsyncThunk(
             body: formData
         })
         const data=await response.json()
-        // console.log(data)
+        
         if(!response.ok) 
           throw new Error(response.status+" "+response.statusText)
         
@@ -141,7 +140,7 @@ export const editProfile = createAsyncThunk(
 export const editAvatar = createAsyncThunk(
     'user/editAvatar',
     async({formData})=>{
-        console.log(formData)
+
       try{
         const response=await fetch(`${url}/avatar`, {
             method:'PATCH',
@@ -151,7 +150,7 @@ export const editAvatar = createAsyncThunk(
             body: formData
         })
         const data=await response.json()
-        console.log(data)
+        
         if(!response.ok) 
           throw new Error(response.status+" "+response.statusText)
         
@@ -174,7 +173,7 @@ export const deleteAvatar = createAsyncThunk(
             },
         })
         const data=await response.json()
-        console.log(data)
+
         if(!response.ok) 
           throw new Error(response.status+" "+response.statusText)
         
@@ -207,12 +206,12 @@ const userSlice=createSlice({
             state.status = 'loading'
         })
         .addCase(fetchCurrentUserId.fulfilled, (state, action) => {
-            // console.log(action)
+            
             state.status = 'succeeded'
             state.currentUserId = action.payload.data
         })
         .addCase(fetchCurrentUserId.rejected, (state, action) => {
-            // console.log(action)
+            
             localStorage.clear()
             state.status = 'failed'
             // state.error=action.payload
@@ -234,17 +233,16 @@ const userSlice=createSlice({
             state.status = 'loading'
         })
         .addCase(signupUser.fulfilled, (state, action) => {
-            console.log(action)
-            
+           
             state.status = 'succeeded'
             state.currentUserId = action.payload.data.id
             state.error = null
-            // state.users.push(action.payload.data)
+            
 
         })
         
         .addCase(signupUser.rejected, (state, action) => {
-            console.log(action)
+
             state.status = 'failed'
             state.error = "Email already existed"
         })
@@ -252,11 +250,11 @@ const userSlice=createSlice({
             state.status = 'loading'
         })
         .addCase(logoutUser.fulfilled, (state, action) => {
-            console.log(action)
+           
             state.status = 'succeeded'
             state.currentUserId = null
             localStorage.clear();
-            // console.log(state.posts)
+
         })
         .addCase(logoutUser.rejected, (state, action) => {
             state.status = 'failed'

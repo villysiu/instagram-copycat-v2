@@ -34,7 +34,7 @@ export const addNewPost = createAsyncThunk(
           body: formData
       })
       const data=await response.json()
-    // console.log(response)
+    
       if(!response.ok) {
         throw new Error(response.status+" "+response.statusText)
       }
@@ -42,7 +42,7 @@ export const addNewPost = createAsyncThunk(
       data,
      }
     }catch(error){
-      // console.log(error)
+      
       return Promise.reject(error)
     }
   }
@@ -60,7 +60,7 @@ export const editAPost = createAsyncThunk(
             body: formData
         })
         const data=await response.json()
-        console.log(response)
+
         if(!response.ok) {
           throw new Error(response.status+" "+response.statusText)
         }  
@@ -196,7 +196,7 @@ const postsSlice = createSlice({
         state.status = 'loading'
       })
       .addCase(fetchPosts.fulfilled, (state, action) => {
-        console.log(action)
+       
         state.status = 'succeeded'
         // state.posts = state.posts.concat(action.payload.data)
         state.posts = action.payload.data
@@ -208,15 +208,13 @@ const postsSlice = createSlice({
       })
 
       .addCase(addNewPost.fulfilled, (state, action) => {
-        console.log(state)
-        console.log(action)
+
         state.status = 'succeeded'
         // state.posts.push(action.payload.data)
         state.posts.unshift(action.payload.data)
       })
       .addCase(addNewPost.rejected, (state, action) => {
-        // console.log(action)
-        // console.log(state)
+
         state.status = 'failed'
         state.error = "Adding new post failed. Please try again later"
       })
@@ -239,7 +237,7 @@ const postsSlice = createSlice({
         state.status = 'loading'
       })
       .addCase(deleteAPost.fulfilled, (state, action) => {
-        console.log(action)
+        
         state.status = 'succeeded'
         state.posts=state.posts.filter(post=>post.id!==action.payload.postId)
       })
@@ -253,7 +251,7 @@ const postsSlice = createSlice({
       .addCase(likeAPost.fulfilled, (state, action)=>{
         state.status = 'succeeded'
         const post=state.posts.find(post=>post.id===action.payload.post_id)
-        console.log(post)
+ 
         post.likes.push(action.payload.data)
       })
       .addCase(likeAPost.rejected, (state) => {
@@ -265,7 +263,7 @@ const postsSlice = createSlice({
         state.status = 'loading'
       })
       .addCase(unlikeAPost.fulfilled, (state, action)=>{
-        console.log(action)
+        
         const {post_id, like_id} = action.payload
         state.status = 'succeeded'
         const post=state.posts.find(post=>post.id===post_id)
@@ -279,10 +277,10 @@ const postsSlice = createSlice({
         state.status = 'loading'
       })
       .addCase(addComment.fulfilled, (state, action)=>{
-        console.log(action.payload)
+
         state.status = 'succeeded'
         const post=state.posts.find(post=>post.id===action.payload.postId)
-        console.log(post)
+       
         post.comments.push(action.payload.data)
       })
       .addCase(addComment.rejected, (state) => {
@@ -297,22 +295,22 @@ export const { postAdded, postsFetched } = postsSlice.actions
 
 export default postsSlice.reducer
 export const selectAllPosts = (state) =>{
-  // console.log(state)
+ 
   return state.posts.posts
 } 
 export const selectPostsbyUserId = (state, userId) =>{
-  // console.log(state)
-  // console.log(userId)
+ 
+ 
   return state.posts.posts.filter(post=>post.owner_id===userId)
 } 
 export const selectPostbyId = (state, postId) => {
   return state.posts.posts.find(post => post.id === postId)
 }
 export const likedByUserId = (state, postId) => {
-  // console.log(state)
+ 
   const post = state.posts.posts.find(p=>p.id===postId)
   const userId=state.user.currentUserId
-  // console.log(userId)
+ 
   return post.likes.find(l=>l.user_id === userId) ? true : false
 }
 

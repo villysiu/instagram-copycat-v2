@@ -4,7 +4,7 @@ const PostTime=({postTime})=>{
     
     const helper=(secs)=>{
        
-console.log(secs)
+
         if(secs >= 604800){
             let temp=Math.round(secs/604800)
             return temp===1 ? 1 + " week ago" : temp + " weeks ago"

@@ -9,9 +9,7 @@ import AddComment from "./AddComment"
 
  
 const Post = ({ post, handleClick }) => {
-    console.log("in Post "+post.id)
-    
-    // console.log(href)
+
     return (
         
             <div className="ccard">

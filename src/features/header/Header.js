@@ -4,7 +4,6 @@ import Home from './Home';
 import PersonActions from './PersonActions'
 
 const Header = () =>{
-  console.log("in Header")
 
     return(
         <div className="header" >

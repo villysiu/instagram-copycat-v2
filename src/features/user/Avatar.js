@@ -8,7 +8,7 @@ import { Circle } from "react-bootstrap-icons"
 const Avatar=({userId, circleSize, initialStyle})=>{
     const usersStatus = useSelector(state=>state.users.status)
     const user= useSelector(state=>selectUserbyId(state, userId))
-   console.log(user.avatar)
+   
     if(!user && usersStatus==="loading")
         return <Spinner />
     return(
@@ -27,6 +27,5 @@ const Avatar=({userId, circleSize, initialStyle})=>{
             
         </>
     )
-            // },[user_id])
 }
 export default Avatar
