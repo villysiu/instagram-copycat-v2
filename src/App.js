@@ -8,6 +8,7 @@ import { fetchUsers } from './features/user/usersSlice';
 import { fetchPosts } from './features/posts/postsSlice';
 import { fetchCurrentUserId } from './features/user/userSlice';
 import { ScrollRestoration } from 'react-router-dom';
+import { timeoutUser } from './app/data';
 function App() {
     console.log("in App")
     const dispatch=useDispatch();
@@ -21,9 +22,14 @@ function App() {
       if(usersStatus==="idle")
           dispatch(fetchUsers())
 
-      if(userStatus === 'idle' )
+      if(userStatus === 'idle' ){
         dispatch(fetchCurrentUserId())
-      
+        .unwrap()
+        .then(() => {timeoutUser(Date.now(), dispatch) })
+        .catch((error) => {
+          console.log(error)
+        })
+      }
       if(postStatus === 'idle')
         dispatch(fetchPosts()) 
   },[dispatch, usersStatus, userStatus, postStatus])

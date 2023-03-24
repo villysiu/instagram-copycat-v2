@@ -36,7 +36,7 @@ const UserPostList = ( { userId }) => {
                 <UserPostCarousal posts={posts} idx={index} handleClick={()=>setShow(false)}/>
             </Modal>
 
-            <Container fluid className="list-768">
+            <Container fluid className="list-768 mt-3">
                 <Row>
                     { posts.map((post, idx)=> {
                         return (

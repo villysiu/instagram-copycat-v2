@@ -1,9 +1,7 @@
-import { useEffect, useMemo } from 'react';
-import { useDispatch, useSelector } from 'react-redux'
 import Post from './post/Post'
-import { fetchPosts } from './postsSlice';
+import { useSelector } from 'react-redux';
 import { selectAllPosts } from './postsSlice'
-
+import AlertMsg from '../error/AlertMsg';
 const PostList = () => {
     console.log("in PostList")
     const posts = useSelector(selectAllPosts)
@@ -14,7 +12,8 @@ console.log(postsStatus)
             return <div>Loading</div>
         }
         else if(postsStatus === 'succeeded' ){
-            return <div>"No post yet. Add the first one here." </div>
+            return <AlertMsg msg="No post yet. Login or Signup to add the first post." />
+            // <Alert variant="danger">No post yet. Login or Signup to add the first post. </Alert>
         }
     }
     else {

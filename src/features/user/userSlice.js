@@ -14,20 +14,18 @@ export const fetchCurrentUserId=createAsyncThunk(
                 }
             })
             const data=await response.json()
-            console.log(data)
             
-            if(!response.ok) 
-                throw new Error(response.statusText)
-            if(data)
-                timeoutUser(Date.now())
-            
+            if(!response.ok) {
+                throw new Error(response.status+" "+response.statusText)
+            }
+                
             return {
                 data,
             }
         } 
         catch(error){
-            return Promise.reject(error);
-            // return Promise.reject(error.message ? error.message : "no data")
+            // console.log(error)
+            return Promise.reject("No user logged in");
         }
     }
 )
@@ -45,21 +43,19 @@ export const loginUser=createAsyncThunk(
             })
             
             if(!response.ok) 
-                throw new Error(response.statusText)
+                throw new Error(response.status+" "+response.statusText)
             
             const data=await response.json()
-            console.log(data)
+            // console.log(data)
             localStorage.setItem('token', response.headers.get("Authorization"))
-            localStorage.setItem("expired", Date.now()+(1000*60*30))
-            timeoutUser(Date.now());
+            
             return{
-                // status: response.status,
-               
                 data
             }
         } 
         catch(error){
-            return Promise.reject(error.message ? error.message : "no data")
+            console.log(error)
+            return Promise.reject(error.message)
         }
     }
 
@@ -77,16 +73,15 @@ export const signupUser=createAsyncThunk(
                 body: JSON.stringify(userInfo)
             })
             const data=await response.json()
-            if(!response.ok) throw new Error(response.statusText)
+            if(!response.ok) 
+                throw new Error(response.status+" "+response.statusText)
+           
             localStorage.setItem('token', response.headers.get("Authorization"))
-            localStorage.setItem("expired", Date.now()+(1000*60*30))
-            timeoutUser(Date.now());
             return {
-                // status: response.status,
                 data
             }
         } catch(error){
-            return Promise.reject(error.message ? error.message : "no data")
+            return Promise.reject(error.message)
         }
     }
 
@@ -105,15 +100,13 @@ export const logoutUser=createAsyncThunk(
                 }
             })
             if(!response.ok) 
-                throw new Error(response.statusText)
+                throw new Error(response.status+" "+response.statusText)
             
-            
-            return {
+            return null
                 
-            }
             
         } catch(error){
-            return Promise.reject(error.message ? error.message : "no data")
+            return Promise.reject(error.message)
         }
     }
 )
@@ -133,7 +126,7 @@ export const editProfile = createAsyncThunk(
         const data=await response.json()
         // console.log(data)
         if(!response.ok) 
-          throw new Error(response.statusText)
+          throw new Error(response.status+" "+response.statusText)
         
         return {
             id: data,
@@ -141,7 +134,7 @@ export const editProfile = createAsyncThunk(
             bio: formData.get("bio"),
         }
       } catch (error) {
-          return Promise.reject(error.message ? error.message : "no data")
+          return Promise.reject(error.message)
       }
     }
 )
@@ -160,20 +153,19 @@ export const editAvatar = createAsyncThunk(
         const data=await response.json()
         console.log(data)
         if(!response.ok) 
-          throw new Error(response.statusText)
+          throw new Error(response.status+" "+response.statusText)
         
         return {
             data
         }
       } catch (error) {
-          return Promise.reject(error.message ? error.message : "no data")
+          return Promise.reject(error.message)
       }
     }
 )
 export const deleteAvatar = createAsyncThunk(
     'user/deleteAvatar',
     async()=>{
-        console.log("are u here in remove??")
       try{
         const response=await fetch(`${url}/avatar`, {
             method:'delete',
@@ -184,13 +176,13 @@ export const deleteAvatar = createAsyncThunk(
         const data=await response.json()
         console.log(data)
         if(!response.ok) 
-          throw new Error(response.statusText)
+          throw new Error(response.status+" "+response.statusText)
         
         return {
             data
         }
       } catch (error) {
-          return Promise.reject(error.message ? error.message : "no data")
+          return Promise.reject(error.message)
       }
     }
 )
@@ -204,7 +196,10 @@ const userSlice=createSlice({
         error: null,    
     },
     reducers: {
-  
+        logout: (state) => {
+            state.currentUserId = null
+            localStorage.clear()
+          },
     },
     extraReducers(builder) {
       builder
@@ -217,8 +212,10 @@ const userSlice=createSlice({
             state.currentUserId = action.payload.data
         })
         .addCase(fetchCurrentUserId.rejected, (state, action) => {
+            // console.log(action)
             localStorage.clear()
-            state.status = 'succeeded'
+            state.status = 'failed'
+            // state.error=action.payload
            
         })
         .addCase(loginUser.pending, (state, action) => {
@@ -301,22 +298,10 @@ const userSlice=createSlice({
    
     }
 })
+export const { logout } = userSlice.actions
 export default userSlice.reducer
 
 export const currentUserId = state => {
     return state.user.currentUserId
 }
 
-export const timeoutUser = (now) => {
-    console.log("in timeoutUser")
-    const exp=localStorage.getItem("expired")
-    const due = exp-now
-
-    const s=setTimeout(()=>{
-        console.log("kick user out")
-        localStorage.clear()
-        window.location.reload();
-        }, due )
-
-    return ()=>clearTimeout(s)
-}

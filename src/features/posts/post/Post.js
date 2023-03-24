@@ -15,7 +15,7 @@ const Post = ({ post, handleClick }) => {
     return (
         
             <div className="ccard">
-                <PostHeader ownerId={post.owner_id} postId={post.id} handleClick={handleClick}/>
+                <PostHeader postTime={post.created_at} ownerId={post.owner_id} postId={post.id} handleClick={handleClick}/>
               
                 <PostImg postId={post.id} postUrl={post.url} />
                 

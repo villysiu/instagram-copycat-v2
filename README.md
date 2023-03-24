@@ -1,4 +1,4 @@
-# Instagram Copycat
+# Villy's Instagram
 An independently developed simplified photo sharing single page application inspired by Instagram.
 
 <!-- <img src="https://villysiu.github.io/zoo-logic-v3/static/media/ZL_gameflow.a3798e2f4513666a7a67.gif" width="200"> -->
@@ -9,8 +9,8 @@ ReactJS, Ruby on Rails, JavaScript, HTML and CSS.
 * Maintained states in Redux stores and dispatched actions to update state using React Redux.
 * Used createAsyncThunk with async/await to communicate with the backend asynchronously. 
 * Handled URL and state with React Router Dom to allow navigating without refreshing the page.
-* Applied Rails Devise gem with devise-jwt to aut . .henticate users on signup, login, and logout.
-* Implemented RESTful APIs with Ruby on Rails and interacted with APIs using AJAX and JSON
+* Applied Rails Devise gem with devise-jwt to authenticate users on signup, login, and logout.
+* Implemented RESTful APIs with Ruby on Rails and communicated with APIs using AJAX and JSON
 * Built responsive UI elements with React Bootstrap, media queries and CSS to enhance user experience in all devices and screen sizes.
 * Applied optimization to reduce load time and avoid re-rendering.
 * Handled cross browser compatibility with React’s code reusability

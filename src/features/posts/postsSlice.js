@@ -211,8 +211,8 @@ const postsSlice = createSlice({
         console.log(state)
         console.log(action)
         state.status = 'succeeded'
-        state.posts.push(action.payload.data)
-        // state.posts.unshift(action.payload.data)
+        // state.posts.push(action.payload.data)
+        state.posts.unshift(action.payload.data)
       })
       .addCase(addNewPost.rejected, (state, action) => {
         // console.log(action)

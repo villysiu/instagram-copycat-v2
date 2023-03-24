@@ -284,12 +284,13 @@ span.carousel-control-next-icon, span.carousel-control-prev-icon {
 }
 .header_buttons {
   display: flex;
+  align-items: center;
 }
 .circle_button {
   font-size: calc(1.3rem + .6vw);
   color:#000;
-  margin-left: 2px;
-  margin-right: 2px;
+  margin-left: 8px;
+  margin-right: 8px;
 }
 .circle_button:hover {
   transform: scale(1.2);

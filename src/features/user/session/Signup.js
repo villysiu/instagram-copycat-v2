@@ -7,6 +7,8 @@ import { signupUser } from '../userSlice';
 import EmailInputBox from './EmailInputBox';
 import UserNameInputBox from './UserNameInputBox';
 import PasswordInputBox from './PasswordInputBox';
+import { duration } from '../../../app/data';
+import { timeoutUser } from '../../../app/data';
 const Signup=({toggleLogin})=>{
     console.log("signup form")
     const dispatch=useDispatch()
@@ -17,6 +19,15 @@ const Signup=({toggleLogin})=>{
        
         const formData=new FormData(formRef.current)
         dispatch(signupUser({user: Object.fromEntries(formData)}))
+            .unwrap()
+            .then(() => {
+                const now=Date.now()
+                localStorage.setItem("expired", now+(1000*60*duration))
+                timeoutUser(now, dispatch)
+            })
+            .catch((error) => {
+                console.log(error)
+              })
         e.target.reset() 
     }
     return(

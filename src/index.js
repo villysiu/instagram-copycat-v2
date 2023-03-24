@@ -10,7 +10,7 @@ import { createBrowserRouter, RouterProvider, Navigate} from 'react-router-dom';
 import PostList from './features/posts/PostList';
 import Profile from './features/user/Profile';
 import PostFetchPage from './features/posts/post/PostFetchPage';
-
+import About from './features/header/About';
 const router = createBrowserRouter([
   {
       path: "/instagram-copycat-v2",
@@ -29,6 +29,11 @@ const router = createBrowserRouter([
           path: "/instagram-copycat-v2/posts/:postId",
           element: <PostFetchPage />
         },
+        {
+          path: "/instagram-copycat-v2/about",
+          element: <About />
+        },
+
       ],
       
     },

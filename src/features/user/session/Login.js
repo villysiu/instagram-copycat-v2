@@ -6,6 +6,9 @@ import { Modal } from 'react-bootstrap';
 import { loginUser } from '../userSlice';
 import EmailInputBox from './EmailInputBox';
 import PasswordInputBox from './PasswordInputBox';
+import { duration } from '../../../app/data';
+import { timeoutUser } from '../../../app/data';
+
 const Login=({toggleLogin})=>{
   const formRef=useRef()
   const dispatch=useDispatch();
@@ -14,6 +17,16 @@ const Login=({toggleLogin})=>{
       e.preventDefault()
       const formData=new FormData(formRef.current)
       dispatch(loginUser({user: Object.fromEntries(formData)}))
+      .unwrap()
+      .then(() => {
+        const now=Date.now()
+        localStorage.setItem("expired", now+(1000*60*duration))
+        timeoutUser(now, dispatch)
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+    
       e.target.reset() 
   }
     return(
