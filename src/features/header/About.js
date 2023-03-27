@@ -1,9 +1,12 @@
+import preview_clip from "../../images/preview_clip.gif"
 const About = () => {
     return (
         <div style={{textAlign: "left", marginLeft: "1rem"}}>
         <div className="mb-4">
             Villy's Instagram is a single page application inspired by Instagram. The frontend is developed with ReactJS, HTML, and CSS.
-            The backend API is created with Rails on Ruby. </div>
+            The backend API is created with Rails on Ruby. 
+        </div>
+        <img src={preview_clip} width="200px" />
 
         <div className="mb-4">
             <h4>Tech Stack: </h4>
