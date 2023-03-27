@@ -50,8 +50,8 @@ to install the required dependencies.
 ``` npm start ```
 
 ## YouTube
-<!-- Check it out on [YouTUbe](https://youtu.be/) -->
-Coming soon.
+Check it out on [https://youtu.be/XIzEtyo8b0Y](https://youtu.be/XIzEtyo8b0Y)
+
  
 
 Have feedback, email me at [villysiu@gmail.com](villysiu@gmail.com)
