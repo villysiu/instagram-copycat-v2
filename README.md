@@ -2,7 +2,7 @@
 An independently developed simplified photo sharing single page application inspired by Instagram.
 
 <!-- <img src="https://villysiu.github.io/zoo-logic-v3/static/media/ZL_gameflow.a3798e2f4513666a7a67.gif" width="200"> -->
-<img src="/instagram-copycat-v2/static/media/preview_clip.b3d3d75793b174f7f8f1.gif" width="200">
+<img src="https://villysiu.github.io/instagram-copycat-v2/static/media/preview_clip.b3d3d75793b174f7f8f1.gif" width="200">
 
 ## Tech Stack
 ReactJS, Ruby on Rails, JavaScript, HTML and CSS.
