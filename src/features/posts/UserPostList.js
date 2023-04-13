@@ -41,7 +41,7 @@ const UserPostList = ( { userId }) => {
                     { posts.map((post, idx)=> {
                         return (
                             <Col key={post.id} xs={4} className="square_256" onClick={()=>handleClick(post, idx)}>
-                                <Image className="square_img_256" src={`http://localhost:3000/${post.url}`} />
+                                <Image className="square_img_256" src={post.url} />
                             </Col>)
                     })}
                 </Row>

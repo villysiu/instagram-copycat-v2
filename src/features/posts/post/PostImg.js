@@ -4,7 +4,7 @@ import { Link } from "react-router-dom"
 
 const PostImg = ({postId, postUrl}) =>{
     const href=useHref()
-    const ImgUrl=()=> <Image className="card_img mb-1" variant="top" src={`http://localhost:3000/${postUrl}`} />
+    const ImgUrl=()=> <Image className="card_img mb-1" variant="top" src={`${postUrl}`} />
     return(
         <>
         {href===`/instagram-copycat-v2/posts/${postId}` ?
