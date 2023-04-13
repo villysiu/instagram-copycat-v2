@@ -1,5 +1,5 @@
 import { logout } from "../features/user/userSlice"
-export const duration=30
+export const duration=15
 export const timeoutUser = (now, dispatch) => {
     console.log("in timeoutUser")
     const exp=localStorage.getItem("expired")

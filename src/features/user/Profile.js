@@ -7,7 +7,7 @@ import { selectUserbyId } from "./usersSlice"
 import { Spinner } from "react-bootstrap"
 
 const Profile = () => {
-    console.log("in profile")
+    // console.log("in profile")
     const { userId } = useParams();
   
     const user=useSelector(state=>selectUserbyId(state, Number(userId)))

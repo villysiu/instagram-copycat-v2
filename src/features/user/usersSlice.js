@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { editProfile, editAvatar, deleteAvatar } from "./userSlice";
+import { editProfile, editAvatar, deleteAvatar, signupUser } from "./userSlice";
 
 const url="http://localhost:3000"
 
@@ -74,13 +74,16 @@ const usersSlice=createSlice({
             user.avatar=null
             
         })
+        .addCase(signupUser.fulfilled, (state, action) => {
+            state.users=[...state.users, action.payload.data]
+        })
     }})
     export default usersSlice.reducer
     export const { addUser, updateProfile } = usersSlice.actions;
 
     export const selectUsers = (state) => state.users.users
     export const selectUserbyId = (state, userId) => {
-        
+        console.log(state)
         return state.users.users.find(u => u.id === userId) || null
     }
     

@@ -1,5 +1,6 @@
 import preview_clip from "../../images/preview_clip.gif"
 const About = () => {
+    console.log("in about")
     return (
         <div style={{textAlign: "left", marginLeft: "1rem"}}>
         <div className="mb-4">
