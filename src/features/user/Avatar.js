@@ -14,7 +14,7 @@ const Avatar=({userId, circleSize, initialStyle})=>{
     return(
         <>
             {user.avatar ?
-                <Image className={`round_avator ${circleSize}`} src={`http://localhost:3000${user.avatar}`} /> 
+                <Image className={`round_avator ${circleSize}`} src={user.avatar} /> 
                 
             :
 
