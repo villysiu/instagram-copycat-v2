@@ -12,19 +12,19 @@ export const fetchUsers=createAsyncThunk(
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
-                    
                 }
             })
             const data=await response.json()
-            if(!response.ok) 
+            if(!response.ok) {
                 throw new Error(response.statusText)
-         
+            }
             return {
                 // status: response.status,
                 data,
             }
         } 
         catch(error){
+            
             return Promise.reject(error.message ? error.message : "no data")
         }
     }
@@ -54,7 +54,7 @@ const usersSlice=createSlice({
         })
         .addCase(fetchUsers.rejected, (state, action) => {
             state.status = 'failed'
-            state.error = action.error.message
+            state.error = "Failed to fetch users. Please check if Rails API is setup locally."
         })
         
         .addCase(editProfile.fulfilled, (state, action) => {
@@ -64,7 +64,6 @@ const usersSlice=createSlice({
             user.bio=action.payload.bio
         })
         .addCase(editAvatar.fulfilled, (state, action) => {
-            console.log(state.users)
             const user=state.users.find(u => u.id === action.payload.data.id)
             user.avatar=action.payload.data.avatar
             
@@ -83,12 +82,8 @@ const usersSlice=createSlice({
 
     export const selectUsers = (state) => state.users.users
     export const selectUserbyId = (state, userId) => {
-        console.log(state)
         return state.users.users.find(u => u.id === userId) || null
     }
     
-    // export const selectCurrentUser = (state) => {
-    //     console.log(state)
-    // return state.currentUser}
     
    

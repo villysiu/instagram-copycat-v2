@@ -25,6 +25,7 @@ const AddPost=({closeModal})=>{
     
     const handleSubmit=(e)=>{
         e.preventDefault();
+        console.log(preview)
         const formData=new FormData()
         formData.append('user_id', currUseId)
         formData.append('desc', desc)

@@ -27,7 +27,7 @@ function App() {
         .unwrap()
         .then(() => {timeoutUser(Date.now(), dispatch) })
         .catch((error) => {
-          console.log(error)
+          // console.log(error)
         })
       }
       if(postStatus === 'idle')

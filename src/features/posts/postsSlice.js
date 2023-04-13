@@ -15,7 +15,6 @@ export const fetchPosts = createAsyncThunk(
         data,
        }
     } catch(error){
-
       return Promise.reject(error.message ? error.message : "no data")
     }
   }
@@ -204,7 +203,7 @@ const postsSlice = createSlice({
       .addCase(fetchPosts.rejected, (state, action) => {
         state.status = 'failed'
         // console.log(action.error.message)
-        state.error = "Something went wrong. Please try again later."
+        state.error = "Failed to fetch posts. Please check if Rails API is setup locally. "
       })
 
       .addCase(addNewPost.fulfilled, (state, action) => {

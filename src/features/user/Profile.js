@@ -5,7 +5,9 @@ import { useSelector } from "react-redux"
 
 import { selectUserbyId } from "./usersSlice"
 import { Spinner } from "react-bootstrap"
-
+import { CloseButton } from 'react-bootstrap';
+import Alert from 'react-bootstrap/Alert';
+import { useState } from 'react';
 const Profile = () => {
     // console.log("in profile")
     const { userId } = useParams();
@@ -20,6 +22,8 @@ const Profile = () => {
         else if(usersStatus==="succeeded"){
             return <Navigate to="/instagram-copycat-v2" replace={true} />
         }
+        else 
+            return <Spinner />
     }  
     return (
         <div className="list-900" >
