@@ -11,10 +11,10 @@ const EditProfileButton = ({userId}) => {
 
     const userStatus = useSelector(state => state.user.status)
     const currUserId = useSelector(currentUserId)
-    console.log( currUserId)
 
     if(!currUserId && userStatus==="loading")
         return (<Spinner />)
+        
     return(
         <>
       

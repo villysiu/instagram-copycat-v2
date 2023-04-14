@@ -1,23 +1,26 @@
-import { useState, useEffect } from "react"
-import { useSelector, useDispatch } from "react-redux"
-import { selectPostsbyUserId, fetchPosts } from "./postsSlice"
+import { useState } from "react"
+import { useSelector } from "react-redux"
+import { selectPostsbyUserId } from "./postsSlice"
 import { Container, Row, Col, Image, Modal, CloseButton} from "react-bootstrap"
-import { useParams } from "react-router-dom"
 import UserPostCarousal from "./post/UserPostCarousal"
 import {Spinner} from "react-bootstrap"
+import placeholder from "../../images/X (1).png"
+
 const UserPostList = ( { userId }) => {
     const postsStatus = useSelector(state => state.posts.status)
     const posts=useSelector(state=>selectPostsbyUserId(state, userId))
-    console.log(posts)
+    
 
     const [show, setShow]=useState(false)
     const [index, setIndex] = useState(0)
 
-    const handleClick=(p, idx)=>{
+    const handleClick=(idx)=>{
         setShow(true)
         setIndex(idx)
     }
-
+    const handleImgErr=(e)=>{
+        e.target.src = placeholder
+    }
     if(!posts && postsStatus === 'loading'){
         return <Spinner />
     }
@@ -40,8 +43,8 @@ const UserPostList = ( { userId }) => {
                 <Row>
                     { posts.map((post, idx)=> {
                         return (
-                            <Col key={post.id} xs={4} className="square_256" onClick={()=>handleClick(post, idx)}>
-                                <Image className="square_img_256" src={post.url} />
+                            <Col key={post.id} xs={4} className="square_256" onClick={()=>handleClick(idx)}>
+                                <Image className="square_img_256" src={post.url}  onError={handleImgErr} />
                             </Col>)
                     })}
                 </Row>

@@ -3,7 +3,7 @@ import { useState } from "react";
 import Post from "./Post";
 const UserPostCarousal = ({posts, idx, handleClick}) =>{
 
-  console.log(posts)
+  // console.log(posts)
   const [index, setIndex] = useState(idx);
 
   const handleSelect = (selectedIndex, e) => {

@@ -82,7 +82,6 @@ const usersSlice=createSlice({
 
     export const selectUsers = (state) => state.users.users
     export const selectUserbyId = (state, userId) => {
-        console.log(state)
         return state.users.users.find(u => u.id === userId) || null
     }
     

@@ -1,10 +1,18 @@
-import { Image } from "react-bootstrap"
 import { useHref } from "react-router-dom"
 import { Link } from "react-router-dom"
 
+import placeholder from "../../../images/X (1).png"
 const PostImg = ({postId, postUrl}) =>{
     const href=useHref()
-    const ImgUrl=()=> <Image className="card_img mb-1" variant="top" src={`${postUrl}`} />
+    const handleImgErr=(e)=>{
+        e.target.src = placeholder
+    }
+    const ImgUrl=()=>{
+        return ( 
+            <img className="card_img mb-1" src={postUrl} onError={handleImgErr} />
+        )
+    } 
+    
     return(
         <>
         {href===`/instagram-copycat-v2/posts/${postId}` ?
