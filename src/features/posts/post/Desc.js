@@ -3,7 +3,7 @@ import UserName from "../../user/UserName"
 
 const Desc = ({ownerId, desc}) => {
     const [hide, setHide]=useState(true)
-//    console.log("in Desc")
+
    return (
         <div className="mb-2" style={{textAlign: "left", fontSize: "13.6px"}}>
             
@@ -14,7 +14,7 @@ const Desc = ({ownerId, desc}) => {
                 <span className="two-rows-box" >
                     <div style={{display: "inline"}}>{desc.slice(0,100)}</div>
                     {
-                        desc.length>110 && 
+                        desc.length>100 && 
                         <>
                             &nbsp;...&nbsp;
                             <div style={{display: "inline", cursor: "pointer", color: "gray" }} 

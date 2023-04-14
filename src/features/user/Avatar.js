@@ -2,19 +2,19 @@
 import { Spinner, Image } from "react-bootstrap"
 import { useSelector } from "react-redux"
 import { selectUserbyId } from "./usersSlice"
+import { backendAPI } from "../../app/data"
 import { Circle } from "react-bootstrap-icons"
-
 
 const Avatar=({userId, circleSize, initialStyle})=>{
     const usersStatus = useSelector(state=>state.users.status)
     const user= useSelector(state=>selectUserbyId(state, userId))
-   
+
     if(!user && usersStatus==="loading")
         return <Spinner />
     return(
         <>
             {user.avatar ?
-                <Image className={`round_avator ${circleSize}`} src={user.avatar} /> 
+                <Image className={`round_avator ${circleSize}`} src={`${backendAPI}/${user.avatar}`} /> 
                 
             :
 

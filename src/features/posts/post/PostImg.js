@@ -1,6 +1,6 @@
 import { useHref } from "react-router-dom"
 import { Link } from "react-router-dom"
-
+import { backendAPI } from "../../../app/data"
 import placeholder from "../../../images/X (1).png"
 const PostImg = ({postId, postUrl}) =>{
     const href=useHref()
@@ -9,7 +9,7 @@ const PostImg = ({postId, postUrl}) =>{
     }
     const ImgUrl=()=>{
         return ( 
-            <img className="card_img mb-1" src={postUrl} onError={handleImgErr} />
+            <img className="card_img mb-1" src={`${backendAPI}/${postUrl}`} onError={handleImgErr} />
         )
     } 
     

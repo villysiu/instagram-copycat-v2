@@ -5,7 +5,7 @@ import { Container, Row, Col, Image, Modal, CloseButton} from "react-bootstrap"
 import UserPostCarousal from "./post/UserPostCarousal"
 import {Spinner} from "react-bootstrap"
 import placeholder from "../../images/X (1).png"
-
+import { backendAPI } from "../../app/data"
 const UserPostList = ( { userId }) => {
     const postsStatus = useSelector(state => state.posts.status)
     const posts=useSelector(state=>selectPostsbyUserId(state, userId))
@@ -44,7 +44,7 @@ const UserPostList = ( { userId }) => {
                     { posts.map((post, idx)=> {
                         return (
                             <Col key={post.id} xs={4} className="square_256" onClick={()=>handleClick(idx)}>
-                                <Image className="square_img_256" src={post.url}  onError={handleImgErr} />
+                                <Image className="square_img_256" src={`${backendAPI}/${post.url}`} onError={handleImgErr} />
                             </Col>)
                     })}
                 </Row>

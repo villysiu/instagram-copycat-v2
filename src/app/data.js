@@ -1,4 +1,5 @@
 import { logout } from "../features/user/userSlice"
+export const backendAPI="http://localhost:3000"
 export const duration=15
 export const timeoutUser = (now, dispatch) => {
     console.log("in timeoutUser")
