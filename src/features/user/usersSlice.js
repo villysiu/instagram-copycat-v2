@@ -1,14 +1,13 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { editProfile, editAvatar, deleteAvatar, signupUser } from "./userSlice";
-
-const url="http://localhost:3000"
+import { backendAPI } from "../../app/data";
 
 export const fetchUsers=createAsyncThunk(
 
     'users/fetchUsers',
     async () => {
         try {
-            const response=await fetch(`${url}/users/`, {
+            const response=await fetch(`${backendAPI}/users/`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",

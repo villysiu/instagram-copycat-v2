@@ -38,6 +38,7 @@ function App() {
     
       <div className="App">
           <div style={{height: "50px"}} ></div> 
+
           <Header />
           <Error />
           <Outlet />

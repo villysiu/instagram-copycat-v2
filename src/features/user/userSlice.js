@@ -1,12 +1,12 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { backendAPI } from "../../app/data";
 
-const url="http://localhost:3000"
 
 export const fetchCurrentUserId=createAsyncThunk(
     'user/fetchCurrentUserId',
     async () => {
         try {
-            const response=await fetch("http://localhost:3000/current_user", {
+            const response=await fetch(`${backendAPI}/current_user`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -14,7 +14,8 @@ export const fetchCurrentUserId=createAsyncThunk(
                 }
             })
             const data=await response.json()
-            
+            console.log(response)
+            console.log(data)
             if(!response.ok) {
                 throw new Error(response.status+" "+response.statusText)
             }
@@ -33,7 +34,7 @@ export const loginUser=createAsyncThunk(
     'user/userLogin',
     async (userInfo) =>{
         try {
-            const response=await fetch(`${url}/login`, {
+            const response=await fetch(`${backendAPI}/login`, {
                 method: "POST",
                 headers: {
                     'content-type': 'application/json',
@@ -64,7 +65,7 @@ export const signupUser=createAsyncThunk(
     'user/signupUser',
     async (userInfo) => {
         try{
-            const response=await fetch(`${url}/signup`, {
+            const response=await fetch(`${backendAPI}/signup`, {
                 method: 'POST',
                 headers: {
                     "content-type": 'application/json',
@@ -73,9 +74,10 @@ export const signupUser=createAsyncThunk(
                 body: JSON.stringify(userInfo)
             })
             const data=await response.json()
-            if(!response.ok) 
+            if(!response.ok) {
+                console.log(response)
                 throw new Error(response.status+" "+response.statusText)
-           
+           }
             localStorage.setItem('token', response.headers.get("Authorization"))
             return {
                 data
@@ -92,7 +94,7 @@ export const logoutUser=createAsyncThunk(
     async () => {
 
         try{
-            const response=await fetch(`${url}/logout`, {
+            const response=await fetch(`${backendAPI}/logout`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
@@ -115,7 +117,7 @@ export const editProfile = createAsyncThunk(
     async({formData})=>{
     
       try{
-        const response=await fetch(`${url}/user`, {
+        const response=await fetch(`${backendAPI}/user`, {
             method:'PATCH',
             headers: {
                 'Authorization': localStorage.getItem('token'),
@@ -142,7 +144,7 @@ export const editAvatar = createAsyncThunk(
     async({formData})=>{
 
       try{
-        const response=await fetch(`${url}/avatar`, {
+        const response=await fetch(`${backendAPI}/avatar`, {
             method:'PATCH',
             headers: {
                 'Authorization': localStorage.getItem('token'),
@@ -166,7 +168,7 @@ export const deleteAvatar = createAsyncThunk(
     'user/deleteAvatar',
     async()=>{
       try{
-        const response=await fetch(`${url}/avatar`, {
+        const response=await fetch(`${backendAPI}/avatar`, {
             method:'delete',
             headers: {
                 'Authorization': localStorage.getItem('token'),
@@ -244,6 +246,7 @@ const userSlice=createSlice({
         .addCase(signupUser.rejected, (state, action) => {
 
             state.status = 'failed'
+            console.log(action)
             state.error = "Email already existed"
         })
         .addCase(logoutUser.pending, (state, action) => {

@@ -1,16 +1,18 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import { backendAPI } from '../../app/data'
 
-const url="http://localhost:3000"
 
 export const fetchPosts = createAsyncThunk(
   'posts/fetchPosts',
   async () => {
     try {
-      const response = await fetch('http://localhost:3000/photos.json')
+      const response = await fetch(`${backendAPI}/photos.json`)
       const data=await response.json()
 
+console.log(data)
       if(!response.ok) 
         throw new Error(response.statusText)
+
       return {
         data,
        }
@@ -23,7 +25,7 @@ export const addNewPost = createAsyncThunk(
   'posts/addNewPost',
   async (formData)=>{
     try {
-      const response=await fetch(`${url}/photos`, {
+      const response=await fetch(`${backendAPI}/photos`, {
           method: 'POST',
           headers: {
             // "Content-Type": "application/json",
@@ -32,8 +34,9 @@ export const addNewPost = createAsyncThunk(
           },
           body: formData
       })
+      console.log(response)
       const data=await response.json()
-    
+      console.log(data)
       if(!response.ok) {
         throw new Error(response.status+" "+response.statusText)
       }
@@ -41,7 +44,8 @@ export const addNewPost = createAsyncThunk(
       data,
      }
     }catch(error){
-      
+
+      console.log(error.json())
       return Promise.reject(error)
     }
   }
@@ -51,7 +55,7 @@ export const editAPost = createAsyncThunk(
     async(postData)=>{
       const { postId, formData } = postData
       try{
-        const response=await fetch(`${url}/photos/${postId}`, {
+        const response=await fetch(`${backendAPI}/photos/${postId}`, {
             method:'PATCH',
             headers: {
                 'Authorization': localStorage.getItem('token'),
@@ -77,7 +81,7 @@ export const deleteAPost = createAsyncThunk(
   'posts/deleteAPost',
   async(postId)=>{
     try {
-      const response=await fetch(`${url}/photos/${postId}`, {
+      const response=await fetch(`${backendAPI}/photos/${postId}`, {
         method: 'delete',
         headers: {
             // 'Content-Type': 'application/json',
@@ -101,7 +105,7 @@ export const likeAPost = createAsyncThunk(
     console.log("like a post "+ post_id)
     try {
 
-      const response=await fetch(`${url}/photos/${post_id}/likes`, {
+      const response=await fetch(`${backendAPI}/photos/${post_id}/likes`, {
         method: 'POST',
         headers: {
           'Content-type': "application/json",
@@ -127,7 +131,7 @@ export const unlikeAPost = createAsyncThunk(
   'posts/unlikeAPost',
   async ({post_id}) =>{
     try {
-        const response=await fetch(`${url}/photos/${post_id}/likes`, {
+        const response=await fetch(`${backendAPI}/photos/${post_id}/likes`, {
         method: "delete",
         headers: {
             'Content-type': "application/json",
@@ -156,7 +160,7 @@ export const addComment = createAsyncThunk(
     console.log(formData.get("comment"),)
     try {
       
-      const response=await fetch(`${url}/photos/${postId}/comments`, {
+      const response=await fetch(`${backendAPI}/photos/${postId}/comments`, {
         method: 'POST',
         headers: {
           // 'Content-type': "application/json",
@@ -294,7 +298,7 @@ export const { postAdded, postsFetched } = postsSlice.actions
 
 export default postsSlice.reducer
 export const selectAllPosts = (state) =>{
- 
+ console.log(state)
   return state.posts.posts
 } 
 export const selectPostsbyUserId = (state, userId) =>{
