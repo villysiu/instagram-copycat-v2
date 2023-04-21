@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react"
+import { useState } from "react"
 import UserName from "../../user/UserName"
 
 const Desc = ({ownerId, desc}) => {
@@ -7,34 +7,32 @@ const Desc = ({ownerId, desc}) => {
    return (
         <div className="mb-2" style={{textAlign: "left", fontSize: "13.6px"}}>
             
-            <UserName userId={ownerId} />
+            <span  style={{display: "inline"}} ><UserName userId={ownerId} /></span>
             &nbsp;
             {hide? 
-                
-                <span className="two-rows-box" >
-                    <div style={{display: "inline"}}>{desc.slice(0,100)}</div>
+                <>
+                    <span style={{display: "inline"}} >{desc.slice(0,100)}</span>
                     {
                         desc.length>100 && 
                         <>
                             &nbsp;...&nbsp;
-                            <div style={{display: "inline", cursor: "pointer", color: "gray" }} 
+                            <span style={{display: "inline", cursor: "pointer", color: "gray" }} 
                                 onClick={()=>setHide(false)} > 
                                 more
-                            </div>
+                            </span>
                         </>
                     }
-                </span>
+                </>
                 :
                 <>
-                    <span >{desc} &nbsp;</span>
+                    <div >{desc} &nbsp;</div>
                     <div style={{display: "inline", color: "gray" }} 
                         onClick={()=>setHide(true)} >
                             hide
                     </div>
                 </>
             }
-
-        </div>
+</div>
    )
  
 }

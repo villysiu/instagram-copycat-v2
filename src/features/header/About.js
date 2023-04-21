@@ -7,7 +7,7 @@ const About = () => {
             Villy's Instagram is a single page application inspired by Instagram. The frontend is developed with ReactJS, HTML, and CSS.
             The backend API is created with Rails on Ruby. 
         </div>
-        <img src={preview_clip} width="200px" />
+        <img src={preview_clip} alt="preview" width="200px" />
 
         <div className="mb-4">
             <h4>Tech Stack: </h4>

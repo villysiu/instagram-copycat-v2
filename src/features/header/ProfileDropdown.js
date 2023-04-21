@@ -1,7 +1,6 @@
 import { PersonCircle } from 'react-bootstrap-icons'
 import { NavDropdown } from 'react-bootstrap';
 import Logout from '../user/session/Logout';
-import About from './About';
 const ProfileDropdown = ({currUserId}) =>{
     const title = (<PersonCircle className="circle_button" />);
     

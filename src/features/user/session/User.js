@@ -1,7 +1,6 @@
 import { useState } from "react"
 import Login from "./Login"
 import Signup from "./Signup"
-import {  PersonCircle } from 'react-bootstrap-icons'
 import {Button} from "react-bootstrap"
 import { Modal } from "react-bootstrap"
 

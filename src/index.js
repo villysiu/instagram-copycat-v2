@@ -25,10 +25,10 @@ const router = createBrowserRouter([
           path: "/instagram-copycat-v2/users/:userId",
           element: <Profile />
         },
-        {
-          path: "/instagram-copycat-v2/posts/:postId",
-          element: <PostFetchPage />
-        },
+        // {
+        //   path: "/instagram-copycat-v2/posts/:postId",
+        //   element: <PostFetchPage />
+        // },
         {
           path: "/instagram-copycat-v2/about",
           element: <About />

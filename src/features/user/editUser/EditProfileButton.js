@@ -1,10 +1,8 @@
 import { Button, Modal } from "react-bootstrap"
-import { useState, useEffect } from "react"
-import { useSelector, useDispatch } from "react-redux"
-
+import { useState } from "react"
+import { useSelector } from "react-redux"
 import EditProfile from "./EditProfile"
-// import { currentUserId, fetchCurrentUserId 
-import { currentUserId, fetchCurrentUserId } from "../userSlice"
+import { currentUserId } from "../userSlice"
 import { Spinner } from "react-bootstrap"
 const EditProfileButton = ({userId}) => {
     const [show, setShow] = useState(false)

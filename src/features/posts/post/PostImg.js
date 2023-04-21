@@ -7,22 +7,10 @@ const PostImg = ({postId, postUrl}) =>{
     const handleImgErr=(e)=>{
         e.target.src = placeholder
     }
-    const ImgUrl=()=>{
-        return ( 
-            <img className="card_img mb-1" src={`${backendAPI}/${postUrl}`} onError={handleImgErr} />
-        )
-    } 
+    
     
     return(
-        <>
-        {href===`/instagram-copycat-v2/posts/${postId}` ?
-            <ImgUrl />
-            :
-            <Link to={`/instagram-copycat-v2/posts/${postId}`} >
-                <ImgUrl />
-            </Link>
-        }
-        </>
+        <img className="card_img mb-1" alt="" src={`${backendAPI}/${postUrl}`} onError={handleImgErr} />
     )
 }
 export default PostImg

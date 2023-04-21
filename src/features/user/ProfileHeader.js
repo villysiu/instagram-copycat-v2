@@ -1,8 +1,8 @@
 
 import EditProfileButton from "./editUser/EditProfileButton"
-import Avatar from "./Avatar"
-import UserName from "./UserName"
-
+// import Avatar from "./Avatar"
+// import UserName from "./UserName"
+import UserAvatar from "./UserAvatar"
 import Bio from "./Bio"
 
 
@@ -12,11 +12,8 @@ const ProfileHeader=( { user })=>{
     return(
         
         <div>
-            <div className="p-2 profile_header">
-                <div style={{display: "flex", alignItems: "center"}}>
-                    <Avatar userId={user.id} initialStyle={"initialStyle_lg"} circleSize={"thumbsize_lg"} />
-                    <UserName userId={user.id} nameSize={"25px"} />
-                </div>
+            <div className="profile_header">
+                <UserAvatar userId={user.id} />
                 <EditProfileButton userId={user.id} />
              </div>
 

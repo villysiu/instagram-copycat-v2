@@ -1,47 +1,51 @@
-import { useEffect } from "react"
+import { useState, useEffect } from "react"
 
 const PostTime=({postTime})=>{
     
     const helper=(secs)=>{
        
-
-        if(secs >= 604800){
-            let temp=Math.round(secs/604800)
-            return temp===1 ? 1 + " week ago" : temp + " weeks ago"
+        if(secs >= 604800){ //60*60*24*7
+            let wk=Math.round(secs/604800)
+            return wk===1 ? "1 week ago" : wk + " weeks ago"
         }
         
         else if(secs >= 86400) {
-            const temp=Math.round(secs/86400)
-            if(temp===7) return 1+" week ago"
-            if(temp===1) return 1 + " day ago" 
-            return temp + " days ago"
+            const dy=Math.round(secs/86400)
+            if(dy===7) return "1 week ago"
+            if(dy===1) return "1 day ago" 
+            return dy + " days ago"
         }
         else if(secs >= 3600) {
-            const temp=Math.round(secs/3600)
-            if(temp===24) return 1 + " day ago" 
-            if(temp===1) return 1 + " hour ago"
-            return temp + " hours ago"
+            const hr=Math.round(secs/3600)
+            if(hr===24) return "1 day ago" 
+            if(hr===1) return "1 hour ago"
+            return hr + " hours ago"
 
         }else if(secs>=60){
-            const temp=Math.round(secs/60)
-            if(temp==-60) return 1+" hour ago"
-            if (temp===1) return 1 + " minute ago" 
-            return temp + " minutes ago"
+            const mn=Math.round(secs/60)
+            if(mn===60) return "1 hour ago"
+            if (mn===1) return "1 minute ago" 
+            return mn + " minutes ago"
         }
         else 
             return "now"
-            
-
     }
-    let rrrr=Date.now()
-    useEffect(()=>{
-        rrrr=Date.now()
-     },[])
-    const time=helper(Math.round(rrrr/1000)-postTime)
+
+    const [date, setDate] = useState("????")
+    
+    useEffect(() => {
+        var timer = setInterval(()=>
+            setDate(helper(Math.round(Date.now()/1000)-postTime))
+        , 1000 )
+        return function cleanup() {
+            clearInterval(timer)
+        }
+    
+    });
 
     return(
         <>
-        &nbsp;•&nbsp;{time}
+        &nbsp;•&nbsp;{date}
         </>
     )
 }

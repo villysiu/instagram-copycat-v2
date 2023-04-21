@@ -14,8 +14,7 @@ export const fetchCurrentUserId=createAsyncThunk(
                 }
             })
             const data=await response.json()
-            console.log(response)
-            console.log(data)
+            
             if(!response.ok) {
                 throw new Error(response.status+" "+response.statusText)
             }
@@ -74,6 +73,8 @@ export const signupUser=createAsyncThunk(
                 body: JSON.stringify(userInfo)
             })
             const data=await response.json()
+            console.log(response)
+            console.log(data)
             if(!response.ok) {
                 console.log(response)
                 throw new Error(response.status+" "+response.statusText)
@@ -117,7 +118,7 @@ export const editProfile = createAsyncThunk(
     async({formData})=>{
     
       try{
-        const response=await fetch(`${backendAPI}/user`, {
+        const response=await fetch(`${backendAPI}/edit_user`, {
             method:'PATCH',
             headers: {
                 'Authorization': localStorage.getItem('token'),
@@ -198,6 +199,7 @@ const userSlice=createSlice({
     },
     reducers: {
         logout: (state) => {
+            console.log("in dispatch logging out")
             state.currentUserId = null
             localStorage.clear()
           },

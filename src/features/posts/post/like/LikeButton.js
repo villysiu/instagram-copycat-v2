@@ -1,5 +1,5 @@
 import { Heart, HeartFill } from 'react-bootstrap-icons'
-import { useState, useMemo } from 'react'
+import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { likeAPost, unlikeAPost } from '../../postsSlice'
 import { useSelector } from 'react-redux'

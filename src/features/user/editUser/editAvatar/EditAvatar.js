@@ -2,6 +2,7 @@ import AvatarPreview from "./AvatarPreview"
 import { useState } from "react"
 
 import AvatarDoprdown from "./AvatarDoprdown"
+import UserName from "../../UserName"
 
 
 const EditAvatar = ({currUser, setAvatar}) =>{
@@ -9,10 +10,10 @@ const EditAvatar = ({currUser, setAvatar}) =>{
 
     return (
     
-        <div className="p-2 post_header">
-            <div style={{display: "flex", alignItems: "center"}}>
+        <div className="edit_header">
+            <div style={{display: "flex", alignItems: "center", height: '100%'}}>
                 <AvatarPreview preview={preview} initial={currUser.name[0]} />
-                <b style={{fontSize: "25px"}}> {currUser.name}</b>
+                <div className="px-2">{currUser.name}</div>
             </div>
 
             <AvatarDoprdown setPreview={setPreview} setAvatar={setAvatar} />
