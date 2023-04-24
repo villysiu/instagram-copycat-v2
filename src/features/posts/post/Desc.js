@@ -25,11 +25,12 @@ const Desc = ({ownerId, desc}) => {
                 </>
                 :
                 <>
-                    <div >{desc} &nbsp;</div>
-                    <div style={{display: "inline", color: "gray" }} 
+                    <span style={{display: "inline"}} >{desc} &nbsp;</span>
+                 
+                    <span style={{display: "inline", cursor: "pointer", color: "gray" }} 
                         onClick={()=>setHide(true)} >
                             hide
-                    </div>
+                    </span>
                 </>
             }
 </div>
