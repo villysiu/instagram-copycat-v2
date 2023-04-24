@@ -4,6 +4,9 @@ An independently developed simplified photo sharing single page application insp
 
 <img src="https://github.com/villysiu/instagram-copycat-v2/blob/gh-pages/static/media/preview_clip.b3d3d75793b174f7f8f1.gif" width="200">
 
+## Website
+https://villysiu.github.io/instagram-copycat-v2/
+
 ## Tech Stack
 ReactJS, Ruby on Rails, JavaScript, HTML and CSS.
 
@@ -23,6 +26,7 @@ ReactJS, Ruby on Rails, JavaScript, HTML and CSS.
 API: https://github.com/villysiu/ig-copycat-v2-api -->
 
 ### API
+
 To start up the API locally:
 
 1. Open your terminal and type 
@@ -47,6 +51,13 @@ git clone https://github.com/villysiu/instagram-copycat-v2/tree/master
 2. cd into the new folder and type 
 ``` npm install ```
 to install the required dependencies.
+3. To run locally, we have to call the local server. Change directory into 
+```cd src/app/data.js```
+Uncommnet
+```export const backendAPI="http://localhost:3000"```
+and comment out 
+```export const backendAPI="https://render-ws.onrender.com"```
+and save.
 3.  Run the React application by typing 
 ``` npm start ```
 

@@ -3,7 +3,7 @@ import { selectPostbyId } from "../postsSlice"
 import { useState} from "react"
 import { editAPost } from "../postsSlice"
 import { Form, Button, Image } from "react-bootstrap"
-
+import { backendAPI } from "../../../app/data"
 
 const EditPost = ({ postId, showEdit }) =>{
     const post = useSelector(state=>selectPostbyId(state, postId))
@@ -37,7 +37,7 @@ const EditPost = ({ postId, showEdit }) =>{
             
         
             <div className="new-post-img">
-                <Image className="card_img_300" src={`http://localhost:3000/${post.url}`} />
+                <Image className="card_img_300" src={`${backendAPI}//${post.url}`} />
             </div> 
 
             <Form.Control as="textarea" rows="5" name="desc" value={desc} placeholder="Description" 
