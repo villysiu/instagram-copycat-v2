@@ -9,7 +9,6 @@ export const fetchPosts = createAsyncThunk(
       const response = await fetch(`${backendAPI}/photos.json`)
       const data=await response.json()
 
-console.log(data)
       if(!response.ok) 
         throw new Error(response.statusText)
 
@@ -298,7 +297,7 @@ export const { postAdded, postsFetched } = postsSlice.actions
 
 export default postsSlice.reducer
 export const selectAllPosts = (state) =>{
- console.log(state)
+ 
   return state.posts.posts
 } 
 export const selectPostsbyUserId = (state, userId) =>{
