@@ -1,6 +1,6 @@
 import { logout } from "../features/user/userSlice"
-// export const backendAPI="http://localhost:3000"
-export const backendAPI="https://render-ws.onrender.com"
+export const backendAPI="http://localhost:3000"
+// export const backendAPI="https://render-ws.onrender.com"
 
 export const duration=30
 
