@@ -1,12 +1,13 @@
-
-import { memo } from "react"
 import { Link } from "react-router-dom"
 const Title = () => {
     return (
-        <Link to={"/instagram-copycat-v2"} className="titleLink">
-            <div className="title px-3">Villy's Instagram</div>
+        <div className="title_wrapper">
+        <Link to={"/"} className="link_black title">
+            
+            Villy's Instagram
         </Link>
+        </div>
         
     )
 }
-export default memo(Title)
+export default Title

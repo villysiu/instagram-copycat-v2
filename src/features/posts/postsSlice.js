@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { backendAPI } from '../../app/data'
+import { backendAPI } from '../../app/helper'
 
 
 export const fetchPosts = createAsyncThunk(
@@ -23,6 +23,7 @@ export const fetchPosts = createAsyncThunk(
 export const addNewPost = createAsyncThunk(
   'posts/addNewPost',
   async (formData)=>{
+    console.log(formData)
     try {
       const response=await fetch(`${backendAPI}/photos`, {
           method: 'POST',
@@ -100,11 +101,12 @@ export const deleteAPost = createAsyncThunk(
 )
 export const likeAPost = createAsyncThunk(
   'posts/likeAPost',
-  async (post_id)=>{
-    console.log("like a post "+ post_id)
+  async ({comment_id, post_id})=>{
+    console.log("like a comment "+ comment_id + " "+ post_id)
     try {
 
-      const response=await fetch(`${backendAPI}/photos/${post_id}/likes`, {
+      // const response=await fetch(`${backendAPI}/photos/${post_id}/likes`, {
+        const response=await fetch(`${backendAPI}/comments/${comment_id}/likes`, {
         method: 'POST',
         headers: {
           'Content-type': "application/json",
@@ -117,20 +119,21 @@ export const likeAPost = createAsyncThunk(
       if(!response.ok) 
         throw new Error(response.status+" "+response.statusText)
       return {
-        post_id,
+        comment_id: comment_id,
+        post_id: post_id,
         data
-        
       }
-    } catch (error) {
+    } 
+    catch (error) {
       return Promise.reject(error)
     }
   }
 )
 export const unlikeAPost = createAsyncThunk(
   'posts/unlikeAPost',
-  async ({post_id}) =>{
+  async ({post_id, comment_id}) =>{
     try {
-        const response=await fetch(`${backendAPI}/photos/${post_id}/likes`, {
+        const response=await fetch(`${backendAPI}/comments/${comment_id}/likes`, {
         method: "delete",
         headers: {
             'Content-type': "application/json",
@@ -141,10 +144,11 @@ export const unlikeAPost = createAsyncThunk(
       if(!response.ok) 
         throw new Error(response.status+" "+response.statusText)
     
-      console.log(data)
+      
       return {
-        post_id: post_id,
-        like_id: data,
+        post_id,
+        comment_id,
+        ...data
       }
 
     } catch (error) {
@@ -169,6 +173,7 @@ export const addComment = createAsyncThunk(
         body: formData
       })
       const data=await response.json()
+      console.log(response)
       console.log(data)
       if(!response.ok) 
         throw new Error(response.status+" "+response.statusText)
@@ -251,10 +256,12 @@ const postsSlice = createSlice({
         state.status = 'loading'
       })
       .addCase(likeAPost.fulfilled, (state, action)=>{
+        console.log(action.payload)
         state.status = 'succeeded'
+        
         const post=state.posts.find(post=>post.id===action.payload.post_id)
- 
-        post.likes.push(action.payload.data)
+        const comment = post.comments.find(comment=>comment.id === action.payload.comment_id)
+        comment.likes.push(action.payload.data)
       })
       .addCase(likeAPost.rejected, (state) => {
         state.status = 'failed'
@@ -265,11 +272,13 @@ const postsSlice = createSlice({
         state.status = 'loading'
       })
       .addCase(unlikeAPost.fulfilled, (state, action)=>{
-        
-        const {post_id, like_id} = action.payload
         state.status = 'succeeded'
-        const post=state.posts.find(post=>post.id===post_id)
-        post.likes=post.likes.filter(like=>like.id!==like_id)
+        console.log(action.payload)
+        const post=state.posts.find(post=>post.id===action.payload.post_id)
+        const currUserId = action.payload.user_id
+        const comment = post.comments.find(comment=>comment.id === action.payload.comment_id)
+    
+        comment.likes=comment.likes.filter(like=>like.user_id!==currUserId)
       })
       .addCase(unlikeAPost.rejected, (state) => {
         state.status = 'failed'
@@ -279,11 +288,11 @@ const postsSlice = createSlice({
         state.status = 'loading'
       })
       .addCase(addComment.fulfilled, (state, action)=>{
-
+  
         state.status = 'succeeded'
         const post=state.posts.find(post=>post.id===action.payload.postId)
-       
         post.comments.push(action.payload.data)
+
       })
       .addCase(addComment.rejected, (state) => {
         state.status = 'failed'
@@ -297,22 +306,24 @@ export const { postAdded, postsFetched } = postsSlice.actions
 
 export default postsSlice.reducer
 export const selectAllPosts = (state) =>{
- 
   return state.posts.posts
 } 
 export const selectPostsbyUserId = (state, userId) =>{
- 
- 
-  return state.posts.posts.filter(post=>post.owner_id===userId)
+  return state.posts.posts.filter(post=>post.owner.id===userId)
 } 
 export const selectPostbyId = (state, postId) => {
   return state.posts.posts.find(post => post.id === postId)
 }
-export const likedByUserId = (state, postId) => {
- 
-  const post = state.posts.posts.find(p=>p.id===postId)
-  const userId=state.user.currentUserId
- 
-  return post.likes.find(l=>l.user_id === userId) ? true : false
+// export const likedByCurrUser = (state, postId) => {
+//   console.log(state)
+//   const post = state.posts.find(p=>p.id===postId) 
+//   const
+//   return post.comment.likes.some(like=>like.user_id === state.users.currUser.id)
+// }
+export const getPostByUserCount = (state, userId) => {
+  return state.posts.posts.filter(p=>p.owner.id === userId).length
 }
-
+export const getDescByCommentId = (state, postId, descId) => {
+  const post = state.posts.posts.find(p=>p.id === postId)
+  return post.comments.find(c=>c.id === descId)
+}

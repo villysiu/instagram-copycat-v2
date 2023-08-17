@@ -1,28 +1,25 @@
-import { useRef } from 'react';
+import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { Modal } from 'react-bootstrap';
-import { loginUser } from '../userSlice';
-import EmailInputBox from './EmailInputBox';
+import { loginUser } from '../usersSlice';
 import PasswordInputBox from './PasswordInputBox';
-import { duration } from '../../../app/data';
-import { timeoutUser } from '../../../app/data';
+import FloatingInputBox from './FloatingInputBox';
+// import { duration } from '../../../app/helper';
+// import { timeoutUser } from '../../../app/helper';
 
 const Login=({toggleLogin})=>{
-  const formRef=useRef()
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
   const dispatch=useDispatch();
 
   const handleSubmit=e=>{
       e.preventDefault()
-      const formData=new FormData(formRef.current)
+      const formData=new FormData()
+      formData.append("email", email)
+      formData.append("password", password)
       dispatch(loginUser({user: Object.fromEntries(formData)}))
-      .unwrap()
-      .then(() => {
-        const now=Date.now()
-        localStorage.setItem("expired", now+(1000*60*duration))
-        timeoutUser(now, dispatch)
-      })
       .catch((error) => {
         console.log(error)
       })
@@ -32,19 +29,20 @@ const Login=({toggleLogin})=>{
     return(
     <>
     
-      <Modal.Header closeButton >
-        <Modal.Title className="mx-3 my-1">Welcome back! </Modal.Title>
+      <Modal.Header className="user_modal_header" closeButton >
+        <Modal.Title className="user_modal_title">Welcome back! </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <Form ref={formRef} onSubmit={handleSubmit}>
-          <EmailInputBox />
-          <PasswordInputBox />
+        <Form onSubmit={handleSubmit}>
+          {/* <EmailInputBox email={email} setEmail={setEmail} /> */}
+          <FloatingInputBox itemNameTxt="email" itemDisplayTxt="Email Address" item={email} setItem={setEmail} />
+          <PasswordInputBox password={password} setPassword={setPassword} />
 
-          <Button variant="primary" type="submit"> Login </Button>
+          <Button variant="primary" size="sm" type="submit"> Login </Button>
         </Form>
       </Modal.Body>
-      <Modal.Footer style={{justifyContent: 'flex-start'}}>
-          Not registered yet, <Button variant="link" onClick={toggleLogin} className="p-0" >Signup</Button> here.
+      <Modal.Footer className="user_modal_footer">
+          Not registered yet, <a href="#" onClick={()=>toggleLogin(false)}>Signup</a> here.
       </Modal.Footer>
     </>
   );

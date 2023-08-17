@@ -1,21 +1,22 @@
-import AvatarPreview from "./AvatarPreview"
 import { useState } from "react"
-
 import AvatarDoprdown from "./AvatarDoprdown"
-import UserName from "../../UserName"
+import { Image } from "react-bootstrap"
 
 
-const EditAvatar = ({currUser, setAvatar}) =>{
-    const [preview, setPreview] = useState(currUser.avatar && `http://localhost:3000/${currUser.avatar}`)
+const EditAvatar = ({avatar, setAvatar, initial}) =>{
+    const [preview, setPreview] = useState(avatar && `http://localhost:3000/${avatar}`)
 
     return (
     
-        <div className="edit_header">
-            <div style={{display: "flex", alignItems: "center", height: '100%'}}>
-                <AvatarPreview preview={preview} initial={currUser.name[0]} />
-                <div className="px-2">{currUser.name}</div>
-            </div>
-
+        <div className="mt-2 mb-4 edit_avatar_wrapper">
+            {preview ?
+                <Image className="edit_avatar"  src={`${preview}`} alt="avatar" /> 
+                :
+                <div className="edit_avatar">
+                    <div className="edit_avatar_initial">{initial.toUpperCase()}</div> 
+                </div>
+                
+            }
             <AvatarDoprdown setPreview={setPreview} setAvatar={setAvatar} />
         </div>
 

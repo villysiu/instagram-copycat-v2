@@ -7,8 +7,7 @@ const AvatarDoprdown = ({setPreview, setAvatar}) => {
     return (
         <DropdownButton
             as={ButtonGroup} variant="light" size="sm"
-            title="Change Avatar"
-            className="ms-2"
+            title="Change profile photo"
         >
             <UploadAvatar setPreview={setPreview} setAvatar={setAvatar} />
             <RemoveAvatar setPreview={setPreview} setAvatar={setAvatar} />

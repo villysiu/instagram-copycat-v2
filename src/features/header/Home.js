@@ -3,7 +3,7 @@ import { Link } from "react-router-dom"
 const Home = () => {
     return (
 
-        <Link to={"/instagram-copycat-v2"} >
+        <Link to={"/"} >
             <House className="circle_button"  />
         </Link>
     )

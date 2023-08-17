@@ -4,26 +4,14 @@ import { useSelector } from 'react-redux';
 import ProfileDropdown from './ProfileDropdown';
 import User from '../user/session/User'
 
-import { currentUserId } from '../user/userSlice';
 import { Spinner } from 'react-bootstrap';
 
 const PersonActions = () =>{
-    const userStatus = useSelector(state => state.user.status)
-    const currUserId = useSelector(currentUserId)
+    const userStatus = useSelector(state => state.users.currUser.status)
+    const currUserId = useSelector(state => state.users.currUser.id)
    
     if (!currUserId){
-        if(userStatus === 'loading') {
-            return <Spinner  />
-            
-        } else if(userStatus === 'succeeded' || userStatus==="failed") {
-            return (
-                <>
-                <ProfileDropdown currUserId={currUserId} />
-                <User />
-                </>
-            )
-            
-        }
+        return  userStatus === 'loading' ? <Spinner  /> : <User />
     }
     return(
         <>

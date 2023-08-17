@@ -1,30 +1,27 @@
 import { Heart, HeartFill } from 'react-bootstrap-icons'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { likeAPost, unlikeAPost } from '../../postsSlice'
-import { useSelector } from 'react-redux'
-import { likedByUserId } from '../../postsSlice'
-const LikeButton = ({postId}) => {
-    // console.log("in likebutton")
+
+const LikeButton = ({likes, currUserId, commentId, postId, smHeart}) => {
     const dispatch=useDispatch()
-    const res=useSelector(state=>likedByUserId(state, postId))
     
-    const [redHeart, toggleHeart]=useState(res)
+    const currUserLike = likes.some(like=>like.user_id === currUserId)
+
+    const handleLike=()=> dispatch(likeAPost({comment_id: commentId, post_id: postId}))
     
-    const handleLike=()=>{
-        toggleHeart(prev=>!prev)
-        dispatch(likeAPost(postId))
-    }
-    const handleUnlike=()=>{
-        toggleHeart(prev=>!prev)
-        dispatch(unlikeAPost({post_id: postId}))
-    }
+    const handleUnlike=()=> dispatch(unlikeAPost({comment_id: commentId, post_id: postId}))
+    
    
     return (
-        redHeart ? 
-            <HeartFill className="redheart" onClick={handleUnlike} /> 
+        currUserLike ? 
+            <HeartFill className={smHeart ? "filled smheart" : "filled heart"}
+                onClick={handleUnlike} 
+            /> 
             :
-            <Heart className="heart" onClick={handleLike} />
+            <Heart className={smHeart ? "hollow smheart" : "hollow heart" }
+                onClick={handleLike} 
+            />
     )
     
 }

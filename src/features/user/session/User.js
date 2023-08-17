@@ -1,22 +1,28 @@
 import { useState } from "react"
 import Login from "./Login"
-import Signup from "./Signup"
+import VerifyEmail from "./VerifyEmail"
 import {Button} from "react-bootstrap"
 import { Modal } from "react-bootstrap"
 
 const User = () =>{
     // const user=useSelector(currentUser) 
-    const [modal, showModal]=useState(false)
+    const [show, setShow]=useState(false)
     const [login, toggleLogin] = useState(true)
     
     return (
         <>
-            <Modal show={modal} onHide={()=>showModal(false)} className="user-modal">
-                {login? <Login toggleLogin={()=>toggleLogin(false) }  /> : <Signup toggleLogin={()=>toggleLogin(true)}  />}
+            <Modal show={show} onHide={()=>setShow(false)} 
+            // className="user-modal"
+            dialogClassName="user_modal"
+            >
+                {login? 
+                    <Login toggleLogin={toggleLogin }  /> 
+                    : 
+                    <VerifyEmail toggleLogin={toggleLogin} setShow={setShow} />}
             </Modal>
            
           
-            <Button variant="secondary" size="sm" className="mx-2" onClick={()=>showModal(true)}>Login</Button>
+            <Button variant="secondary" size="sm" className="mx-2" onClick={()=>setShow(true)}>Login</Button>
         </>
 
     )

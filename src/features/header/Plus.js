@@ -5,17 +5,17 @@ import AddPost from '../posts/newPost/AddPost'
 
 
 const Plus = () =>{
-    const [add, showAdd]=useState(false)
+    const [show, setShow]=useState(false)
     
-    const handleClick = () => (showAdd(true))
+    
 
     return (
         <>
-            <Modal show={add} onHide={() => showAdd(false)} dialogClassName="modal-60w" aria-labelledby="contained-modal-title-vcenter" centered>
-                <AddPost closeModal={()=>showAdd(false)} />
+            <Modal show={show} onHide={() => setShow(false)} dialogClassName="add_post_modal" >
+                <AddPost setShow={setShow} />
             </Modal>
 
-            <PlusCircle className="circle_button" onClick={handleClick} />
+            <PlusCircle className="circle_button" onClick={()=>setShow(true)} />
         </>
     )
 }

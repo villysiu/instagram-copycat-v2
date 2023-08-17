@@ -8,29 +8,24 @@ import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider, Navigate} from 'react-router-dom';
 
 import PostList from './features/posts/PostList';
-import Profile from './features/user/Profile';
-import PostFetchPage from './features/posts/post/PostFetchPage';
+import Profile from './features/user/profile/Profile';
 import About from './features/header/About';
 const router = createBrowserRouter([
   {
-      path: "/instagram-copycat-v2",
+      path: "/",
       element: <App />,
       children: [
         {
-          path: "/instagram-copycat-v2",
+          path: "/",
           element: <PostList />,
        
         },
         {
-          path: "/instagram-copycat-v2/users/:userId",
+          path: "/users/:id",
           element: <Profile />
         },
-        // {
-        //   path: "/instagram-copycat-v2/posts/:postId",
-        //   element: <PostFetchPage />
-        // },
         {
-          path: "/instagram-copycat-v2/about",
+          path: "/about",
           element: <About />
         },
 
@@ -38,8 +33,8 @@ const router = createBrowserRouter([
       
     },
     {
-      path: '/instagram-copycat-v2/*',
-      element: <Navigate to="/instagram-copycat-v2" replace />
+      path: '/*',
+      element: <Navigate to="/" replace />
 
     },
    
@@ -47,9 +42,11 @@ const router = createBrowserRouter([
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
+ 
   <Provider store={store}>
     
     <RouterProvider router={router} />
   </Provider>
+
 );
 

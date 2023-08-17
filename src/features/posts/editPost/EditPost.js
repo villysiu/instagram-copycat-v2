@@ -2,18 +2,12 @@ import { useDispatch, useSelector } from "react-redux"
 import { selectPostbyId } from "../postsSlice"
 import { useState} from "react"
 import { editAPost } from "../postsSlice"
-import { Form, Button, Image } from "react-bootstrap"
-import { backendAPI } from "../../../app/data"
-
-const EditPost = ({ postId, showEdit }) =>{
-    const post = useSelector(state=>selectPostbyId(state, postId))
-    const dispatch=useDispatch()
-    const [desc, setDesc] = useState(post.desc)
-
-   
-    const handleClose = () =>{
-        showEdit(false)
-    }
+import { backendAPI } from "../../../app/helper"
+import DescForm from "../newPost/DescForm"
+import { Form, Modal } from "react-bootstrap"
+const EditPost = ({ post, setShow }) =>{
+    const dispatch = useDispatch()
+    const [desc, setDesc] = useState(post.comments.find(c=>c.id===post.desc).comment)
 
     const handleSubmit=e=>{
         e.preventDefault()
@@ -22,32 +16,20 @@ const EditPost = ({ postId, showEdit }) =>{
         formData.append("desc", desc)
         
         dispatch(editAPost({postId: post.id, formData: formData}))
-        showEdit(false)
+        setShow(false)
         
     }
     return (
-        
-        <Form onSubmit={handleSubmit} >
-       
-            <div className="new-post-header">
-                <Button className="transparent_button" onClick={handleClose}>Cancel</Button>
-                <h5>Edit post</h5>
-                <Button className="transparent_button" type="submit">Done</Button>
-            </div>
-            
-        
-            <div className="new-post-img">
-                <Image className="card_img_300" src={`${backendAPI}//${post.url}`} />
-            </div> 
-
-            <Form.Control as="textarea" rows="5" name="desc" value={desc} placeholder="Description" 
-                bsPrefix="comment_input" 
-                autoFocus
-                onChange={e=>setDesc(e.target.value)} 
-            />
+        <Form className="add_post_form_wrapper">
+            <Modal.Header className="add_post_modal_header" >
+                <div className="cancel_button" onClick={()=>setShow(false)}>Cancel</div>
+                <Modal.Title className="add_post_modal_title">Edit post</Modal.Title>
+                <div className="done_button" onClick={handleSubmit}>Done</div>
+            </Modal.Header>
+            <DescForm img={`${backendAPI}/${post.url}`} setDesc={setDesc} desc={desc} />
 
         </Form>
-                    
+
     )
 }
 export default EditPost

@@ -4,26 +4,14 @@ import Logout from '../user/session/Logout';
 const ProfileDropdown = ({currUserId}) =>{
     const title = (<PersonCircle className="circle_button" />);
     
-    if(!currUserId){
-      return(
-        <NavDropdown  title={title} >
-        <NavDropdown.Item href={`/instagram-copycat-v2/about`}>
-              About
-          </NavDropdown.Item>
-          </NavDropdown>
-      )
-    }
     return (
       <>
       <NavDropdown  title={title} >
-          <NavDropdown.Item href={`/instagram-copycat-v2/users/${currUserId}`}>
+          <NavDropdown.Item href={`/users/${currUserId}`}>
               Profile
           </NavDropdown.Item>
-          <NavDropdown.Item href={`/instagram-copycat-v2/about`}>
-              About
-          </NavDropdown.Item>
-        <NavDropdown.Divider />
-        <Logout />
+          <NavDropdown.Divider />
+          <Logout />
         
       </NavDropdown>
       </>
