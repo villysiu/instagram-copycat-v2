@@ -3,6 +3,7 @@ import Login from "./Login"
 import VerifyEmail from "./VerifyEmail"
 import {Button} from "react-bootstrap"
 import { Modal } from "react-bootstrap"
+import { PersonCircle } from 'react-bootstrap-icons'
 
 const User = () =>{
     // const user=useSelector(currentUser) 
@@ -22,7 +23,9 @@ const User = () =>{
             </Modal>
            
           
-            <Button variant="secondary" size="sm" className="mx-2" onClick={()=>setShow(true)}>Login</Button>
+            {/* <Button variant="secondary" size="sm" className="mx-2" onClick={()=>setShow(true)}> */}
+                <PersonCircle className="circle_button mx-2" onClick={()=>setShow(true)}/>
+            {/* </Button> */}
         </>
 
     )

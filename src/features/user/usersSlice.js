@@ -35,7 +35,7 @@ export const fetchCurrentUserId=createAsyncThunk(
             }
             console.log(data)
             timeOutUser2(data.login, thunkAPI)
-            return { ...data,}
+            return { data,}
         } 
         catch(error){
             return Promise.reject("No user logged in");
@@ -91,7 +91,7 @@ export const loginUser=createAsyncThunk(
             localStorage.setItem('token', response.headers.get("Authorization"))
             timeOutUser2(data.login, thunkAPI)
             return{
-                ...data
+                data
             }
         } 
         catch(error){
@@ -155,7 +155,7 @@ export const signupUser=createAsyncThunk(
             thunkAPI.dispatch(editAvatar(formData[1]))
             timeOutUser2(data.login, thunkAPI)
             return {
-                ...data
+                data
             }
         } catch(error){
             return Promise.reject(error.message)
@@ -274,8 +274,10 @@ const usersSlice=createSlice({
     name: 'users',
     initialState: {
         currUser: {
-            id: null,
-            login: 0,
+            currUser: null,
+            // id: null,
+            // login: 0,
+            // avatar: null,
             status: 'idle',
             error: null,    
         },
@@ -294,8 +296,10 @@ const usersSlice=createSlice({
     reducers: {
         logout: (state) => {
             console.log("in dispatch logging out")
-            state.currUser.id = null
-            state.currUser.login = 0
+            // state.currUser.id = null
+            // state.currUser.login = 0
+            // state.currUser.avatar = null
+            state.currUser.currUser = null
             state.currUser.status = 'idle'
             state.currUser.error = null   
           },
@@ -312,8 +316,10 @@ const usersSlice=createSlice({
         })
         .addCase(fetchCurrentUserId.fulfilled, (state, action) => {
             state.currUser.status = 'succeeded'
-            state.currUser.id = action.payload.id
-            state.currUser.login = action.payload.login
+            // state.currUser.id = action.payload.id
+            // state.currUser.login = action.payload.login
+            // state.currUser.avatar = action.payload.avatar
+            state.currUser.currUser = action.payload.data
         })
         .addCase(fetchCurrentUserId.rejected, (state, action) => {
             // DO NOTHING WHEN NO USER LOGGED IN
@@ -342,8 +348,10 @@ const usersSlice=createSlice({
         .addCase(loginUser.fulfilled, (state, action) => {
             console.log(action.payload)
             state.currUser.status = 'succeeded'
-            state.currUser.id = action.payload.id
-            state.currUser.login = action.payload.login
+            // state.currUser.id = action.payload.id
+            // state.currUser.login = action.payload.login
+            // state.currUser.avatar = action.payload.avatar
+            state.currUser.currUser = action.payload.data
             state.currUser.error = null
         })
         .addCase(loginUser.rejected, (state, action) => {
@@ -370,8 +378,10 @@ const usersSlice=createSlice({
         .addCase(signupUser.fulfilled, (state, action) => {
            
             state.currUser.status = 'succeeded'
-            state.currUser.id = action.payload.id
-            state.currUser.login = action.payload.login
+            // state.currUser.id = action.payload.id
+            // state.currUser.login = action.payload.login
+            // state.currUser.avatar = action.payload.avatar
+            state.currUser.currUser = action.payload.data
             state.currUser.error = null
         })
         

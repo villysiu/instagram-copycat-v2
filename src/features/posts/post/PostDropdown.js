@@ -7,16 +7,16 @@ import { useSelector } from 'react-redux';
 const PostDropdown = ({post}) =>{
     // console.log("in Post dropdown")
     const title = (<ThreeDotsVertical /> );
-    const currUserId = useSelector(state=> state.users.currUser.id)
+    const currUser = useSelector(state=>state.users.currUser.currUser)
 
-    if(!currUserId || currUserId!==post.owner.id){
+    if(!currUser || currUser.id!==post.owner.id){
         return null
     }
     return (
         <NavDropdown title={title}>
             <EditPostButton post={post} />
             <NavDropdown.Divider />
-            <DeletePost postId={post.id} currUserId={currUserId} />
+            <DeletePost postId={post.id} currUserId={currUser.id} />
         </NavDropdown>
     )
    

@@ -24,18 +24,19 @@ function App() {
             dispatch(fetchPosts()) 
     },[dispatch, currUserIdStatus, postStatus])
 
-    
+
     return (
     
-      <div className="App">
+      <div className="App ori">
           
-
-          <Header />
-          <div className="blank_div" />
-          <Error />
-         
-          
-          <Outlet />
+          <div>
+            <Header />
+            <div className="blank_div" />
+          </div>
+          <div style={{width: '100vw'}}>
+            <Error />
+            <Outlet />
+          </div>
           
           {/* <ScrollRestoration /> */}
       </div>

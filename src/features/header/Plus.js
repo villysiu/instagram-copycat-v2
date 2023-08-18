@@ -2,12 +2,10 @@ import { useState } from "react"
 import { Modal } from "react-bootstrap"
 import { PlusCircle } from 'react-bootstrap-icons'
 import AddPost from '../posts/newPost/AddPost'
-
+import { Link } from "react-router-dom"
 
 const Plus = () =>{
     const [show, setShow]=useState(false)
-    
-    
 
     return (
         <>
@@ -16,6 +14,7 @@ const Plus = () =>{
             </Modal>
 
             <PlusCircle className="circle_button" onClick={()=>setShow(true)} />
+            
         </>
     )
 }

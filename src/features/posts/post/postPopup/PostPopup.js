@@ -5,7 +5,6 @@ import { PostPopupRight } from "./PostPopupRight"
 
 
 const PostPopup = ({post, setShow}) =>{
-    const desc = post.comments.find(c=>c.id===post.desc)
     
     return(
         <>
@@ -14,11 +13,11 @@ const PostPopup = ({post, setShow}) =>{
 
             <div className='post_modal_wrapper'>
                 <div className='post_modal_wrapper_l'>
-                    <PostPopupLeft post={post} desc={desc} />
+                    <PostPopupLeft post={post} />
                 </div>
                 <div className='d-none	d-md-block'>
                     <div className='post_modal_wrapper_r' >
-                        <PostPopupRight post={post} desc={desc} />
+                        <PostPopupRight post={post} />
                     </div>
                 </div>
             </div>

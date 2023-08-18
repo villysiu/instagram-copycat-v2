@@ -8,15 +8,17 @@ import { Spinner } from 'react-bootstrap';
 
 const PersonActions = () =>{
     const userStatus = useSelector(state => state.users.currUser.status)
-    const currUserId = useSelector(state => state.users.currUser.id)
-   
-    if (!currUserId){
+    const currUser = useSelector(state => state.users.currUser.currUser)
+   console.log(currUser)
+    if (!currUser){
         return  userStatus === 'loading' ? <Spinner  /> : <User />
     }
     return(
         <>
             <Plus />
-            <ProfileDropdown currUserId={currUserId} />
+            
+            <ProfileDropdown currUser={currUser} />
+                
         </>
            
     )

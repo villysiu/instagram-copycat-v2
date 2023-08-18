@@ -1,13 +1,15 @@
 import { PersonCircle } from 'react-bootstrap-icons'
-import { NavDropdown } from 'react-bootstrap';
+import { NavDropdown, Image } from 'react-bootstrap';
 import Logout from '../user/session/Logout';
-const ProfileDropdown = ({currUserId}) =>{
-    const title = (<PersonCircle className="circle_button" />);
+import { backendAPI } from '../../app/helper';
+const ProfileDropdown = ({currUser}) =>{
     
+    // const title = (<PersonCircle className="circle_button" />);
+    const title = (<Image className=" avatar circle_button"  src={`${backendAPI}/${currUser.avatar}`} /> )
     return (
       <>
       <NavDropdown  title={title} >
-          <NavDropdown.Item href={`/users/${currUserId}`}>
+          <NavDropdown.Item href={`/users/${currUser.id}`}>
               Profile
           </NavDropdown.Item>
           <NavDropdown.Divider />
