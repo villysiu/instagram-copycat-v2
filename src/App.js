@@ -29,11 +29,11 @@ function App() {
     
       <div className="App ori">
           
-          <div>
+          <div className="header_wrapper">
             <Header />
             <div className="blank_div" />
           </div>
-          <div style={{width: '100vw'}}>
+          <div style={{marginLeft: 'auto', marginRight: 'auto'}}>
             <Error />
             <Outlet />
           </div>

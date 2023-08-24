@@ -7,7 +7,7 @@ import DescForm from "../newPost/DescForm"
 import { Form, Modal } from "react-bootstrap"
 const EditPost = ({ post, setShow }) =>{
     const dispatch = useDispatch()
-    const [desc, setDesc] = useState(post.comments.find(c=>c.id===post.desc).comment)
+    const [desc, setDesc] = useState(post.desc.comment)
 
     const handleSubmit=e=>{
         e.preventDefault()

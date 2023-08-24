@@ -232,7 +232,7 @@ const postsSlice = createSlice({
         state.status = 'succeeded'
         const {postId, desc} = action.payload
         const post=state.posts.find(post=>post.id===postId)
-        post.desc=desc
+        post.desc.comment=desc
       })
       .addCase(editAPost.rejected, (state) => {
         
@@ -260,7 +260,9 @@ const postsSlice = createSlice({
         state.status = 'succeeded'
         
         const post=state.posts.find(post=>post.id===action.payload.post_id)
-        const comment = post.comments.find(comment=>comment.id === action.payload.comment_id)
+        const comment = post.desc.id === action.payload.comment_id ? 
+              post.desc : 
+              post.comments.find(comment=>comment.id === action.payload.comment_id)
         comment.likes.push(action.payload.data)
       })
       .addCase(likeAPost.rejected, (state) => {
@@ -274,10 +276,13 @@ const postsSlice = createSlice({
       .addCase(unlikeAPost.fulfilled, (state, action)=>{
         state.status = 'succeeded'
         console.log(action.payload)
+        
         const post=state.posts.find(post=>post.id===action.payload.post_id)
         const currUserId = action.payload.user_id
-        const comment = post.comments.find(comment=>comment.id === action.payload.comment_id)
-    
+
+        const comment = post.desc.id === action.payload.comment_id ? 
+              post.desc : 
+              post.comments.find(comment=>comment.id === action.payload.comment_id)
         comment.likes=comment.likes.filter(like=>like.user_id!==currUserId)
       })
       .addCase(unlikeAPost.rejected, (state) => {
@@ -327,3 +332,6 @@ export const getDescByCommentId = (state, postId, descId) => {
   const post = state.posts.posts.find(p=>p.id === postId)
   return post.comments.find(c=>c.id === descId)
 }
+// export const getFirstThreePostByUserId = (state, userId) => {
+//   return state.posts.posts.filter(p=>p.owner.id === userId).slice(0,3)
+// }

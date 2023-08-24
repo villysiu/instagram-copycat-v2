@@ -4,8 +4,10 @@ import { useSelector } from "react-redux"
 import EditProfile from "./EditProfile"
 const EditProfileButton = ({user}) => {
     const [show, setShow] = useState(false)
-    const currUserId = useSelector(state => state.users.currUser.id)
+    const currUser = useSelector(state => state.users.currUser.currUser)
 
+    if(!currUser) 
+    return null
     return(
         <>
             <Modal show={show} onHide={()=>setShow(false)} dialogClassName="edit_profile_modal">
@@ -13,7 +15,7 @@ const EditProfileButton = ({user}) => {
             </Modal>
     
             {
-            currUserId===user.id && 
+            currUser.id===user.id && 
                 <Button variant="light" size="sm" className="profile_edit_button" onClick={()=>setShow(true)}>Edit Profile</Button>
             }
         </>

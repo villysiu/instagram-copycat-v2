@@ -40,10 +40,10 @@ const Comment = ({comment, postId, descId}) => {
                     }
                 </div>
             </div>
-
+            {/* desc, postId, smHeart */}
             {comment.id !== descId &&
                 <div className="ms-4 mt-1" style={{ flex: "0 0 auto" }}>
-                    <LikeHeart likes={comment.likes} commentId={comment.id} postId={postId} smHeart={true}/>
+                    <LikeHeart desc={comment} postId={postId} smHeart={true}/>
                 </div>  
             }
         </>

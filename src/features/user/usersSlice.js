@@ -34,8 +34,10 @@ export const fetchCurrentUserId=createAsyncThunk(
                 throw new Error(response.status)
             }
             console.log(data)
-            timeOutUser2(data.login, thunkAPI)
-            return { data,}
+            timeOutUser2(data.curr_user.login, thunkAPI)
+            return { 
+                ...data
+            }
         } 
         catch(error){
             return Promise.reject("No user logged in");
@@ -89,9 +91,9 @@ export const loginUser=createAsyncThunk(
             const data=await response.json()
 
             localStorage.setItem('token', response.headers.get("Authorization"))
-            timeOutUser2(data.login, thunkAPI)
+            timeOutUser2(data.curr_user.login, thunkAPI)
             return{
-                data
+                ...data
             }
         } 
         catch(error){
@@ -153,9 +155,9 @@ export const signupUser=createAsyncThunk(
             const data=await response.json()
             
             thunkAPI.dispatch(editAvatar(formData[1]))
-            timeOutUser2(data.login, thunkAPI)
+            timeOutUser2(data.curr_user.login, thunkAPI)
             return {
-                data
+                ...data
             }
         } catch(error){
             return Promise.reject(error.message)
@@ -166,7 +168,7 @@ export const signupUser=createAsyncThunk(
 )
 export const logoutUser=createAsyncThunk(
     'users/logoutUser',
-    async () => {
+    async (_,thunkAPI) => {
 
         try{
             const response=await fetch(`${backendAPI}/logout`, {
@@ -183,6 +185,7 @@ export const logoutUser=createAsyncThunk(
             const data=await response.json()
             console.log( data)
             localStorage.clear()
+            thunkAPI.dispatch(logout())    
             return null
                 
             
@@ -315,11 +318,12 @@ const usersSlice=createSlice({
             state.currUser.status = 'loading'
         })
         .addCase(fetchCurrentUserId.fulfilled, (state, action) => {
+
             state.currUser.status = 'succeeded'
             // state.currUser.id = action.payload.id
             // state.currUser.login = action.payload.login
             // state.currUser.avatar = action.payload.avatar
-            state.currUser.currUser = action.payload.data
+            state.currUser.currUser = action.payload.curr_user
         })
         .addCase(fetchCurrentUserId.rejected, (state, action) => {
             // DO NOTHING WHEN NO USER LOGGED IN
@@ -351,7 +355,7 @@ const usersSlice=createSlice({
             // state.currUser.id = action.payload.id
             // state.currUser.login = action.payload.login
             // state.currUser.avatar = action.payload.avatar
-            state.currUser.currUser = action.payload.data
+            state.currUser.currUser = action.payload.curr_user
             state.currUser.error = null
         })
         .addCase(loginUser.rejected, (state, action) => {
@@ -381,7 +385,7 @@ const usersSlice=createSlice({
             // state.currUser.id = action.payload.id
             // state.currUser.login = action.payload.login
             // state.currUser.avatar = action.payload.avatar
-            state.currUser.currUser = action.payload.data
+            state.currUser.currUser = action.payload.curr_user
             state.currUser.error = null
         })
         

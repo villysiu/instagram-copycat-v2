@@ -4,8 +4,8 @@ import { useDispatch } from 'react-redux'
 import { likeAPost, unlikeAPost } from '../../postsSlice'
 
 const LikeButton = ({likes, currUserId, commentId, postId, smHeart}) => {
-    const dispatch=useDispatch()
     
+    const dispatch=useDispatch()
     const currUserLike = likes.some(like=>like.user_id === currUserId)
 
     const handleLike=()=> dispatch(likeAPost({comment_id: commentId, post_id: postId}))

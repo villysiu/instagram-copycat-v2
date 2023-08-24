@@ -13,7 +13,7 @@ const PostImg = ({postUrl, setPortrait}) =>{
         setPortrait( img.naturalHeight > img.naturalWidth)
     }
     return(
-        // <div className={portrait ? "post_img_wrapper portrait" : "post_img_wrapper" }>
+        
             <img className="post_img" alt="" 
                 src={`${backendAPI}/${postUrl}`} 
                 onError={handleImgErr}

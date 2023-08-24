@@ -13,8 +13,16 @@ const Plus = () =>{
                 <AddPost setShow={setShow} />
             </Modal>
 
-            <PlusCircle className="circle_button" onClick={()=>setShow(true)} />
             
+            <div  className="post_header_l ">
+                <PlusCircle className="circle_button" onClick={()=>setShow(true)} />
+                
+                <div className='d-none d-lg-block'>
+                    <div onClick={()=>setShow(true)}>
+                        Create
+                    </div>
+                </div>
+            </div>
         </>
     )
 }

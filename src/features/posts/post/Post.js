@@ -1,21 +1,19 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import PostImg from "./PostImg"
 import PostTime from "./PostTime"
 import PostDropdown from "./PostDropdown"
-import SeeCommentsLink from "./comment/SeeCommentsLink"
 import Desc from "./Desc"
 import LikeHeart from "./like/LikeHeart"
 import LikeCount from "./like/LikeCount"
-import AddCommentIcon from "./comment/AddCommentIcon"
-import PostAuthor from "./PostAuthor"
 import PostPopup from "./postPopup/PostPopup"
 import { Modal, Spinner } from "react-bootstrap"
 import { ChatDots } from "react-bootstrap-icons"
-
+import { UserAuthor } from "../../user/user/UserAuthor"
 const Post = ({ post }) => {
     const [show, setShow] = useState(false)
     const [portrait, setPortrait] = useState(false)
     
+   
     return (
         <>
             <Modal show={show} onHide={()=>setShow(false)} dialogClassName="post_modal" centered>
@@ -25,11 +23,10 @@ const Post = ({ post }) => {
             <div className="post pt-1 pb-4">
                 <div className='post_header'>
                     <div className="post_header_l">
-                        <PostAuthor author={post.owner} />      
+                        <UserAuthor author={post.owner} />
                         <PostTime postTime={post.created_at} />
                     </div>
                     <PostDropdown post={post}/>
-                    
                 </div>
                 <div className={portrait ? "post_img_wrapper portrait" : "post_img_wrapper" }>
                     <PostImg postUrl={post.url} setPortrait={setPortrait} />
@@ -40,7 +37,7 @@ const Post = ({ post }) => {
                             <ChatDots className="comment_icon" onClick={()=>setShow(true)}/>
                         </div>
                         <div className="mx-1">
-                            <LikeHeart likes={post.desc.likes} commentId={post.desc.id} postId={post.id} />
+                            <LikeHeart desc={post.desc} postId={post.id} />
                         </div>
                         <div className="ms-1">
                             <LikeCount likes={post.desc.likes} />

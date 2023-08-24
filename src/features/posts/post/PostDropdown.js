@@ -13,7 +13,7 @@ const PostDropdown = ({post}) =>{
         return null
     }
     return (
-        <NavDropdown title={title}>
+        <NavDropdown title={title} style={{position: 'unset'}}>
             <EditPostButton post={post} />
             <NavDropdown.Divider />
             <DeletePost postId={post.id} currUserId={currUser.id} />

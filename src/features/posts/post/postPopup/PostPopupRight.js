@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react"
 import AddComment from "../comment/AddComment"
 import Comment from "../comment/Comment"
-import PostAuthor from "../PostAuthor"
+import UserAuthor from "../../../user/user/UserAuthor"
 import LikeHeart from "../like/LikeHeart"
 import LikeCount from "../like/LikeCount"
 export const PostPopupRight = ({post}) => {
@@ -15,8 +15,8 @@ export const PostPopupRight = ({post}) => {
     return (
         <>
             <div className='post_modal_header'>
-                <div className="post_modal_user">
-                    <PostAuthor author={post.owner} />
+                <div className="post_modal_user flex_row_center">
+                    <UserAuthor author={post.owner} />
                 </div>
             </div>
             <div className="post_modal_body px-2 border-top">
@@ -35,7 +35,7 @@ export const PostPopupRight = ({post}) => {
             <div>
                 <div className='post_modal_like_wrapper border-top p-2'>
                     <div className="me-1">
-                        <LikeHeart likes={post.desc.likes} commentId={post.desc.id} postId={post.id} />
+                        <LikeHeart desc={post.desc} postId={post.id} />
                     </div>  
                     <div className="ms-1">
                         <LikeCount likes={post.desc.likes} />

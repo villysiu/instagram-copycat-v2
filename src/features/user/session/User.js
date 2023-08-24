@@ -22,10 +22,16 @@ const User = () =>{
                     <VerifyEmail toggleLogin={toggleLogin} setShow={setShow} />}
             </Modal>
            
-          
-            {/* <Button variant="secondary" size="sm" className="mx-2" onClick={()=>setShow(true)}> */}
+
+            <div  className="post_header_l ">
                 <PersonCircle className="circle_button mx-2" onClick={()=>setShow(true)}/>
-            {/* </Button> */}
+                <div className='d-none d-lg-block'>
+                    <div onClick={()=>setShow(true)}>
+                        Login
+                    </div>
+                </div>
+            </div>
+            
         </>
 
     )

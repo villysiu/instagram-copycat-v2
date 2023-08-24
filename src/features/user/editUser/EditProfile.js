@@ -9,8 +9,7 @@ import EditAvatar from "./editAvatar/EditAvatar"
 import FloatingInputBox from "../session/FloatingInputBox"
 
 const EditProfile = ({setShow, currUser}) =>{
-    console.log("in edit porfile")
-    console.log(currUser)
+    
     const dispatch=useDispatch();
     const [avatar, setAvatar] = useState(currUser? currUser.avatar : null)
     const [username, setUsername] = useState(currUser.name)
