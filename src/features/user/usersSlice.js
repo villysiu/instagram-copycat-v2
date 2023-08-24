@@ -352,9 +352,6 @@ const usersSlice=createSlice({
         .addCase(loginUser.fulfilled, (state, action) => {
             console.log(action.payload)
             state.currUser.status = 'succeeded'
-            // state.currUser.id = action.payload.id
-            // state.currUser.login = action.payload.login
-            // state.currUser.avatar = action.payload.avatar
             state.currUser.currUser = action.payload.curr_user
             state.currUser.error = null
         })
@@ -362,7 +359,6 @@ const usersSlice=createSlice({
             console.log(action)
             state.currUser.status = 'failed'
             state.currUser.error = action.error.message
-            // state.error = "Failed to login. Please check if email and password are correct."
         })
         .addCase(verifyEmail.pending, (state, action) => {
             state.email.status = 'loading'
@@ -382,9 +378,6 @@ const usersSlice=createSlice({
         .addCase(signupUser.fulfilled, (state, action) => {
            
             state.currUser.status = 'succeeded'
-            // state.currUser.id = action.payload.id
-            // state.currUser.login = action.payload.login
-            // state.currUser.avatar = action.payload.avatar
             state.currUser.currUser = action.payload.curr_user
             state.currUser.error = null
         })
@@ -392,7 +385,6 @@ const usersSlice=createSlice({
         .addCase(signupUser.rejected, (state, action) => {
 
             state.currUser.status = 'failed'
-            console.log(action)
             state.currUser.error = "signup error"
         })
         .addCase(logoutUser.pending, (state, action) => {
@@ -409,45 +401,48 @@ const usersSlice=createSlice({
             state.currUser.error = action.error.message
         })
         .addCase(editProfile.pending, (state, action) => {
-            state.user.status = 'loading'
+            state.currUser.status = 'loading'
         })
         .addCase(editProfile.fulfilled, (state, action) => {
-            state.user.status = 'succeeded'
+            state.currUser.status = 'succeeded'
             if(state.user.user.id === action.payload.id){
                 state.user.user.name=action.payload.name
                 state.user.user.bio=action.payload.bio
             }
+            state.currUser.currUser.name = action.payload.name
         })
         .addCase(editProfile.rejected, (state, action) => {
-            state.user.status = 'failed'
+            state.currUser.status = 'failed'
             state.user.error = action.error.message
         })
         .addCase(editAvatar.pending, (state, action) => {
-            state.user.status = 'loading'
+            state.currUser.status = 'loading'
         })
         .addCase(editAvatar.fulfilled, (state, action) => {
-            state.user.status = 'succeeded'
+            state.currUser.status = 'succeeded'
             console.log(action.payload)
             if(state.user.user.id === action.payload.id){
                 state.user.user.avatar=action.payload.avatar
             }
+            state.currUser.currUser.avatar = action.payload.avatar
         })
         .addCase(editAvatar.rejected, (state, action) => {
-            state.user.status = 'failed'
-            state.user.error = action.error.message
+            state.currUser.status = 'failed'
+            state.currUser.error = action.error.message
         })
         .addCase(deleteAvatar.pending, (state, action) => {
-            state.user.status = 'loading'
+            state.currUser.status = 'loading'
         })
         .addCase(deleteAvatar.fulfilled, (state, action) => {
-            state.user.status = 'succeeded'   
+            state.currUser.status = 'succeeded'   
             if(state.user.user.id === action.payload.id){
                 state.user.user.avatar=null
-            } 
+            }
+            state.currUser.currUser.avatar = null
         })
         .addCase(deleteAvatar.rejected, (state, action) => {
-            state.user.status = 'failed'
-            state.user.error = action.error.message
+            state.currUser.status = 'failed'
+            state.currUser.error = action.error.message
         })
 
    

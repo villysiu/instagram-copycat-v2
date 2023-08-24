@@ -4,29 +4,33 @@ import { backendAPI } from "../../../../app/helper"
 import { calculateTime } from "../../../../app/helper"
 import LikeHeart from "../like/LikeHeart"
 import LikeCount from "../like/LikeCount"
+import UsernameLink from "../../../user/user/UsernameLink"
+import UserAvatarLink from "../../../user/user/UserAvatarLink"
 const Comment = ({comment, postId, descId}) => {
     // const dayCreated = calculateTime(Math.round(Date.now()/1000)-comment.created_at)
     const [dayCreated, setDayCreated] = useState("???")
     
     useEffect(() => {
-
         var timer = setInterval(()=>
             setDayCreated(calculateTime(Math.round(Date.now()/1000)-comment.created_at))
             , 1000 )
         return function cleanup() {
             clearInterval(timer)
         }
-    
     });
     return (
         <>
             <div className="post_avatar_wrapper comment_avatar_wrapper">
-                <Image className="avatar"  src={`${backendAPI}/${comment.user.avatar}`} /> 
+                {/* <Image className="avatar"  src={`${backendAPI}/${comment.user.avatar}`} />  */}
+                <UserAvatarLink author={comment.user} />
             </div>
 
             <div className="comment_comment_wrapper">
                 <div>
-                    <span className="me-2 comment bold_font">{comment.user.name}</span>
+                    <span className="me-2 comment bold_font">
+                        {/* {comment.user.name} */}
+                        <UsernameLink author={comment.user} />
+                        </span>
                     <span className="comment">{comment.comment}</span>
                 </div>
                 <div style={{display: 'flex'}}>

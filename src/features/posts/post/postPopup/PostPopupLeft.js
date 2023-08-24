@@ -1,7 +1,8 @@
 import { backendAPI } from "../../../../app/helper"
 import { useState } from "react"
 import placeholder from "../../../../images/X (1).png"
-import { UserAuthor } from "../../../user/user/UserAuthor"
+import UsernameLink from "../../../user/user/UsernameLink"
+import UserAvatarLink from "../../../user/user/UserAvatarLink"
 import LikeHeart from "../like/LikeHeart"
 import LikeCount from "../like/LikeCount"
 import PostImg from "../PostImg"
@@ -15,7 +16,8 @@ const PostPopupLeft = ({post}) =>{
         <>
             <div className='d-block d-md-none' >
                 <div className="post_modal_user flex_row_center">
-                    <UserAuthor author={post.owner} />
+                    <UserAvatarLink author={post.owner} />
+                    <UsernameLink author={post.owner} />
                 </div>
             </div>
 

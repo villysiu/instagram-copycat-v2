@@ -8,7 +8,9 @@ import LikeCount from "./like/LikeCount"
 import PostPopup from "./postPopup/PostPopup"
 import { Modal, Spinner } from "react-bootstrap"
 import { ChatDots } from "react-bootstrap-icons"
-import { UserAuthor } from "../../user/user/UserAuthor"
+// import { UserAuthor } from "../../user/user/UserAuthor"
+import UsernameLink from "../../user/user/UsernameLink"
+import UserAvatarLink from "../../user/user/UserAvatarLink"
 const Post = ({ post }) => {
     const [show, setShow] = useState(false)
     const [portrait, setPortrait] = useState(false)
@@ -23,7 +25,8 @@ const Post = ({ post }) => {
             <div className="post pt-1 pb-4">
                 <div className='post_header'>
                     <div className="post_header_l">
-                        <UserAuthor author={post.owner} />
+                        <UserAvatarLink author={post.owner} />
+                        <UsernameLink author={post.owner} />
                         <PostTime postTime={post.created_at} />
                     </div>
                     <PostDropdown post={post}/>

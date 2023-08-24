@@ -34,9 +34,10 @@ const UserPopup = ({author})=>{
                 <Row>
                 { fisrt3Posts.map((post, idx)=> {
                     return (
-                        <Col key={idx} className="user_popover_img_wrapper" >
+                        <Col key={idx} className="user_popover_img_wrapper">
                             <Image 
                                 className="user_post_square_img" 
+                            
                                 src={`${backendAPI}/${post.url}`} 
                                 onError={handleImgErr} 
                             />

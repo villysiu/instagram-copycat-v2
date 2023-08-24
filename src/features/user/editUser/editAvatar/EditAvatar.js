@@ -8,11 +8,11 @@ const EditAvatar = ({avatar, setAvatar, initial}) =>{
 
     return (
     
-        <div className="mt-2 mb-4 edit_avatar_wrapper">
+        <div className="mt-2 mb-4 flex_row_center">
             {preview ?
-                <Image className="edit_avatar"  src={`${preview}`} alt="avatar" /> 
+                <Image className="edit_avatar me-2"  src={`${preview}`} alt="avatar" /> 
                 :
-                <div className="edit_avatar">
+                <div className="edit_avatar  me-2">
                     <div className="edit_avatar_initial">{initial.toUpperCase()}</div> 
                 </div>
                 

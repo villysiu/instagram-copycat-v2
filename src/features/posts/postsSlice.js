@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { backendAPI } from '../../app/helper'
-
+import { editAvatar, deleteAvatar } from '../user/usersSlice'
 
 export const fetchPosts = createAsyncThunk(
   'posts/fetchPosts',
@@ -303,6 +303,36 @@ const postsSlice = createSlice({
         state.status = 'failed'
         state.error = `Comment a post failed. Please try again later`
       })
+      .addCase(editAvatar.fulfilled, (state, action) => {
+        console.log(state.posts)
+        console.log(action.payload)
+
+        state.posts.map(post=>{
+          if(post.owner.id === action.payload.id){
+            post.owner.avatar = action.payload.avatar
+            post.desc.user.avatar = action.payload.avatar
+          }
+          post.comments.map(comment=>{
+            if(comment.user.id===action.payload.id)
+              comment.user.avatar = action.payload.avatar
+          })
+        })
+      })
+      .addCase(deleteAvatar.fulfilled, (state, action) => {
+        console.log(state.posts)
+        console.log(action.payload)
+        state.posts.map(post=>{
+          if(post.owner.id === action.payload.id){
+            post.owner.avatar = null
+            post.desc.user.avatar = null
+          }
+          post.comments.map(comment=>{
+            if(comment.user.id===action.payload.id)
+              comment.user.avatar = null
+          })
+        })
+       
+      })
   }
 })
 
@@ -319,12 +349,7 @@ export const selectPostsbyUserId = (state, userId) =>{
 export const selectPostbyId = (state, postId) => {
   return state.posts.posts.find(post => post.id === postId)
 }
-// export const likedByCurrUser = (state, postId) => {
-//   console.log(state)
-//   const post = state.posts.find(p=>p.id===postId) 
-//   const
-//   return post.comment.likes.some(like=>like.user_id === state.users.currUser.id)
-// }
+
 export const getPostByUserCount = (state, userId) => {
   return state.posts.posts.filter(p=>p.owner.id === userId).length
 }
@@ -332,6 +357,4 @@ export const getDescByCommentId = (state, postId, descId) => {
   const post = state.posts.posts.find(p=>p.id === postId)
   return post.comments.find(c=>c.id === descId)
 }
-// export const getFirstThreePostByUserId = (state, userId) => {
-//   return state.posts.posts.filter(p=>p.owner.id === userId).slice(0,3)
-// }
+

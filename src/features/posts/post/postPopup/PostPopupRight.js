@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react"
 import AddComment from "../comment/AddComment"
 import Comment from "../comment/Comment"
-import UserAuthor from "../../../user/user/UserAuthor"
+import UsernameLink from "../../../user/user/UsernameLink"
+import UserAvatarLink from "../../../user/user/UserAvatarLink"
 import LikeHeart from "../like/LikeHeart"
 import LikeCount from "../like/LikeCount"
 export const PostPopupRight = ({post}) => {
@@ -16,7 +17,8 @@ export const PostPopupRight = ({post}) => {
         <>
             <div className='post_modal_header'>
                 <div className="post_modal_user flex_row_center">
-                    <UserAuthor author={post.owner} />
+                    <UserAvatarLink author={post.owner} />
+                    <UsernameLink author={post.owner} />
                 </div>
             </div>
             <div className="post_modal_body px-2 border-top">
