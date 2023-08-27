@@ -24,7 +24,7 @@ const DeletePost = ({postId, currUserId}) => {
             </Modal.Footer>
         </Modal>
 
-        <NavDropdown.Item onClick={()=>setShowModal(true)}>
+        <NavDropdown.Item onClick={()=>setShowModal(true)} style={{color: "red"}}>
             Delete
         </NavDropdown.Item>
         </>

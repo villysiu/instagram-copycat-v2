@@ -19,12 +19,12 @@ const UserHover = ({author, children}) =>{
 
     return (
         <OverlayTrigger placement="auto-start" overlay={renderPopover} show={show} >
-            <div  onMouseEnter={()=>setShow(true)} onMouseLeave={()=>setShow(false)}
+            <span  onMouseEnter={()=>setShow(true)} onMouseLeave={()=>setShow(false)}
             >
                 <Link className="link_black" to={`/users/${author.id}`}>
                     {children}
                 </Link>
-            </div> 
+            </span> 
         </OverlayTrigger>
       );
 

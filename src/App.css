@@ -181,7 +181,7 @@
   flex: 1 1 auto;
 } */
 /* PROFILE */
-.profile_wrapper {
+.profile_wrapper  {
   width: var(--profile_w);
   margin: auto;
   /* padding: 0.5rem; */
@@ -269,6 +269,11 @@
 .profile_username {
   font-size: 20px;
   text-align: left;
+}
+.profile_user_email {
+  font-size: 16px;
+  text-align: left;
+  color: grey;
 }
 
 .bio {
@@ -372,12 +377,41 @@
   height: calc(var(--profile_w) / 3);
   padding: 0;
   border: 2px white solid;
+  position: relative;
+  display: flex;
+    align-items: center;
+    justify-content: center;
 }
 .user_post_square_img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  opacity: 1;
+}
+
+.user_post_square_hover_overlay {
+  opacity: 0;
+  position: absolute;
   
+  width: 100%;
+  height: 100%;
+  background: black;
+}
+.user_post_square_text {
+  position: absolute;
+  color: white;
+  opacity: 0;
+
+  font-size: 18px;
+  font-weight: bold;
+  /* padding: 16px 32px; */
+}
+
+.user_post_square_wrapper:hover .user_post_square_hover_overlay {
+  opacity: 0.3;
+}
+.user_post_square_wrapper:hover .user_post_square_text {
+  opacity: 1; 
 }
 @media all and ((max-width: 991.98px)){
   .profile_wrapper {
@@ -457,7 +491,7 @@
 
 
 /* POST LIST */
-.post_list {
+.postlist_wrapper {
   width: var(--list_w);
   margin-left: auto;
   margin-right: auto;
@@ -477,16 +511,15 @@
 }
 
 /* POST HEADER */
-.post_header{
+.post_header_wrapper, .post_popup_r_header_wrapper, .post_popup_l_header_wrapper {
   width: 100%;
-  padding: 0.5rem;
-  
+  padding: 1rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
   
 }
-.post_header_l {
+.post_header, .post_popup_r_header, .post_popup_l_header {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -502,7 +535,7 @@
   font-size: 16px;
   
 }
-.avatar_60_wrapper {
+.user_popup_avatar_wrapper {
   width: 60px;
   height: 60px;
   font-size: 30px;
@@ -535,6 +568,7 @@
   object-fit: cover;
   max-width: 100%;
   max-height: 100%;
+  background-color: #fff;
 }
 .portrait {
   height: calc(var(--list_w) * 4 / 3);
@@ -636,6 +670,8 @@
   justify-content: center;
   background-color: #000;
   position:relative;
+  border-bottom-left-radius: var(--bs-modal-border-radius);
+  border-top-left-radius: var(--bs-modal-border-radius);
 }
 .post_modal_wrapper_r{
   /* width: calc(var(--post_modal_w) *0.65); */
@@ -679,9 +715,9 @@
   position: fixed;
   top: 15px;
   right: 15px;
-  width: 1.3rem;
-  height: 1.3rem;
+  font-size: 3em;
   opacity: 1;
+  color: white;
 
 }
 .post_modal_header {
@@ -689,7 +725,7 @@
 }
 .post_modal_user {
   width: calc(100% - 1rem);
-  margin: 0.5rem;
+  /* margin: 0.5rem; */
 }
 .post_modal_footer {
   /* position: absolute; */
@@ -752,45 +788,29 @@
   color: lightgray !important;
 }
 /* CAROUSAL */
-
-/* .carousal-close-btn {
-  position: fixed;
-  top: 15px;
-  right: 10px;
-  z-index: 1;
+.userposts_carousal {
   opacity: 1;
 }
+/* .carousel-control-next,  */
 
-
-.carousel-inner{
-  margin: auto;
-  width: 480px;
-}
-@media (max-width: 575px){
-  .carousel-inner{
-    margin: auto;
-    width: calc(100vw*480/575);
-  }
-}
-.carousel-control-next, .carousel-control-prev {
+.userposts_carousal_next_icons, .userposts_carousal_prev_icons {
   position: fixed;
-  top: 50%;
-  bottom: 50%;
-  width: 2rem;
-  height: 2rem;
-  opacity: 1;
-  background-color: white;
-  border-radius: 50%;
+  
+  top: calc(50vh - 20px);
+  height: 40px;
+  width: 40px;
+  color: white;
+  
 }
-span.carousel-control-next-icon, span.carousel-control-prev-icon {
-  width: 1rem;
-  height: 1rem;
-  filter: invert(1) grayscale(100);
+.userposts_carousal_next_icons{
+  right: 30px;
+} 
+.userposts_carousal_prev_icons {
+  left: 30px;
 }
-
-.carousel-control-next:hover, .carousel-control-prev:hover {
+.userposts_carousal_next_icons:hover, .userposts_carousal_prev_icons:hover {
   opacity: 0.7;
-} */
+}
 
 .popover{
   --bs-popover-arrow-width: unset !important;
@@ -900,6 +920,11 @@ span.carousel-control-next-icon, span.carousel-control-prev-icon {
     flex-direction: row;
     
   }
+  /* .post_modal_close_btn {
+    position: fixed;
+    top: 15px;
+    right: 15px;
+  } */
 }
 @media (orientation: landscape) and (max-width: 991.98px){
   .title {

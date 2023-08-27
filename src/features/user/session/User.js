@@ -13,7 +13,6 @@ const User = () =>{
     return (
         <>
             <Modal show={show} onHide={()=>setShow(false)} 
-            // className="user-modal"
             dialogClassName="user_modal"
             >
                 {login? 

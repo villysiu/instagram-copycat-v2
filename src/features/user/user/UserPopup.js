@@ -21,7 +21,7 @@ const UserPopup = ({author})=>{
   
         <div >
             <div className="flex_row_center m-2">
-                <div className="me-2" style={{width: '60px', height:'60px', fontSize: '30px'}}>
+                <div className="me-2" className="user_popup_avatar_wrapper">
                     <ProfileLink children={ 
                         <Avatar avatar={author.avatar} name={author.name} />
                     } />

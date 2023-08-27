@@ -15,7 +15,7 @@ const PostPopupLeft = ({post}) =>{
     return (
         <>
             <div className='d-block d-md-none' >
-                <div className="post_modal_user flex_row_center">
+                <div className="post_popup_l_header">
                     <UserAvatarLink author={post.owner} />
                     <UsernameLink author={post.owner} />
                 </div>
@@ -27,7 +27,7 @@ const PostPopupLeft = ({post}) =>{
 
             <div className='d-block d-md-none' >
                 <div className='post_modal_like_wrapper p-2'>
-                    <div className="me-1">
+                    <div className="m-1">
                         <LikeHeart desc={post.desc} postId={post.id} />
                     </div>  
                     <div className="ms-1">

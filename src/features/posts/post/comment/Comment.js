@@ -27,11 +27,10 @@ const Comment = ({comment, postId, descId}) => {
 
             <div className="comment_comment_wrapper">
                 <div>
-                    <span className="me-2 comment bold_font">
-                        {/* {comment.user.name} */}
+                    {/* <span className="me-2"> */}
                         <UsernameLink author={comment.user} />
-                        </span>
-                    <span className="comment">{comment.comment}</span>
+                    {/* </span> */}
+                    <span className="ms-2">{comment.comment}</span>
                 </div>
                 <div style={{display: 'flex'}}>
                     <div className="light_gray_font">

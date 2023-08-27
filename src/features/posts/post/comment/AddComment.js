@@ -21,9 +21,9 @@ const AddComment = ({postId}) => {
 
         resetTextarea()
     }
-    const handleKeyUp = (e) => {
-        // height: 27px; 
-        e.target.style.maxheight = '100px';
+    const handleChange = (e) => {
+        setComment(e.target.value)
+        e.target.style.maxHeight = '100px';
         e.target.style.height = 'inherit';
         e.target.style.height = `${e.target.scrollHeight}px`; 
     }
@@ -31,20 +31,18 @@ const AddComment = ({postId}) => {
         const elems = document.getElementsByName("comment");
         for(let elem of elems){
             // console.log(elem)
-            elem.style.height = '27px'
+            elem.style.height = '46px'
         }
     }
     if(!currUser) return null;
     
     return (
         <div className="p-2 border-top">
-            <Form  onSubmit={handleSubmit} className="form_comment_wrapper" >
+            <Form  onSubmit={handleSubmit} className="flex_row_center" >
                 <Form.Control as="textarea" bsPrefix="comment_input" 
                     id="comment" name="comment" placeholder="Add a comment" 
-                    value={comment} onChange={e=>setComment(e.target.value)} 
-                    onKeyUp={e=>handleKeyUp(e)}
-                    style={{height: '27px'}}
-                    row="1"
+                    value={comment} 
+                    onChange={handleChange} 
                 /> 
 
                 <div className="add_comment_button" onClick={handleSubmit}>POST</div>

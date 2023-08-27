@@ -20,6 +20,9 @@ const ProfileHeader=({user, userPostsCount })=>{
                         <div className="profile_username me-4">
                             {user.name}
                         </div>
+                        <div className="profile_user_email me-4">
+                            ({user.email})
+                        </div>
                         <EditProfileButton user={user} />
                     </div>
                     <div className='bold_font'> {userPostsCount} posts</div>

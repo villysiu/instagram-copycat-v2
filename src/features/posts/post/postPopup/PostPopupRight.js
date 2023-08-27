@@ -5,6 +5,7 @@ import UsernameLink from "../../../user/user/UsernameLink"
 import UserAvatarLink from "../../../user/user/UserAvatarLink"
 import LikeHeart from "../like/LikeHeart"
 import LikeCount from "../like/LikeCount"
+import PostDropdown from "../PostDropdown"
 export const PostPopupRight = ({post}) => {
     
     // const comments = post.comments.filter(c=>c.id!==post.desc)
@@ -15,11 +16,12 @@ export const PostPopupRight = ({post}) => {
     
     return (
         <>
-            <div className='post_modal_header'>
-                <div className="post_modal_user flex_row_center">
+            <div className='post_popup_r_header_wrapper p-3'>
+                <div className="post_popup_r_header">
                     <UserAvatarLink author={post.owner} />
                     <UsernameLink author={post.owner} />
                 </div>
+                <PostDropdown post={post}/>
             </div>
             <div className="post_modal_body px-2 border-top">
                 <div className="comment_wrapper">

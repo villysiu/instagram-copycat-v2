@@ -19,7 +19,7 @@ console.log(posts)
     }
     else {
     return (
-        <div className="post_list">
+        <div className="postlist_wrapper">
             {posts.map( post =>
               <Post key={post.id} post={post}  />
             )}
