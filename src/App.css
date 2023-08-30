@@ -107,8 +107,12 @@
   }
 }
 
-.btn { white-space: normal }
-
+.btn { 
+  white-space: normal 
+}
+/* .btn-primary {
+  --bs-btn-bg: #3d8bfe;
+  } */
 
 
 /* MODAL */
@@ -174,6 +178,7 @@
 }
 .circle_button:hover {
   transform: scale(1.2);
+  cursor: pointer;
 }
 /* .sbody {
   position: absolute;
@@ -251,6 +256,12 @@
   display: flex;
     flex-direction: row;
     align-items: center;
+}
+.flex_row_stretch{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
 }
 .edit_avatar_initial{
   position: absolute;
@@ -832,6 +843,58 @@
     border: 2px white solid;
     max-width: 120px !important;
 }
+.followers_modal {
+  width: 250px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  
+}
+.followers_modal_title{
+  font-size: 16px;
+  font-weight: bold;
+  padding: 0.5rem;
+  display:flex;
+  justify-content: center;
+
+}
+
+.followers_modal_close_btn {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  font-size: 30px;
+}
+.remove_follower_btn{
+  color: black !important;
+    background-color: rgb(225, 222, 222) !important;
+    font-size: 12px;
+    font-weight: bold;
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+    border-color: transparent !important;
+}
+.remove_follower_btn:hover {
+  background-color: rgb(190, 189, 189) !important;
+}
+.remove_follower_btn:active{
+  background-color: rgb(225, 222, 222) !important;
+  color: rgb(132, 131, 131) !important;
+}
+.follow_btn{
+    background-color: rgb(17, 143, 247) !important;
+    font-size: 12px;
+    font-weight: bold;
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+    border-color: transparent !important;
+}
+.follow_btn:hover {
+  background-color: rgb(17, 119, 203) !important;
+  cursor: pointer;
+}
+.follow_btn:active{
+  background-color: rgb(17, 119, 203) important;
+}
 /* FONT STYLE */
 .light_gray_font {
   font-size: 10px; 
@@ -840,7 +903,9 @@
 .bold_font {
   font-weight: bold;
 }
-
+.hover_pointer:hover {
+  cursor: pointer; 
+}
 @media all and  ((max-width: 500px) or (max-height: 374.98px)) {
 
   .user_modal_header , .user_modal_footer, .add_post_modal_header, .edit_profile_modal_header {
@@ -858,18 +923,7 @@
 
   
 }
-/* @media all and (max-width: 767.98px) {
-  .profile_user_wrapper {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-  }
-} */
-/* @media all and (max-width: 575.98px) {
-  .title, .logo {
-    font-size: 18px;
-  }
-} */
+
 @media all and (max-width: 400px) {
   .title, .logo {
     visibility: hidden;
@@ -916,15 +970,15 @@
     margin-bottom: calc(var(--header_circle_btn) * 0.5);
   }
   .profile_user_wrapper {
-    display: flex;
+    align-items: center;
     flex-direction: row;
+
     
   }
-  /* .post_modal_close_btn {
-    position: fixed;
-    top: 15px;
-    right: 15px;
-  } */
+  .followers_modal {
+    width: 450px !important;
+
+  }
 }
 @media (orientation: landscape) and (max-width: 991.98px){
   .title {

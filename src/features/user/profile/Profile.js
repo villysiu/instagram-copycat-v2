@@ -28,14 +28,14 @@ const Profile = () => {
         if(userStatus==="loading" || userStatus==="idle")
             return <Spinner />
 
-        else {//usersStatus===failed
-            return <Navigate to="/" replace={true} />
-        }
+        // else {//usersStatus===failed
+        //     return <Navigate to="/" replace={true} />
+        // }
     }  
     return (
         <div className="profile_wrapper">
             <ProfileHeader user={user} userPostsCount={userPosts.length} />
-            <UserPostList userPosts={userPosts} postsStatus={postsStatus} />
+            {/* <UserPostList userPosts={userPosts} postsStatus={postsStatus} /> */}
         </div>  
 
     )

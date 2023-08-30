@@ -5,6 +5,7 @@ import { backendAPI } from "../../../app/helper"
 import placeholder from "../../../images/X (1).png"
 import Avatar from "../profile/Avatar"
 import { Link } from "react-router-dom"
+
 const UserPopup = ({author})=>{
     const fisrt3Posts=useSelector(state=>selectPostsbyUserId(state, author.id).slice(0,3))
     const handleImgErr=(e)=>{
@@ -21,7 +22,7 @@ const UserPopup = ({author})=>{
   
         <div >
             <div className="flex_row_center m-2">
-                <div className="me-2" className="user_popup_avatar_wrapper">
+                <div className="me-2 user_popup_avatar_wrapper">
                     <ProfileLink children={ 
                         <Avatar avatar={author.avatar} name={author.name} />
                     } />

@@ -62,6 +62,7 @@ export const fetchUserById=createAsyncThunk(
                 throw new Error(`${response.status} ${response.statusText}`)
             }
             const data=await response.json()
+            console.log(data)
             return { 
                 data 
             }
@@ -271,6 +272,32 @@ export const deleteAvatar = createAsyncThunk(
       }
     }
 )
+export const follow = createAsyncThunk(
+    'users/follow',
+    async (user_id)=>{
+    try {
+          const response=await fetch(`${backendAPI}/follower/`, {
+          method: 'POST',
+          headers: {
+            'Content-type': "application/json",
+            'Accept' : 'application/json',
+            "Authorization": localStorage.getItem("token")
+          },
+          body: JSON.stringify(user_id)
+        })
+        const data=await response.json()
+        console.log(response)
+        if(!response.ok) 
+          throw new Error(response.status+" "+response.statusText)
+        return {
+            user_id
+        }
+      } 
+      catch (error) {
+        return Promise.reject(error)
+      }
+    }
+)
 
 
 const usersSlice=createSlice({
@@ -337,6 +364,7 @@ const usersSlice=createSlice({
             
         })
         .addCase(fetchUserById.fulfilled, (state, action) => {
+            
             state.user.status = 'succeeded'
             state.user.user = action.payload.data
             state.user.error = null
@@ -444,7 +472,19 @@ const usersSlice=createSlice({
             state.currUser.status = 'failed'
             state.currUser.error = action.error.message
         })
-
+        .addCase(follow.pending, (state, action) => {
+            state.user.status = 'loading'
+        })
+        .addCase(follow.fulfilled, (state, action) => {
+            state.user.status = 'succeeded'   
+            state.user.user.followers.push(state.currUser.currUser)
+            
+            
+        })
+        .addCase(follow.rejected, (state, action) => {
+            state.user.status = 'failed'
+            state.user.error = action.error.message
+        })
    
     }
 })
