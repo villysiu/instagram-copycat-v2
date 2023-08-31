@@ -6,12 +6,15 @@ import { useSelector } from "react-redux"
 import Followers from "../followers/Followers"
 import Following from "../followers/Following"
 import FollowButton from "../followers/FollowButton"
-
+import UnfollowButton from "../followers/UnfollowButton"
 const ProfileHeader=({user, userPostsCount })=>{
 
-    // console.log(user)
+    
+    
     const currUser = useSelector(state => state.users.currUser.currUser)
     const ButtonHelper=() =>{
+        console.log(user)
+        console.log(currUser)
         if(!currUser) return null
 
         if(currUser.id === user.id) 
@@ -20,9 +23,9 @@ const ProfileHeader=({user, userPostsCount })=>{
         return (
             <>{
                 user.followers.some(follower=>follower.id===currUser.id) ?
-                    <>Following Already </>
+                    <UnfollowButton userId={user.id} currUserId={currUser.id} />
                     :
-                    <FollowButton user={user} currUser={currUser} />
+                    <FollowButton userId={user.id} />
             }</>
         )      
     }
@@ -55,8 +58,8 @@ const ProfileHeader=({user, userPostsCount })=>{
                     <div style={{fontSize: '16px'}} className="flex_row_center my-3">
                         <div className="me-5"><b> {userPostsCount}</b> posts</div>
                         
-                        <Followers followers={user.followers} />
-                        <Following following = {user.following} />
+                        <Followers followers={user.followers} userId={user.id} />
+                        <Following followings={user.followings} userId={user.id} />
                        
 
                     </div>

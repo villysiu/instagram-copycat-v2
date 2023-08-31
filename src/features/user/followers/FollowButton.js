@@ -1,10 +1,10 @@
 import { Button } from "react-bootstrap"
 import { useDispatch } from "react-redux"
 import { follow } from "../usersSlice"
-const FollowButton = ({user}) => {
+const FollowButton = ({userId}) => {
     const dispatch = useDispatch()
     const handleClick = () =>{
-        dispatch(follow({user_id: user.id}))
+        dispatch(follow({user_id: userId}))
     }
     return (
         <Button className="follow_btn" onClick={handleClick}>Follow</Button>

@@ -274,23 +274,75 @@ export const deleteAvatar = createAsyncThunk(
 )
 export const follow = createAsyncThunk(
     'users/follow',
-    async (user_id)=>{
+    async (info)=>{
     try {
-          const response=await fetch(`${backendAPI}/follower/`, {
+          const response=await fetch(`${backendAPI}/followers/`, {
           method: 'POST',
           headers: {
             'Content-type': "application/json",
             'Accept' : 'application/json',
             "Authorization": localStorage.getItem("token")
           },
-          body: JSON.stringify(user_id)
+          body: JSON.stringify(info)
         })
         const data=await response.json()
         console.log(response)
         if(!response.ok) 
           throw new Error(response.status+" "+response.statusText)
         return {
-            user_id
+            ...data
+        }
+      } 
+      catch (error) {
+        return Promise.reject(error)
+      }
+    }
+)
+export const unfollow = createAsyncThunk(
+    'users/unfollow',
+    async (info)=>{
+    try {
+          const response=await fetch(`${backendAPI}/followers/`, {
+          method: 'DELETE',
+          headers: {
+            'Content-type': "application/json",
+            'Accept' : 'application/json',
+            "Authorization": localStorage.getItem("token")
+          },
+          body: JSON.stringify(info)
+        })
+        const data=await response.json()
+        console.log(response)
+        if(!response.ok) 
+          throw new Error(response.status+" "+response.statusText)
+        return {
+            ...info
+        }
+      } 
+      catch (error) {
+        return Promise.reject(error)
+      }
+    }
+)
+export const removeFollower = createAsyncThunk(
+    'users/removeFollower',
+    async (info)=>{
+    try {
+          const response=await fetch(`${backendAPI}/followers/remove`, {
+          method: 'DELETE',
+          headers: {
+            'Content-type': "application/json",
+            'Accept' : 'application/json',
+            "Authorization": localStorage.getItem("token")
+          },
+          body: JSON.stringify(info)
+        })
+        // const data=await response.json()
+        // console.log(response)
+        if(!response.ok) 
+          throw new Error(response.status+" "+response.statusText)
+        return {
+            ...info
         }
       } 
       catch (error) {
@@ -477,11 +529,58 @@ const usersSlice=createSlice({
         })
         .addCase(follow.fulfilled, (state, action) => {
             state.user.status = 'succeeded'   
-            state.user.user.followers.push(state.currUser.currUser)
-            
-            
+            console.log(action.payload)
+            console.log(state.user.user.id === action.payload.user.id)
+            state.currUser.currUser.followings.push(action.payload.user)
+            if(state.user.user.id === action.payload.user.id){
+                console.log("pusjing")
+                state.user.user.followers.push(state.currUser.currUser)
+            }
         })
         .addCase(follow.rejected, (state, action) => {
+            state.user.status = 'failed'
+            state.user.error = action.error.message
+        })
+        .addCase(unfollow.pending, (state, action) => {
+            state.user.status = 'loading'
+        })
+        .addCase(unfollow.fulfilled, (state, action) => {
+
+            state.user.status = 'succeeded'   
+            console.log(action.payload)
+            console.log(state.user.user.id === action.payload.user_id)
+            state.currUser.currUser.followings = 
+                state.currUser.currUser.followings.filter(following=>following.id!==action.payload.user_id) 
+                
+            if(state.user.user.id === action.payload.user_id )
+                state.user.user.followers=
+                    state.user.user.followers.filter(follower=>follower.id!==state.currUser.currUser.id)
+
+            if(state.user.user.id === state.currUser.currUser.id)
+                state.user.user.followings = 
+                    state.user.user.followings.filter(following=>following.id!==action.payload.user_id)
+        })
+        .addCase(unfollow.rejected, (state, action) => {
+            state.user.status = 'failed'
+            state.user.error = action.error.message
+        })
+        .addCase(removeFollower.pending, (state, action) => {
+            state.user.status = 'loading'
+        })
+        .addCase(removeFollower.fulfilled, (state, action) => {
+            //currUser === user
+            state.user.status = 'succeeded'   
+            console.log(action.payload)
+            
+            state.currUser.currUser.followers = 
+                state.currUser.currUser.followers.filter(follower=>follower.id!==action.payload.user_id) 
+           
+            state.user.user.followers = 
+                state.user.user.followers.filter(follower=>follower.id!==action.payload.user_id)
+     
+                
+        })
+        .addCase(removeFollower.rejected, (state, action) => {
             state.user.status = 'failed'
             state.user.error = action.error.message
         })

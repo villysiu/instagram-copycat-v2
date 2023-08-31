@@ -110,9 +110,12 @@
 .btn { 
   white-space: normal 
 }
-/* .btn-primary {
-  --bs-btn-bg: #3d8bfe;
-  } */
+.dropdown-item:active {
+  color: var(--bs-dropdown-link-active-color);
+  text-decoration: none;
+  background-color: rgb(188, 187, 187)
+}
+
 
 
 /* MODAL */
