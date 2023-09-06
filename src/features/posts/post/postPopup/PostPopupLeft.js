@@ -1,12 +1,11 @@
-import { backendAPI } from "../../../../app/helper"
 import { useState } from "react"
 import placeholder from "../../../../images/X (1).png"
-import UsernameLink from "../../../user/user/UsernameLink"
-import UserAvatarLink from "../../../user/user/UserAvatarLink"
+
 import LikeHeart from "../like/LikeHeart"
 import LikeCount from "../like/LikeCount"
 import PostImg from "../PostImg"
 import AddComment from "../comment/AddComment"
+import PostPopupHeader from "./PostPopupHeader"
 const PostPopupLeft = ({post}) =>{
     const [portrait, setPortrait] = useState(false)
     const handleImgErr=(e)=>{
@@ -15,10 +14,7 @@ const PostPopupLeft = ({post}) =>{
     return (
         <>
             <div className='d-block d-md-none' >
-                <div className="post_popup_l_header">
-                    <UserAvatarLink author={post.owner} />
-                    <UsernameLink author={post.owner} />
-                </div>
+                <PostPopupHeader author={post.owner} />
             </div>
 
             <div className={portrait ? "post_modal_img_wrapper_portrait" : "post_modal_img_wrapper" }>
@@ -26,7 +22,7 @@ const PostPopupLeft = ({post}) =>{
             </div>
 
             <div className='d-block d-md-none' >
-                <div className='post_modal_like_wrapper p-2'>
+                <div className='flex_row_center m-2'>
                     <div className="m-1">
                         <LikeHeart desc={post.desc} postId={post.id} />
                     </div>  

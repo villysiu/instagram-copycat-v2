@@ -7,7 +7,7 @@ const ProfileDropdown = ({currUser}) =>{
     
     // const title = (<PersonCircle className="circle_button" /><div>Profile</div>);
     const title = (
-        <div className="post_header_l">
+        <div className="flex_row_center">
             {/* <Image className=" avatar circle_button" src={`${backendAPI}/${currUser.avatar}`} /> */}
             <div className="circle_button">
             <Avatar avatar={currUser.avatar} name={currUser.name} />

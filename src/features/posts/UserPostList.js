@@ -7,7 +7,6 @@ import { backendAPI } from "../../app/helper"
 import { HeartFill } from "react-bootstrap-icons"
 import { X, ChatFill } from "react-bootstrap-icons"
 const UserPostList = ( { userPosts, postsStatus }) => {
-    
 
     const [show, setShow]=useState(false)
     const [index, setIndex] = useState(0)
@@ -39,7 +38,7 @@ const UserPostList = ( { userPosts, postsStatus }) => {
             </Modal>
 
             <Container fluid >
-                <Row>
+                <Row style={{justifyContent: "center"}}>
                     { userPosts.map((post, idx)=> {
                         return (
                             <Col key={post.id} sm={4} 

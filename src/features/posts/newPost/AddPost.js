@@ -4,8 +4,10 @@ import { Modal, Form } from "react-bootstrap"
 import { addNewPost } from "../postsSlice"
 import UploadImage from "./UploadImage"
 import DescForm from "./DescForm"
+
 // import { currentUserId } from "../../user/currUserSlice"
 import { useHref, useNavigate } from "react-router-dom"
+import NewPostHeader from "./NewPostHeader"
 
 const AddPost=({setShow})=>{
     // const currUseId=useSelector(currentUserId)
@@ -14,8 +16,6 @@ const AddPost=({setShow})=>{
     const [preview, setPreview]=useState(null)
     const [desc, setDesc] = useState('')
     const dispatch = useDispatch()
-    const navigate=useNavigate();
-    const href=useHref();
 
     const handlePreview=(e)=>{
         e.preventDefault();
@@ -31,14 +31,7 @@ const AddPost=({setShow})=>{
         formData.append('url', preview)
 
         dispatch(addNewPost(formData))
-
-        setDesc("")
-        setPreview(null);
         setShow(false);
-
-        if(href!=="instagram-copycat-v2")
-            navigate("instagram-copycat-v2")
-        
     }
   
     if(preview===null){
@@ -48,13 +41,8 @@ const AddPost=({setShow})=>{
     }
     return (
         <Form className="add_post_form_wrapper">
-            <Modal.Header className="add_post_modal_header" >
-                <div className="cancel_button" onClick={()=>setShow(false)}>Cancel</div>
-                <Modal.Title className="add_post_modal_title">Add new post</Modal.Title>
-                <div className="done_button" onClick={handleSubmit}>Done</div>
-            </Modal.Header>
-            <DescForm 
-                    img={URL.createObjectURL(preview)} setDesc={setDesc} desc={desc} />
+            <NewPostHeader title="Add new post" setShow={setShow} desc={desc} handleSubmit={handleSubmit} />
+            <DescForm img={URL.createObjectURL(preview)} setDesc={setDesc} desc={desc} />
             
         </Form>
 

@@ -14,7 +14,7 @@ const Plus = () =>{
             </Modal>
 
             
-            <div  className="post_header_l ">
+            <div  className="flex_row_center ">
                 <PlusCircle className="circle_button" onClick={()=>setShow(true)} />
                 
                 <div className='d-none d-lg-block'>

@@ -22,7 +22,7 @@ const User = () =>{
             </Modal>
            
 
-            <div  className="post_header_l ">
+            <div  className="flex_row_center ">
                 <PersonCircle className="circle_button mx-2" onClick={()=>setShow(true)}/>
                 <div className='d-none d-lg-block'>
                     <div onClick={()=>setShow(true)}>

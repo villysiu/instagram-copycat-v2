@@ -1,22 +1,31 @@
-import { OverlayTrigger, Tooltip } from "react-bootstrap"
-
+import FollowersList from "../../../user/followers/FollowersList"
+import { useState } from "react"
+import { Modal } from "react-bootstrap"
+import { X } from "react-bootstrap-icons"
 const LikeCount = ({likes}) =>{
-    
+
+    // console.log(likes)
+
+    const [show, setShow] = useState(false)
+   
     if(likes.length===0){
-        return null
-        // return <div className="like_text">0 like</div>
+        return (
+            <>
+                <b>0</b> like
+            </>
+        )
     }
-    return(
-       
-        <OverlayTrigger key='top' placement="top" overlay={ 
-            <Tooltip> 
-                { 
-                    likes.map((like, idx)=>{
-                        return <div key={idx}>{like.user_name}</div> })
-                }
-            </Tooltip> }>
-            <div className="bold_font"> {likes.length===1 ? '1 like' :  `${likes.length} likes`} </div>
-        </OverlayTrigger>
+    return (
+        <>
+            <Modal show={show} onHide={()=>setShow(false)} dialogClassName="followers_modal" centered >
+                <X className="followers_modal_close_btn hover_pointer" onClick={()=>setShow(false)} />
+                <div className="followers_modal_title border-bottom">Likes</div>
+                <FollowersList followers={likes} userId={1}/> 
+            </Modal>
+            <span className="like_data hover_pointer" onClick={()=>setShow(true)}>
+                 {likes.length === 1 ? <b>1 like</b> : <b>{likes.length} likes</b>}
+            </span>
+        </>
     )
 }
 export default LikeCount

@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { backendAPI } from '../../app/helper'
-import { editAvatar, deleteAvatar } from '../user/usersSlice'
+import { editAvatar, deleteAvatar, editProfile } from '../user/usersSlice'
 
 export const fetchPosts = createAsyncThunk(
   'posts/fetchPosts',
@@ -121,7 +121,7 @@ export const likeAPost = createAsyncThunk(
       return {
         comment_id: comment_id,
         post_id: post_id,
-        data
+        ...data
       }
     } 
     catch (error) {
@@ -215,10 +215,11 @@ const postsSlice = createSlice({
       })
 
       .addCase(addNewPost.fulfilled, (state, action) => {
-        
+        console.log('add new POST')
         state.status = 'succeeded'
-        // state.posts.push(action.payload.data)
-        state.posts.unshift(action.payload.data)
+        
+        // state.posts.unshift(action.payload.data)
+        state.posts = [action.payload.data, ...state.posts]
       })
       .addCase(addNewPost.rejected, (state, action) => {
 
@@ -257,13 +258,39 @@ const postsSlice = createSlice({
       })
       .addCase(likeAPost.fulfilled, (state, action)=>{
         console.log(action.payload)
-        state.status = 'succeeded'
+        
+          state.status = 'succeeded'
+          // state.posts = state.posts.map(post=>{
+          //   return (
+          //     post.id===action.payload.post_id 
+          //     ? 
+               
+          //       post.desc.id === action.payload.comment_id ?
+          //           [...post, [...post.desc.likes, action.payload.user]]
+          //           :
+          //           post.comments.map(comment=>{
+          //             return (
+          //               comment.id === action.payload.comment_id ? 
+          //                 [...post, [...post.comment, [...comment.likes, action.payload.user]]]
+          //                 :
+          //                 comment
+          //             )
+          //           })
+                  
+                
+          //     :
+          //     post
+          //   )
+          // })
+        
         
         const post=state.posts.find(post=>post.id===action.payload.post_id)
         const comment = post.desc.id === action.payload.comment_id ? 
               post.desc : 
               post.comments.find(comment=>comment.id === action.payload.comment_id)
-        comment.likes.push(action.payload.data)
+        comment.likes.push(action.payload.user)
+
+
       })
       .addCase(likeAPost.rejected, (state) => {
         state.status = 'failed'
@@ -333,6 +360,21 @@ const postsSlice = createSlice({
         })
        
       })
+      .addCase(editProfile.fulfilled, (state, action) => {
+        console.log(state.posts)
+        console.log(action.payload)
+
+        state.posts.map(post=>{
+          if(post.owner.id === action.payload.id){
+            post.owner.name = action.payload.name
+            post.desc.user.name = action.payload.name
+          }
+          post.comments.map(comment=>{
+            if(comment.user.id===action.payload.id)
+              comment.user.name = action.payload.name
+          })
+        })
+    })
   }
 })
 

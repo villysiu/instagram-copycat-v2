@@ -6,7 +6,7 @@ const Following = ({followings, userId}) => {
     const [show, setShow] = useState(false)
     if(followings.length===0){
         return (
-            <div className="me-5">
+            <div className="pro_data">
                 <span className='bold_font'> {followings.length}</span> following
             </div>
         )
@@ -18,8 +18,8 @@ const Following = ({followings, userId}) => {
                 <div className="followers_modal_title  border-bottom">Following</div>
                     <FollowingList followings={followings} userId={userId} setShow={setShow} /> 
             </Modal>
-            <div className="me-5 hover_pointer" onClick={()=>setShow(true)}>
-                <b>{followings.length}</b> following
+            <div className="pro_data hover_pointer" onClick={()=>setShow(true)}>
+                <b className="blk">{followings.length}</b> following
             </div>
         </>
     )

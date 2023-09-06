@@ -4,12 +4,12 @@ const Info = () => {
     return (
 
 
-        <div  className="post_header_l ">
+        <div  className="flex_row_center ">
             <Link to={"/about"}>
                 <InfoCircle className="circle_button"  />
             </Link>
             <div className='d-none d-lg-block'>
-                <Link to={"/"} className="link_black " >        
+                <Link to={"/about"} className="link_black " >        
                         About
                 </Link>
             </div>

@@ -33,9 +33,9 @@ const Profile = () => {
         // }
     }  
     return (
-        <div className="profile_wrapper">
+        <div>
             <ProfileHeader user={user} userPostsCount={userPosts.length} />
-            {/* <UserPostList userPosts={userPosts} postsStatus={postsStatus} /> */}
+            <UserPostList userPosts={userPosts} postsStatus={postsStatus} />
         </div>  
 
     )

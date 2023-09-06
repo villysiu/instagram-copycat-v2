@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { removeFollower } from "../usersSlice"
 import FollowButton from "./FollowButton"
 import UnfollowButton from "./UnfollowButton"
-const FollowersList = ({followers, userId, setShow}) => {
+const FollowersList = ({followers, userId}) => {
     console.log(followers)
     const dispatch=useDispatch()
     const currUser=useSelector(state=>{
@@ -46,14 +46,18 @@ const FollowersList = ({followers, userId, setShow}) => {
                 return (
                     <div key={follower.id} className="flex_row_stretch mt-2 mb-3">
                         <div className="flex_row_center">
-                            <div className="me-2" onClick={()=>setShow(false)}>
+                            <div className="me-2" 
+                            // onClick={()=>setShow(false)}
+                            >
                                 <UserHover author={follower} children={
                                     <div style={{width: '45px', height: '45px'}}>
                                         <Avatar avatar={follower.avatar} name={follower.name} />
                                     </div>
                                 } />
                             </div>
-                            <div onClick={()=>setShow(false)} className="me-2">
+                            <div 
+                            // onClick={()=>setShow(false)} 
+                            className="me-2">
                                 <UserHover author={follower} children={
                                     <span className="bold_font">{follower.name}</span>
                                 } />   

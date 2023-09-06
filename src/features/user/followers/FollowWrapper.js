@@ -1,14 +1,14 @@
 import { Modal } from "react-bootstrap"
 import { useState } from "react"
-import FollowersList from "./FollowersList"
+
 import { X } from "react-bootstrap-icons"
-const Followers = ({followers, userId}) => {
+const FollowerWrapper = ({list, title, children}) => {
     const [show, setShow] = useState(false)
    
-    if(followers.length===0){
+    if(list.length===0){
         return (
             <div className="pro_data">
-                <span className='bold_font'> {followers.length}</span> followers
+                <b className='blk'>0</b> {title}
             </div>
         )
     }
@@ -16,13 +16,13 @@ const Followers = ({followers, userId}) => {
         <>
             <Modal show={show} onHide={()=>setShow(false)} dialogClassName="followers_modal" centered >
                 <X className="followers_modal_close_btn hover_pointer" onClick={()=>setShow(false)} />
-                <div className="followers_modal_title border-bottom">Followers</div>
-                <FollowersList followers={followers} userId={userId} setShow={setShow}/> 
+                <div className="followers_modal_title border-bottom">{title}</div>
+                {children}
             </Modal>
             <div className="pro_data hover_pointer" onClick={()=>setShow(true)}>
-                <b className="blk"> {followers.length}</b> followers
+                <b className="blk"> {list.length}</b> {title}
             </div>
         </>
     )
 }
-export default Followers
+export default FollowerWrapper

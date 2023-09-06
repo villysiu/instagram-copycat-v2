@@ -1,8 +1,8 @@
-import { useDispatch, useSelector } from "react-redux"
-import { selectPostbyId } from "../postsSlice"
+import { useDispatch } from "react-redux"
 import { useState} from "react"
 import { editAPost } from "../postsSlice"
 import { backendAPI } from "../../../app/helper"
+import NewPostHeader from "../newPost/NewPostHeader"
 import DescForm from "../newPost/DescForm"
 import { Form, Modal } from "react-bootstrap"
 const EditPost = ({ post, setShow }) =>{
@@ -21,11 +21,7 @@ const EditPost = ({ post, setShow }) =>{
     }
     return (
         <Form className="add_post_form_wrapper">
-            <Modal.Header className="add_post_modal_header" >
-                <div className="cancel_button" onClick={()=>setShow(false)}>Cancel</div>
-                <Modal.Title className="add_post_modal_title">Edit post</Modal.Title>
-                <div className="done_button" onClick={handleSubmit}>Done</div>
-            </Modal.Header>
+            <NewPostHeader title="Edit post" setShow={setShow} desc={desc} handleSubmit={handleSubmit} />
             <DescForm img={`${backendAPI}/${post.url}`} setDesc={setDesc} desc={desc} />
 
         </Form>

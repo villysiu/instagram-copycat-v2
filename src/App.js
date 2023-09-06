@@ -33,7 +33,7 @@ function App() {
             <Header />
             <div className="blank_div" />
           </div>
-          <div style={{marginLeft: 'auto', marginRight: 'auto'}}>
+          <div className="body_wrapper">
             <Error />
             <Outlet />
           </div>

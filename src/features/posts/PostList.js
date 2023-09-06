@@ -12,18 +12,16 @@ console.log(posts)
             return <div>Loading</div>
         }
         else if(postsStatus === 'succeeded' ){
-            return <div>No post yer</div>
-            // return <AlertMsg msg="No post yet. Login or Signup to add the first post." />
-            // <Alert variant="danger">No post yet. Login or Signup to add the first post. </Alert>
+            return <div>No post yet</div>
         }
     }
     else {
     return (
-        <div className="postlist_wrapper">
+        <>
             {posts.map( post =>
               <Post key={post.id} post={post}  />
             )}
-        </div>
+        </>
     )
 
        }
