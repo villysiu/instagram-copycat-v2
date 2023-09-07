@@ -7,7 +7,8 @@ import Avatar from "../profile/Avatar"
 import { Link } from "react-router-dom"
 
 const UserPopup = ({author})=>{
-    const fisrt3Posts=useSelector(state=>selectPostsbyUserId(state, author.id).slice(0,3))
+    console.log(author)
+    // const fisrt3Posts=useSelector(state=>selectPostsbyUserId(state, author.id).slice(0,3))
     const handleImgErr=(e)=>{
         e.target.src = placeholder
     }
@@ -33,7 +34,7 @@ const UserPopup = ({author})=>{
             </div>
             <Container>
                 <Row>
-                { fisrt3Posts.map((post, idx)=> {
+                { author.photos.map((post, idx)=> {
                     return (
                         <Col key={idx} className="user_popover_img_wrapper">
                             <Image 

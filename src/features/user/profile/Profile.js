@@ -2,11 +2,11 @@ import ProfileHeader from "./ProfileHeader"
 import UserPostList from "../../posts/UserPostList"
 import { useParams, Navigate } from "react-router-dom"
 import { useSelector, useDispatch } from "react-redux"
-
+import { useState } from "react"
 import { fetchUserById } from "../usersSlice"
 import { Spinner } from "react-bootstrap"
 import { useEffect } from "react"
-import { selectPostsbyUserId } from "../../posts/postsSlice"
+import { fetchPostsByUserId } from "../../posts/postsSlice"
 const Profile = () => {
     // console.log("in profile")
     
@@ -17,13 +17,18 @@ const Profile = () => {
     const user=useSelector(state=>state.users.user.user)
     const userStatus = useSelector(state=>state.users.user.status)
 
-    const postsStatus = useSelector(state => state.posts.status)
-    const userPosts=useSelector(state=>selectPostsbyUserId(state, userId))
+    // const postsStatus = useSelector(state => state.posts.status)
+    // const userPosts = useSelector(state => state.posts.posts)
+
+   const userPostsCount = useSelector(state => state.posts.userPosts.posts.length)
 
     useEffect(()=>{
-        dispatch(fetchUserById(userId)) 
-    },[userId, dispatch])
+        if(!user || (user && user.id !== userId))
+            dispatch(fetchUserById(userId)) 
+        
+    },[])
 
+    // console.log(userPosts)
     if(!user){
         if(userStatus==="loading" || userStatus==="idle")
             return <Spinner />
@@ -32,10 +37,12 @@ const Profile = () => {
         //     return <Navigate to="/" replace={true} />
         // }
     }  
+
+
     return (
         <div>
-            <ProfileHeader user={user} userPostsCount={userPosts.length} />
-            <UserPostList userPosts={userPosts} postsStatus={postsStatus} />
+            <ProfileHeader user={user} userPostsCount={userPostsCount} />
+            <UserPostList userId={userId} />
         </div>  
 
     )

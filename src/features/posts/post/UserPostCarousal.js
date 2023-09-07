@@ -15,8 +15,6 @@ const UserPostCarousal = ({posts, idx}) =>{
 
   return (
     <>
-   
-   
       <Carousel interval={null} indicators={false} 
       
         activeIndex={index} 

@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Container, Row, Col, Image, Modal, CloseButton} from "react-bootstrap"
 import UserPostCarousal from "./post/UserPostCarousal"
 import {Spinner} from "react-bootstrap"
@@ -6,11 +6,18 @@ import placeholder from "../../images/X (1).png"
 import { backendAPI } from "../../app/helper"
 import { HeartFill } from "react-bootstrap-icons"
 import { X, ChatFill } from "react-bootstrap-icons"
-const UserPostList = ( { userPosts, postsStatus }) => {
+import { fetchPostsByUserId } from "./postsSlice"
+import { useDispatch, useSelector } from "react-redux"
 
+
+const UserPostList = ({userId}) => {
+    console.log("userPostList")
+    const userPosts = useSelector(state=> state.posts.userPosts.posts)
+    const userPostStatus = useSelector(state=> state.posts.userPosts.status)
+    const userPostsUserId = useSelector(state=> state.posts.userPosts.userId)
     const [show, setShow]=useState(false)
     const [index, setIndex] = useState(0)
-
+    const dispatch = useDispatch()
     const handleClick=(idx)=>{
         setShow(true)
         setIndex(idx)
@@ -18,20 +25,24 @@ const UserPostList = ( { userPosts, postsStatus }) => {
     const handleImgErr=(e)=>{
         e.target.src = placeholder
     }
-
+    useEffect(()=>{
+        console.log("in user eddect")
+        if(userId !== userPostsUserId)
+            dispatch(fetchPostsByUserId(userId))
+    }, [])
+    console.log(userPosts)
     if(userPosts.length===0){
-        if(postsStatus === 'loading' || postsStatus === 'idle'){
+        if(userPostStatus === 'loading' || userPostStatus === 'idle'){
             return <div><Spinner /></div>
         }
-        else if(postsStatus === 'succeeded' ){
+        else if(userPostStatus === 'succeeded' ){
             return <div>User has no post.</div>
         }
-    }    
+    }   
+    
     return(
         <>
-            <Modal show={show} onHide={() => setShow(false)} centered
-                dialogClassName="post_modal"
-            >
+            <Modal show={show} onHide={() => setShow(false)} centered dialogClassName="post_modal">
                 <X onClick={() => setShow(false)} variant="white" className="post_modal_close_btn"  />
                 <UserPostCarousal posts={userPosts} idx={index}/>
                 

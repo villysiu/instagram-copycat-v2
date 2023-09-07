@@ -814,8 +814,13 @@
   
   
 }
-
-.add_comment_button, .cancel_button, .done_button {
+.see_more_post {
+  width: var(--list_w);
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+.add_comment_button, .cancel_button, .done_button, .see_more_post {
   color: rgb(0, 149, 246) !important;
     font-weight: bold !important;
     padding: 3px;

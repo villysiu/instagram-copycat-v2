@@ -8,8 +8,8 @@ import LikeCount from "./like/LikeCount"
 import PostPopup from "./postPopup/PostPopup"
 import { Modal, Spinner } from "react-bootstrap"
 import { ChatDots, X } from "react-bootstrap-icons"
-// import { useMemo } from "react"
 import { memo } from "react"
+
 const Post = ({ post }) => {
     const [show, setShow] = useState(false)
     const [portrait, setPortrait] = useState(false)
@@ -62,9 +62,9 @@ const areEqual = (prevProps, nextProps) => {
    
     if (prevProps.post.desc !== nextProps.post.desc ||
         prevProps.post.comments !== nextProps.post.comments) {
-      return false                                    // will re-render
+      return false      // will re-render
     }
-    return true                                  // donot re-render   
+    return true         // donot re-render   
   }
 // export default Post
 export default memo(Post, areEqual)
