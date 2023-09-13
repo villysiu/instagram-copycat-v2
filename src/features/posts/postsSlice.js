@@ -33,19 +33,18 @@ export const getPostCount = createAsyncThunk(
             "Content-Type": "application/json",
             'Accept' : 'application/json',
         },
-  
     })
-    console.log(`${response.status} ${response.statusText}`)
+    
     if(!response.ok) {
         throw new Error(`${response.status} ${response.statusText}`)
     }
-      const data=await response.json()
-      console.log(data)
+      const count=await response.json()
+
       if(!response.ok) 
         throw new Error(response.statusText)
 
       return {
-        ...data
+        ...count
        }
     } catch(error){
       return Promise.reject(error.message ? error.message : "no data")
@@ -66,17 +65,17 @@ export const fetchPosts = createAsyncThunk(
         },
         body: JSON.stringify({idx: n})
     })
-    console.log(`${response.status} ${response.statusText}`)
+    
     if(!response.ok) {
         throw new Error(`${response.status} ${response.statusText}`)
     }
-      const data=await response.json()
-      console.log(data)
+      const posts=await response.json()
+      // console.log(posts)
       if(!response.ok) 
         throw new Error(response.statusText)
 
       return {
-        data
+        posts
        }
     } catch(error){
       return Promise.reject(error.message ? error.message : "no data")
@@ -129,13 +128,13 @@ export const addNewPost = createAsyncThunk(
           body: formData
       })
       console.log(response)
-      const data=await response.json()
-      console.log(data)
+      const newPost=await response.json()
+      console.log(newPost)
       if(!response.ok) {
         throw new Error(response.status+" "+response.statusText)
       }
      return {
-      data,
+      newPost
      }
     }catch(error){
 
@@ -225,7 +224,7 @@ export const likeAPost = createAsyncThunk(
 )
 export const unlikeAPost = createAsyncThunk(
   'posts/unlikeAPost',
-  async ({post_id, comment_id}) =>{
+  async ({currUser_id, post_id, comment_id}) =>{
     try {
         const response=await fetch(`${backendAPI}/comments/${comment_id}/likes`, {
         method: "delete",
@@ -242,7 +241,8 @@ export const unlikeAPost = createAsyncThunk(
       return {
         post_id,
         comment_id,
-        ...data
+        currUser_id,
+        
       }
 
     } catch (error) {
@@ -286,7 +286,6 @@ const postsSlice = createSlice({
   initialState: {
     posts: {
       posts: [],
-      count: 0,
       status: 'idle',
       error: null,
     },
@@ -295,10 +294,22 @@ const postsSlice = createSlice({
       posts: [],
       status: 'idle',
       error: null,
+    }, 
+    count: {
+      count: 0,
+      status: 'idle',
     }
+
   },
   reducers: {
     
+    resetUserPosts: (state)=>{
+      state.userPosts.userId=null
+      state.userPosts.posts= []
+      state.userPosts.status= 'idle'
+
+    }
+
   },
   extraReducers(builder) {
     builder
@@ -320,9 +331,9 @@ const postsSlice = createSlice({
         state.posts.status = 'loading'
       })
       .addCase(fetchPosts.fulfilled, (state, action) => {
-       console.log(action.payload)
+      //  console.log(action.payload)
         state.posts.status = 'succeeded'
-        state.posts.posts = [...state.posts.posts, ...action.payload.data]
+        state.posts.posts = [...state.posts.posts, ...action.payload.posts]
        
       })
       .addCase(fetchPosts.rejected, (state, action) => {
@@ -330,28 +341,34 @@ const postsSlice = createSlice({
         state.posts.error = "Failed to fetch posts. Please check if Rails API is setup locally. "
       })
       .addCase(getPostCount.pending, (state, action) => {
-        state.posts.status = 'loading'
+        state.count.status = 'loading'
       })
       .addCase(getPostCount.fulfilled, (state, action) => {
-       console.log(action.payload)
-        state.posts.status = 'succeeded'
-        state.posts.count = action.payload.count
+
+        state.count.status = 'succeeded'
+        state.count.count = action.payload.count
        
       })
       .addCase(getPostCount.rejected, (state, action) => {
-        state.posts.status = 'failed'
-        state.posts.error = action.error.message
+        state.count.status = 'failed'
+        // state.count.error = action.error.message
       })
       .addCase(addNewPost.fulfilled, (state, action) => {
         state.posts.status = 'succeeded'
         state.posts.count += 1
         // state.posts.unshift(action.payload.data)
-        state.posts.posts = [action.payload.data, ...state.posts]
+        state.posts.posts = [action.payload.newPost, ...state.posts.posts]
+
+        if(state.userPosts.userId === action.payload.newPost.owner.id){
+          state.userPosts.status = 'succeeded'
+          state.userPosts.posts.unshift(action.payload.newPost)
+        }
+        state.messages.type = "succeeded"
+        state.messages.content = "added a new post yippeueee"
       })
       .addCase(addNewPost.rejected, (state, action) => {
-
         state.posts.status = 'failed'
-        state.posts.error = "Adding new post failed. Please try again later"
+        state.userPosts.status = 'failed'
       })
       .addCase(editAPost.pending, (state) => {
         state.posts.status = 'loading'
@@ -365,32 +382,52 @@ const postsSlice = createSlice({
       .addCase(editAPost.rejected, (state) => {
         
         state.posts.status = 'failed'
-        state.posts.error = `Editing post failed. Please try again later`
+        // state.posts.error = `Editing post failed. Please try again later`
      
       })
       .addCase(deleteAPost.pending, (state) => {
         state.posts.status = 'loading'
+        state.userPosts.status = 'loading'
       })
       .addCase(deleteAPost.fulfilled, (state, action) => {
         
         state.posts.status = 'succeeded'
-        state.posts.posts=state.posts.filter(post=>post.id!==action.payload.postId)
+        state.posts.posts=state.posts.posts.filter(post=>post.id!==action.payload.postId)
         state.posts.count -= 1
+
+        state.userPosts.status = 'succeeded'
+        state.userPosts.posts=state.userPosts.posts.filter(post=> post.id!==action.payload.postId)
+        
       })
       .addCase(deleteAPost.rejected, (state) => {
         state.posts.status = 'failed'
-        state.posts.error = `Deleting post failed. Please try again later`
+        state.userPosts.status = 'failed'
       })
       .addCase(likeAPost.pending, (state) => {
         state.posts.status = 'loading'
       })
       .addCase(likeAPost.fulfilled, (state, action)=>{
+        console.log(action.payload)
+        // post_id, comment_id, user
         state.posts.status = 'succeeded'
-        const post=state.posts.posts.find(post=>post.id===action.payload.post_id)
-        const comment = post.desc.id === action.payload.comment_id ? 
-              post.desc : 
-              post.comments.find(comment=>comment.id === action.payload.comment_id)
-        comment.likes.push(action.payload.user)
+        const addLike = (list) => {
+          const post=list.find(post=>post.id===action.payload.post_id)
+          console.log(post)
+          if(post!==undefined){
+            console.log(post.id, post.desc)
+            if(post.desc.id === action.payload.comment_id)
+                post.desc.likes.push(action.payload.user)
+            else{
+                const comment= post.comments.find(comment=>comment.id === action.payload.comment_id)
+                comment.likes.push(action.payload.user)
+            }
+          }
+          return list
+        }
+        state.posts.posts = addLike(state.posts.posts)
+        state.userPosts.posts = addLike(state.userPosts.posts)
+        
+        
       })
       .addCase(likeAPost.rejected, (state) => {
         state.posts.status = 'failed'
@@ -403,14 +440,27 @@ const postsSlice = createSlice({
       .addCase(unlikeAPost.fulfilled, (state, action)=>{
         state.posts.status = 'succeeded'
         console.log(action.payload)
-        
-        const post=state.posts.posts.find(post=>post.id===action.payload.post_id)
-        const currUserId = action.payload.user_id
+        //post_id, comment_id, currUser_id,
 
-        const comment = post.desc.id === action.payload.comment_id ? 
-              post.desc : 
-              post.comments.find(comment=>comment.id === action.payload.comment_id)
-        comment.likes=comment.likes.filter(like=>like.user_id!==currUserId)
+        const removeLike=(list )=>{
+          const post=list.find(post=>post.id===action.payload.post_id)
+          console.log(post)
+          if(post!==undefined){
+            console.log(post.id, post.desc.id)
+            if(post.desc.id === action.payload.comment_id){ 
+                console.log(post.desc.id === action.payload.comment_id)
+                post.desc.likes = post.desc.likes.filter(like=>like.id!==action.payload.currUser_id)
+            }
+            else {
+                const comment = post.comments.find(comment=>comment.id === action.payload.comment_id)
+                comment.likes=comment.likes.filter(like=>like.id!==action.payload.currUser_id)
+            }
+          }
+          return list
+        }
+        state.posts.posts = removeLike(state.posts.posts)
+        state.userPosts.posts = removeLike(state.userPosts.posts)
+        
       })
       .addCase(unlikeAPost.rejected, (state) => {
         state.posts.status = 'failed'
@@ -422,8 +472,16 @@ const postsSlice = createSlice({
       .addCase(addComment.fulfilled, (state, action)=>{
   
         state.posts.status = 'succeeded'
-        const post=state.posts.posts.find(post=>post.id===action.payload.postId)
-        post.comments.push(action.payload.data)
+        const addComment = (list) =>{
+          const post=list.find(post=>post.id===action.payload.postId)
+          if(post !== undefined){
+            post.comments.push(action.payload.data)
+          }
+          return list
+          
+        }
+        state.posts.posts = addComment(state.posts.posts)
+        state.userPosts.posts = addComment(state.userPosts.posts)
 
       })
       .addCase(addComment.rejected, (state) => {
@@ -479,7 +537,7 @@ const postsSlice = createSlice({
 })
 
 // Action creators are generated for each case reducer function
-export const { postAdded, postsFetched } = postsSlice.actions
+export const { resetUserPosts } = postsSlice.actions
 
 export default postsSlice.reducer
 export const selectAllPosts = (state) =>{

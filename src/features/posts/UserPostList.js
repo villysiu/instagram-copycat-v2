@@ -10,11 +10,12 @@ import { fetchPostsByUserId } from "./postsSlice"
 import { useDispatch, useSelector } from "react-redux"
 
 
-const UserPostList = ({userId}) => {
+const UserPostList = ({idToFetch}) => {
     console.log("userPostList")
-    const userPosts = useSelector(state=> state.posts.userPosts.posts)
-    const userPostStatus = useSelector(state=> state.posts.userPosts.status)
-    const userPostsUserId = useSelector(state=> state.posts.userPosts.userId)
+    // const userPosts = useSelector(state=> state.posts.userPosts.posts)
+    // const userPostStatus = useSelector(state=> state.posts.userPosts.status)
+    // const userPostsUserId = useSelector(state=> state.posts.userPosts.userId)
+    const {posts, status, userId} = useSelector(state=> state.posts.userPosts)
     const [show, setShow]=useState(false)
     const [index, setIndex] = useState(0)
     const dispatch = useDispatch()
@@ -27,30 +28,35 @@ const UserPostList = ({userId}) => {
     }
     useEffect(()=>{
         console.log("in user eddect")
-        if(userId !== userPostsUserId)
-            dispatch(fetchPostsByUserId(userId))
+        if(userId !== idToFetch)
+            dispatch(fetchPostsByUserId(idToFetch))
     }, [])
-    console.log(userPosts)
-    if(userPosts.length===0){
-        if(userPostStatus === 'loading' || userPostStatus === 'idle'){
+    console.log(posts)
+
+    if(posts.length===0 ){
+        if(status === 'loading'){
             return <div><Spinner /></div>
         }
-        else if(userPostStatus === 'succeeded' ){
+        else if(status === 'succeeded' ){
             return <div>User has no post.</div>
         }
     }   
+    if(userId !== idToFetch)
+        return <Spinner />
     
     return(
         <>
             <Modal show={show} onHide={() => setShow(false)} centered dialogClassName="post_modal">
                 <X onClick={() => setShow(false)} variant="white" className="post_modal_close_btn"  />
-                <UserPostCarousal posts={userPosts} idx={index}/>
+                <UserPostCarousal posts={posts} idx={index}/>
                 
             </Modal>
 
-            <Container fluid >
-                <Row style={{justifyContent: "center"}}>
-                    { userPosts.map((post, idx)=> {
+            <Container bsPrefix="user_posts_container">
+                
+                <Row bsPrefix="user_posts_row">
+                    {/* <div style={{height: '500px'}}></div> */}
+                    { posts.map((post, idx)=> {
                         return (
                             <Col key={post.id} sm={4} 
                             className="user_post_square_wrapper" 
@@ -65,16 +71,15 @@ const UserPostList = ({userId}) => {
                                 <div className="user_post_square_hover_overlay">
                                 </div>
                                 <div className="user_post_square_text">
-                                    <HeartFill className="me-1"/>
-                                    {post.desc.likes.length}
-                                    <ChatFill className="ms-4 me-1"/>
-                                    {post.comments.length}
+                                    <HeartFill className="me-1"/> {post.desc.likes.length}
+                                    <ChatFill className="ms-4 me-1"/> {post.comments.length}
                                 </div>
                                 
                             </Col>
                         )
                     })}
                 </Row>
+    
             </Container>
 
         </>

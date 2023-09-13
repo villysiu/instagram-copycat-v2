@@ -4,22 +4,22 @@ import { useDispatch } from 'react-redux'
 import { likeAPost, unlikeAPost } from '../../postsSlice'
 
 const LikeButton = ({likes, currUserId, commentId, postId, smHeart}) => {
-    // console.log(likes)
+    console.log(likes)
     const dispatch=useDispatch()
     const currUserLike = likes.some(like=>like.id === currUserId)
 
     const handleLike=()=> dispatch(likeAPost({comment_id: commentId, post_id: postId}))
     
-    const handleUnlike=()=> dispatch(unlikeAPost({comment_id: commentId, post_id: postId}))
+    const handleUnlike=()=> dispatch(unlikeAPost({currUser_id: currUserId, comment_id: commentId, post_id: postId}))
     
    
     return (
         currUserLike ? 
-            <HeartFill className={smHeart ? "filled smheart" : "filled heart"}
+            <HeartFill className={smHeart ? "filled smheart hover_pointer" : "filled heart hover_pointer"}
                 onClick={handleUnlike} 
             /> 
             :
-            <Heart className={smHeart ? "hollow smheart" : "hollow heart" }
+            <Heart className={smHeart ? "hollow smheart hover_pointer" : "hollow heart hover_pointer" }
                 onClick={handleLike} 
             />
     )

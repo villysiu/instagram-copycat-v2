@@ -2,51 +2,45 @@ import Post from './post/Post'
 import { useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-// import { selectAllPosts } from './postsSlice';
+import resetPosts from './postsSlice'
 import { fetchPosts } from './postsSlice';
 import { getPostCount } from './postsSlice';
 // import AlertMsg from '../error/AlertMsg';
-
+import { Spinner } from 'react-bootstrap';
 const PostList = () => {
     // console.log("in PostList")
 
     const dispatch = useDispatch()
-    const postsStatus = useSelector(state => state.posts.posts.status)
-    const posts = useSelector(state => state.posts.posts.posts)
-    const postsCount = useSelector(state =>{
-console.log(state)
-    return state.posts.posts.count
-})
+    const {status, posts} = useSelector(state => state.posts.posts)
+    const count = useSelector(state => state.posts.count.count)
 
     useEffect(()=>{
-        
-        if(postsStatus === 'idle')
-            dispatch(fetchPosts(0)) 
+        if(status === 'idle' || posts.length<5 )
+            dispatch(fetchPosts(posts.length)) 
             dispatch(getPostCount())
         },[]
     )
+    console.log(posts)
 
-    
-console.log(posts)
-// console.log(postsCount)
     const handleClick = e =>{
         dispatch(fetchPosts(posts.length))
     }
-    if(posts.length===0){
-        if(postsStatus === 'loading' || postsStatus === 'idle'){
-            return <div>Loading</div>
+    // if(posts.length===0){
+    //     console.log(status)
+        if(status === 'loading' || status === 'idle'){
+            return <div><Spinner /></div>
         }
-        else if(postsStatus === 'succeeded' ){
+        if(status === 'succeeded' && posts.length===0 ){
             return <div>No post yet</div>
         }
-    }
+    // }
 
     return (
         <>
             {posts.map( post =>
-              <Post key={post.id} post={post}  />
+                <Post key={post.id} post={post}  />
             )}
-            {posts.length === postsCount ? 
+            {posts.length === count ? 
                 <div className="see_more_post mt-2"> End of posts</div>
                 :
                 <div className="see_more_post mt-2" onClick={handleClick}>See more posts</div>

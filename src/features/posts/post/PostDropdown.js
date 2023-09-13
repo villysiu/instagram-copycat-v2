@@ -24,7 +24,7 @@ const PostDropdown = ({post}) =>{
             <DeletePost postId={post.id} currUserId={currUser.id} />
             <NavDropdown.Divider />
             <NavDropdown.Item 
-            onClick={()=>document.getElementById("dots").click()}
+                onClick={()=>document.getElementById("dots").click()}
             >Cancel</NavDropdown.Item>
         </NavDropdown>
     )

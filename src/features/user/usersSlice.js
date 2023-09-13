@@ -8,9 +8,9 @@ const timeOutUser2 = (loginTime, thunkAPI) =>{
     console.log('timeoutuser2')
     const logoutTime = loginTime+60*jwtExpTime
     
-    const due = (logoutTime-Math.floor(Date.now()/1000))*1000
-    console.log('logout time: ' + logoutTime + ', current: '+ Date.now())
-    console.log(due<0)
+    const due = logoutTime*1000 - Math.floor(Date.now())
+    console.log('login time: '+loginTime + ' logout time: ' + logoutTime + ', current: '+ Date.now())
+  
     const s=setTimeout(()=>{
         thunkAPI.dispatch(logout())    
     }, due )
@@ -57,7 +57,7 @@ export const fetchUserById=createAsyncThunk(
                     'Accept' : 'application/json',
                 },
             })
-            console.log(`${response.status} ${response.statusText}`)
+            
             if(!response.ok) {
                 throw new Error(`${response.status} ${response.statusText}`)
             }
@@ -69,7 +69,7 @@ export const fetchUserById=createAsyncThunk(
         } 
         catch(error){
             console.log(error)
-            return Promise.reject(error)
+            return Promise.reject("User not found")
         }
     }
 )
@@ -372,7 +372,11 @@ const usersSlice=createSlice({
             error: null,
             existed: 0,
             status: 'idle',
-        }
+        }, 
+        messages: { 
+            type: null,
+            content: null,
+        },
         
     },
     reducers: {
@@ -424,16 +428,16 @@ const usersSlice=createSlice({
         .addCase(fetchUserById.rejected, (state, action) => {
             console.log(action.error.message)
             state.user.status = 'failed'
-            state.user.error = action.error.message+" or user not existed"
+            state.user.error = action.error.message
         })
         .addCase(loginUser.pending, (state, action) => {
             state.currUser.status = 'loading'
         })
         .addCase(loginUser.fulfilled, (state, action) => {
-            console.log(action.payload)
             state.currUser.status = 'succeeded'
             state.currUser.currUser = action.payload.curr_user
             state.currUser.error = null
+
         })
         .addCase(loginUser.rejected, (state, action) => {
             console.log(action)
@@ -475,6 +479,7 @@ const usersSlice=createSlice({
             state.currUser.status = 'succeeded'
             state.currUser.id = null
             state.currUser.login = 0
+
         })
         .addCase(logoutUser.rejected, (state, action) => {
             state.currUser.status = 'failed'
@@ -576,9 +581,7 @@ const usersSlice=createSlice({
                 state.currUser.currUser.followers.filter(follower=>follower.id!==action.payload.user_id) 
            
             state.user.user.followers = 
-                state.user.user.followers.filter(follower=>follower.id!==action.payload.user_id)
-     
-                
+                state.user.user.followers.filter(follower=>follower.id!==action.payload.user_id) 
         })
         .addCase(removeFollower.rejected, (state, action) => {
             state.user.status = 'failed'

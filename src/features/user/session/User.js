@@ -22,10 +22,10 @@ const User = () =>{
             </Modal>
            
 
-            <div  className="flex_row_center ">
+            <div  className="flex_row_center  me-2">
                 <PersonCircle className="circle_button mx-2" onClick={()=>setShow(true)}/>
                 <div className='d-none d-lg-block'>
-                    <div onClick={()=>setShow(true)}>
+                    <div style={{cursor: 'pointer'}} onClick={()=>setShow(true)}>
                         Login
                     </div>
                 </div>

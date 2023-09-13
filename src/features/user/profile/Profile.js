@@ -6,7 +6,7 @@ import { useState } from "react"
 import { fetchUserById } from "../usersSlice"
 import { Spinner } from "react-bootstrap"
 import { useEffect } from "react"
-import { fetchPostsByUserId } from "../../posts/postsSlice"
+import { resetUserPosts } from "../../posts/postsSlice"
 const Profile = () => {
     // console.log("in profile")
     
@@ -17,9 +17,6 @@ const Profile = () => {
     const user=useSelector(state=>state.users.user.user)
     const userStatus = useSelector(state=>state.users.user.status)
 
-    // const postsStatus = useSelector(state => state.posts.status)
-    // const userPosts = useSelector(state => state.posts.posts)
-
    const userPostsCount = useSelector(state => state.posts.userPosts.posts.length)
 
     useEffect(()=>{
@@ -27,22 +24,25 @@ const Profile = () => {
             dispatch(fetchUserById(userId)) 
         
     },[])
-
+    
     // console.log(userPosts)
     if(!user){
-        if(userStatus==="loading" || userStatus==="idle")
+        if(userStatus==="loading" || userStatus==='idle')
             return <Spinner />
 
-        // else {//usersStatus===failed
-        //     return <Navigate to="/" replace={true} />
-        // }
-    }  
+        if(userStatus==="failed")
+            return <Navigate to="/" replace={true} />
+        
+    }
+    if(user.id !== userId){ //Has user but not same id
+        return <Spinner />
+    }
 
 
     return (
-        <div>
+        <div className="profile_wrapper">
             <ProfileHeader user={user} userPostsCount={userPostsCount} />
-            <UserPostList userId={userId} />
+            <UserPostList idToFetch={userId} />
         </div>  
 
     )

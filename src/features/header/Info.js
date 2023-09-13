@@ -4,7 +4,7 @@ const Info = () => {
     return (
 
 
-        <div  className="flex_row_center ">
+        <div  className="flex_row_center  me-2">
             <Link to={"/about"}>
                 <InfoCircle className="circle_button"  />
             </Link>

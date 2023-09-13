@@ -20,7 +20,7 @@ const Comment = ({comment, postId, descId}) => {
         }
     });
     return (
-        <div className="flex_space_between">
+        <div className="flex_space_between_top">
             <div className="flex_row">
                 <div className="post_avatar_wrapper mt-2 me-3">
                     <UserAvatarLink author={comment.user} />

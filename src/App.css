@@ -12,7 +12,7 @@
   --post_modal_w: 800px;
   --post_modal_h: 75vh;
   --post_modal_right_w: 400px;
-  /* --profile_w: 992px; */
+  --profile_w: calc(100vw - 5px);
   --profile_avatar: 150px;
   --profile_modal_w: 500px;
   /* --profile_modal_h: 480px; */
@@ -63,11 +63,12 @@
   }
 }
 
-@media all and ((max-width: 991.98px)){
+/* @media all and ((max-width: 991.98px)){
   :root{
-    --profile_w: calc(100vw - 5px - 1rem);
+    --profile_w: calc(100vw - 5px);
+  
   }
-}
+} */
 @media all and ((max-width: 500px)){
   :root{
     --list_w: calc(100vw - 5px);
@@ -86,22 +87,17 @@
 }
 @media (orientation: landscape) {
   :root{
-    /* --profile_w: 992px; */
+    
     --header_w: 10rem;
     --header_h: 100vh;
-    --body_w: calc(100vw - var(--header_w))
-  }
-}
-@media (orientation: landscape) and (max-width: calc(991.98px + 10rem + 50px)){
-  :root{
-    --profile_w: calc( 100vw - 10rem - 50px) ;
+    --body_w: calc(100vw - var(--header_w));
+    --profile_w: calc( 100vw - var(--header_w) - 5px);
   }
 }
 
 @media (orientation: landscape) and (max-width: 991.98px){
 
   :root{
-    --profile_w: calc(100vw - var(--header_circle_btn) - 2rem - 50px);
     --header_w: calc(var(--header_circle_btn) + 2rem);
     --header_h: 100vh;
   }
@@ -187,21 +183,22 @@
   transform: scale(1.2);
   cursor: pointer;
 }
-/* .sbody {
-  position: absolute;
-  top: 50px;
-  flex: 1 1 auto;
-} */
+.message {
+  position: fixed;
+  width: var(--body_w);
+  opacity: 0.8;
+}
 /* PROFILE */
 .profile_wrapper  {
-  width: var(--profile_w);
-  margin: auto;
-  /* padding: 0.5rem; */
+  display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 .profile_header_wrapper {
-  width: calc(100% - 5px - 1rem);
+  max-width: 992px;
+  width: var(--profile_w);
   display: flex;
-  margin: 0.5rem;
+  padding: 0.5rem;
   align-items: center;
 }
 .pro_data, .like_data {
@@ -228,19 +225,22 @@
     display: block;
   }
   .rev {
+    width: 100%;
     display: flex !important;
     flex-direction: column-reverse;
+    padding: 0.5rem;
   }
   
 }
 .profile_header_right {
   width: 100%;
-  margin-right: calc(var(--profile_avatar) / 4);
+  /* margin-right: calc(var(--profile_avatar) / 4); */
 }
 .profile_user_wrapper {
   display: flex;
   flex-direction: column;
     align-items: flex-start;
+    
 }
 
 .profile_edit_button {
@@ -320,11 +320,13 @@
 .profile_username {
   font-size: 20px;
   text-align: left;
+  overflow-wrap: anywhere;
 }
 .profile_user_email {
   font-size: 16px;
   text-align: left;
   color: grey;
+  overflow-wrap: anywhere;
 }
 
 .bio {
@@ -423,16 +425,34 @@
   right: 14px;
   top: 12px;
 }
+.user_posts_container{
+  --user_posts_padding: 0.5rem;
+  max-width: 992px;
+  width: var(--profile_w);
+  padding: var(--user_posts_padding);
+}
+.user_posts_row {
+  --user_posts_max_width: calc(992px - (2 * var(--user_posts_padding)));
+  --user_posts_width: calc(var(--profile_w) - (2 * var(--user_posts_padding)));
+  margin-left: auto;
+  margin-right: auto;
+  max-width: var(--user_posts_max_width);
+  width: var(--user_posts_width);
+  display: flex;
+  flex-wrap: wrap;
+}
 .user_post_square_wrapper {
-  width: calc(var(--profile_w) / 3);
-  height: calc(var(--profile_w) / 3);
+  width: calc(var(--user_posts_width) / 3);
+  height: calc(var(--user_posts_width) / 3);
+  max-width: calc(var(--user_posts_max_width) / 3);
+  max-height: calc(var(--user_posts_max_width) / 3);
   padding: 0;
   border: 2px white solid;
   position: relative;
   display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
 }
 .user_post_square_img {
   width: 100%;
@@ -567,6 +587,12 @@
   justify-content: space-between;
   align-items: center;
   
+}
+.flex_space_between_top {
+  width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
 }
 /* .post_popup_r_header, .post_popup_l_header {
   display: flex;

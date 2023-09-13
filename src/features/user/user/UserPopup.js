@@ -5,9 +5,9 @@ import { backendAPI } from "../../../app/helper"
 import placeholder from "../../../images/X (1).png"
 import Avatar from "../profile/Avatar"
 import { Link } from "react-router-dom"
-
+import { memo } from "react"
 const UserPopup = ({author})=>{
-    console.log(author)
+    console.log("UserPopup")
     // const fisrt3Posts=useSelector(state=>selectPostsbyUserId(state, author.id).slice(0,3))
     const handleImgErr=(e)=>{
         e.target.src = placeholder
@@ -53,4 +53,11 @@ const UserPopup = ({author})=>{
          
     )
 }
-export default UserPopup
+const shouldComponentUpdate =(prevProps, nextProps) => {
+    // console.log(prevProps, nextProps)
+    if (prevProps.author.id !== nextProps.author.id)
+        return false      // will re-render
+    return true         // donot re-render   
+}
+ export default memo(UserPopup, shouldComponentUpdate)
+// export default UserPopup

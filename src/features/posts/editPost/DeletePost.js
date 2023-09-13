@@ -11,7 +11,7 @@ const DeletePost = ({postId, currUserId}) => {
     const handleDelete=e=>{
         e.preventDefault()
         dispatch(deleteAPost(postId))
-        navigate(`/instagram-copycat-v2/users/${currUserId}`);
+        // navigate(`/instagram-copycat-v2/users/${currUserId}`);
     }
     return ( 
         <>

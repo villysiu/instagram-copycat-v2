@@ -14,6 +14,7 @@ const Error = ()=>{
         {   currUserError && <ErrorAlert err={currUserError} clearErr={clearCurrUserError} /> }
         {   emailError && <ErrorAlert err={emailError} clearErr={clearEmailError} /> }
         {   userError && <ErrorAlert err={userError} clearErr={clearUserError} /> }
+        
         </>
     )
 }

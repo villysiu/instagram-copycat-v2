@@ -6,21 +6,22 @@ import Error from './features/error/Error';
 import { useSelector, useDispatch } from 'react-redux';
 // import { fetchPosts } from './features/posts/postsSlice';
 import { fetchCurrentUserId } from './features/user/usersSlice';
-
+import Message from './features/messages/Message';
 
 function App() {
     
     const dispatch=useDispatch();
 
-    const currUserIdStatus = useSelector(state => state.users.currUser.status)
+    const currUserIdStatus = useSelector(state => {
+      console.log(state)
+      return state.users.currUser.status
+})
     // const postStatus = useSelector(state => state.posts.status)
     
     useEffect(()=>{
         if(currUserIdStatus === 'idle' ){
             dispatch(fetchCurrentUserId())
         }
-        // if(postStatus === 'idle')
-        //     dispatch(fetchPosts()) 
     },[dispatch, currUserIdStatus
       // postStatus
     ])
@@ -35,7 +36,7 @@ function App() {
             <div className="blank_div" />
           </div>
           <div className="body_wrapper">
-            <Error />
+            <Message />
             <Outlet />
           </div>
           
