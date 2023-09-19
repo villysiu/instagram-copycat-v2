@@ -13,7 +13,7 @@ const PostPopupLeft = ({post}) =>{
     }
     return (
         <>
-            <div className='d-block d-md-none' >
+            <div className='d-block d-md-none p-2' >
                 <PostPopupHeader author={post.owner} />
             </div>
 

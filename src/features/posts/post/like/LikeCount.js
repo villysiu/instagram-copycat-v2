@@ -1,4 +1,4 @@
-import FollowersList from "../../../user/followers/FollowersList"
+import LikeList from "./LikeList"
 import { useState } from "react"
 import { Modal } from "react-bootstrap"
 import { X } from "react-bootstrap-icons"
@@ -20,7 +20,7 @@ const LikeCount = ({likes}) =>{
             <Modal show={show} onHide={()=>setShow(false)} dialogClassName="followers_modal" centered >
                 <X className="followers_modal_close_btn hover_pointer" onClick={()=>setShow(false)} />
                 <div className="followers_modal_title border-bottom">Likes</div>
-                <FollowersList followers={likes} userId={1}/> 
+                <LikeList likes={likes} /> 
             </Modal>
             <span className="like_data hover_pointer" onClick={()=>setShow(true)}>
                  {likes.length === 1 ? <b>1 like</b> : <b>{likes.length} likes</b>}

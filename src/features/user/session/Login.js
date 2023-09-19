@@ -6,10 +6,10 @@ import { Modal } from 'react-bootstrap';
 import { loginUser } from '../usersSlice';
 import PasswordInputBox from './PasswordInputBox';
 import FloatingInputBox from './FloatingInputBox';
-// import { duration } from '../../../app/helper';
-// import { timeoutUser } from '../../../app/helper';
 
-const Login=({toggleLogin})=>{
+
+const Login=({toggleLogin, show})=>{
+  console.log(show)
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const dispatch=useDispatch();
@@ -42,7 +42,7 @@ const Login=({toggleLogin})=>{
         </Form>
       </Modal.Body>
       <Modal.Footer className="user_modal_footer">
-          Not registered yet, <a href="#" onClick={()=>toggleLogin(false)}>Signup</a> here.
+          Not registered yet, <div className="blue_text" onClick={()=>toggleLogin(false)}>Signup</div> here.
       </Modal.Footer>
     </>
   );

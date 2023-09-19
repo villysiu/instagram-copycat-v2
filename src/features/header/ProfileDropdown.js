@@ -3,6 +3,7 @@ import { NavDropdown, Image } from 'react-bootstrap';
 import Logout from '../user/session/Logout';
 import { backendAPI } from '../../app/helper';
 import Avatar from '../user/profile/Avatar';
+import { Link } from 'react-router-dom';
 const ProfileDropdown = ({currUser}) =>{
     
     // const title = (<PersonCircle className="circle_button" /><div>Profile</div>);
@@ -18,8 +19,12 @@ const ProfileDropdown = ({currUser}) =>{
     return (
       <>
       <NavDropdown  title={title} className="post_header_l">
-          <NavDropdown.Item href={`/users/${currUser.id}`}>
-              Profile
+          <NavDropdown.Item 
+          href={`#/users/${currUser.id}`}
+        >
+              {/* <Link className="link_black" to={`/users/${currUser.id}`}> */}
+                Profile
+            {/* </Link> */}
           </NavDropdown.Item>
           <NavDropdown.Divider />
           <Logout />

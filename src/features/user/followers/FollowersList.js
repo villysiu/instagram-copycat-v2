@@ -13,16 +13,13 @@ const FollowersList = ({followers, userId}) => {
         return state.users.currUser.currUser
     
     })
-    
-    
     const ButtonHelper=({follower, userId})=>{
-        
         const handleClick = () =>{
             // console.log("remove User "+follower.id + " from User "+ currUser.id)
             dispatch(removeFollower({user_id: follower.id }))
         }
 
-        if(!currUser ) return null
+        // if(!currUser ) return null
         if(currUser.id === follower.id) {    
             return null
         }
@@ -32,9 +29,9 @@ const FollowersList = ({followers, userId}) => {
         
         // (currUser.id !== user.id  
         if(currUser.followings.some(f=>f.id === follower.id)){
-            return <UnfollowButton userId={follower.id} />
+            return <div className="follow_btn_wrapper"><UnfollowButton userId={follower.id} /></div>
         }else{
-            return <FollowButton userId={follower.id}/>
+            return <div className="follow_btn_wrapper"><FollowButton userId={follower.id}/></div>
         }
         
     }
@@ -46,20 +43,16 @@ const FollowersList = ({followers, userId}) => {
                 return (
                     <div key={follower.id} className="flex_row_stretch mt-2 mb-3">
                         <div className="flex_row_center">
-                            <div className="me-2" 
-                            // onClick={()=>setShow(false)}
-                            >
+                            <div className="me-2">
                                 <UserHover author={follower} children={
                                     <div style={{width: '45px', height: '45px'}}>
                                         <Avatar avatar={follower.avatar} name={follower.name} />
                                     </div>
                                 } />
                             </div>
-                            <div 
-                            // onClick={()=>setShow(false)} 
-                            className="me-2">
+                            <div className="me-2">
                                 <UserHover author={follower} children={
-                                    <span className="bold_font">{follower.name}</span>
+                                    <span className="wrap_text_anywhere"><b>{follower.name}</b></span>
                                 } />   
                             </div>
                             

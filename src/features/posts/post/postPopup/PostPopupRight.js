@@ -5,7 +5,7 @@ import LikeCount from "../like/LikeCount"
 import PostDropdown from "../PostDropdown"
 import PostPopupHeader from "./PostPopupHeader"
 export const PostPopupRight = ({post}) => {
-    
+    console.log(post)
     // const comments = post.comments.filter(c=>c.id!==post.desc)
     const postCreatedAt = new Date(post.created_at *1000)
                             .toLocaleDateString({},
@@ -14,7 +14,7 @@ export const PostPopupRight = ({post}) => {
     
     return (
         <>
-            <div className='flex_space_between'>
+            <div className='flex_space_between p-2  pe-4'>
                 <PostPopupHeader author={post.owner} />
                 <PostDropdown post={post}/>
             </div>

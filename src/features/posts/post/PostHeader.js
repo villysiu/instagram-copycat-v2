@@ -3,6 +3,7 @@ import PostDropdown from "./PostDropdown"
 import UsernameLink from "../../user/user/UsernameLink"
 import UserAvatarLink from "../../user/user/UserAvatarLink"
 const PostHeader = ({post}) =>{
+    console.log(post.owner.name)
     return (
         <div className='flex_space_between m-2'>
             <div className="flex_row_center">

@@ -2,7 +2,6 @@ import React, {useEffect} from 'react';
 import Header from './features/header/Header';
 import './App.css';
 import { Outlet } from "react-router-dom";
-import Error from './features/error/Error';
 import { useSelector, useDispatch } from 'react-redux';
 // import { fetchPosts } from './features/posts/postsSlice';
 import { fetchCurrentUserId } from './features/user/usersSlice';

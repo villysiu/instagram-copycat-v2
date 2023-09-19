@@ -8,14 +8,21 @@ import UnfollowButton from "../followers/UnfollowButton"
 import FollowerWrapper from "../followers/FollowWrapper"
 import FollowersList from "../followers/FollowersList"
 import FollowingList from "../followers/FollowingList"
+
+import { Button } from "react-bootstrap"
+import User from "../session/User"
+
 const ProfileHeader=({user, userPostsCount })=>{
-
-    
-    
     const currUser = useSelector(state => state.users.currUser.currUser)
-    const ButtonHelper=() =>{
-        if(!currUser) return null
 
+    const ButtonHelper=() =>{
+        if(!currUser) {
+            return (
+                <User display={
+                    <Button className='gray_btn'>Follow</Button>
+                } />
+            )
+        }
         if(currUser.id === user.id) 
             return <EditProfileButton user={user} />
 

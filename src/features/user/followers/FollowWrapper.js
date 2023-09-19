@@ -1,10 +1,21 @@
 import { Modal } from "react-bootstrap"
 import { useState } from "react"
-
+import { useSelector } from "react-redux"
+import User from "../session/User"
 import { X } from "react-bootstrap-icons"
 const FollowerWrapper = ({list, title, children}) => {
     const [show, setShow] = useState(false)
-   
+    const currUser=useSelector(state=>state.users.currUser.currUser)
+    
+    if(!currUser){
+        return (
+            <User display={
+                <div className="pro_data hover_pointer">
+                    <b className="blk"> {list.length}</b> {title}
+                </div>
+            } />
+        )
+    }
     if(list.length===0){
         return (
             <div className="pro_data">

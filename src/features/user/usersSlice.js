@@ -1,18 +1,18 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { json } from "react-router-dom";
 import { backendAPI } from "../../app/helper";
+import { logoutMessage } from "../messages/messageSlice";
 
 const timeOutUser2 = (loginTime, thunkAPI) =>{
-    // const loginTime = data.login
     const jwtExpTime=30
-    console.log('timeoutuser2')
     const logoutTime = loginTime+60*jwtExpTime
     
     const due = logoutTime*1000 - Math.floor(Date.now())
-    console.log('login time: '+loginTime + ' logout time: ' + logoutTime + ', current: '+ Date.now())
+    // console.log('login time: '+loginTime + ' logout time: ' + logoutTime + ', current: '+ Date.now())
   
     const s=setTimeout(()=>{
-        thunkAPI.dispatch(logout())    
+        thunkAPI.dispatch(logout())   
+        thunkAPI.dispatch(logoutMessage()) 
+
     }, due )
 
     return ()=>clearTimeout(s)
@@ -28,12 +28,12 @@ export const fetchCurrentUserId=createAsyncThunk(
                     "Authorization": localStorage.getItem("token"),
                 }
             })
-            const data=await response.json()
-            console.log(response)
+            
+            
             if(!response.ok) {
-                throw new Error(response.status)
+                throw new Error(`${response.status} ${response.statusText}`)
             }
-            console.log(data)
+            const data=await response.json()
             timeOutUser2(data.curr_user.login, thunkAPI)
             return { 
                 ...data
@@ -45,7 +45,6 @@ export const fetchCurrentUserId=createAsyncThunk(
     }
 )
 export const fetchUserById=createAsyncThunk(
-
     'users/fetchUserById',
     async (userId) => {
         
@@ -62,13 +61,11 @@ export const fetchUserById=createAsyncThunk(
                 throw new Error(`${response.status} ${response.statusText}`)
             }
             const data=await response.json()
-            console.log(data)
             return { 
                 data 
             }
         } 
         catch(error){
-            console.log(error)
             return Promise.reject("User not found")
         }
     }
@@ -87,7 +84,7 @@ export const loginUser=createAsyncThunk(
             })
             
             if(!response.ok) 
-                throw new Error(response.status)
+                throw new Error(`${response.status} ${response.statusText}`)
             
             const data=await response.json()
 
@@ -98,9 +95,6 @@ export const loginUser=createAsyncThunk(
             }
         } 
         catch(error){
-            // console.log(error.message)
-            if(error.message==="401")
-                return Promise.reject("Failed to login. Please check if email and password are correct.")
             return Promise.reject(error.message)
         }
     }
@@ -108,10 +102,7 @@ export const loginUser=createAsyncThunk(
 )
 export const verifyEmail=createAsyncThunk(
     'users/verifyEmail',
-    async (user) => {
-        console.log('check email slice')
-        console.log(user)
-        
+    async (user) => {        
         try{
             const response=await fetch(`${backendAPI}/check_email`, {
                 method: 'POST',
@@ -125,9 +116,7 @@ export const verifyEmail=createAsyncThunk(
                 throw new Error(response.status+" "+response.statusText)
             }   
             const data=await response.json()
-            console.log(data)
-            
-
+        
             return {
                 ...data
             }
@@ -179,8 +168,7 @@ export const logoutUser=createAsyncThunk(
                     // 'Authorization': localStorage.getItem('token')
                 }
             })
-            console.log(response)
-
+            
             if(!response.ok) 
                 throw new Error(response.status+" "+response.statusText)
             const data=await response.json()
@@ -225,8 +213,6 @@ export const editProfile = createAsyncThunk(
 export const editAvatar = createAsyncThunk(
     'users/editAvatar',
     async(formData)=>{
-   
-        console.log(formData)
       try{
         const response=await fetch(`${backendAPI}/avatar`, {
             method:'PATCH',
@@ -236,11 +222,11 @@ export const editAvatar = createAsyncThunk(
             },
             body: formData
         })
-        const data=await response.json()
+        
         
         if(!response.ok) 
           throw new Error(response.status+" "+response.statusText)
-        console.log(data)
+        const data=await response.json()
         return {
             ...data
         }
@@ -259,11 +245,11 @@ export const deleteAvatar = createAsyncThunk(
                 'Authorization': localStorage.getItem('token'),
             },
         })
-        const data=await response.json()
-        console.log(data)
+       
+       
         if(!response.ok) 
           throw new Error(response.status+" "+response.statusText)
-        
+         const data=await response.json()
         return {
             ...data
         }
@@ -285,10 +271,12 @@ export const follow = createAsyncThunk(
           },
           body: JSON.stringify(info)
         })
-        const data=await response.json()
-        console.log(response)
+        
+      
         if(!response.ok) 
-          throw new Error(response.status+" "+response.statusText)
+            throw new Error(response.status+" "+response.statusText)
+        const data=await response.json()
+
         return {
             ...data
         }
@@ -311,10 +299,11 @@ export const unfollow = createAsyncThunk(
           },
           body: JSON.stringify(info)
         })
-        const data=await response.json()
-        console.log(response)
+        
+       
         if(!response.ok) 
-          throw new Error(response.status+" "+response.statusText)
+            throw new Error(response.status+" "+response.statusText)
+        const data=await response.json()
         return {
             ...info
         }
@@ -337,8 +326,7 @@ export const removeFollower = createAsyncThunk(
           },
           body: JSON.stringify(info)
         })
-        // const data=await response.json()
-        // console.log(response)
+       
         if(!response.ok) 
           throw new Error(response.status+" "+response.statusText)
         return {
@@ -357,9 +345,6 @@ const usersSlice=createSlice({
     initialState: {
         currUser: {
             currUser: null,
-            // id: null,
-            // login: 0,
-            // avatar: null,
             status: 'idle',
             error: null,    
         },
@@ -373,27 +358,15 @@ const usersSlice=createSlice({
             existed: 0,
             status: 'idle',
         }, 
-        messages: { 
-            type: null,
-            content: null,
-        },
+       
         
     },
     reducers: {
         logout: (state) => {
-            console.log("in dispatch logging out")
-            // state.currUser.id = null
-            // state.currUser.login = 0
-            // state.currUser.avatar = null
             state.currUser.currUser = null
             state.currUser.status = 'idle'
             state.currUser.error = null   
           },
-        clearUserError: (state)=>state.user.error = null,
-        clearCurrUserError: (state)=>state.currUser.error = null,
-        clearEmailError: (state)=>state.email.error = null,
-            
-        
     },
     extraReducers(builder) {
       builder
@@ -403,17 +376,11 @@ const usersSlice=createSlice({
         .addCase(fetchCurrentUserId.fulfilled, (state, action) => {
 
             state.currUser.status = 'succeeded'
-            // state.currUser.id = action.payload.id
-            // state.currUser.login = action.payload.login
-            // state.currUser.avatar = action.payload.avatar
             state.currUser.currUser = action.payload.curr_user
         })
         .addCase(fetchCurrentUserId.rejected, (state, action) => {
             // DO NOTHING WHEN NO USER LOGGED IN
             state.currUser.status = 'failed'
-            // state.currUser.error="no user login"
-            //
-           
         })
         .addCase(fetchUserById.pending, (state, action) => {
             state.status = 'loading'
@@ -426,7 +393,6 @@ const usersSlice=createSlice({
             state.user.error = null
         })
         .addCase(fetchUserById.rejected, (state, action) => {
-            console.log(action.error.message)
             state.user.status = 'failed'
             state.user.error = action.error.message
         })
@@ -440,7 +406,7 @@ const usersSlice=createSlice({
 
         })
         .addCase(loginUser.rejected, (state, action) => {
-            console.log(action)
+
             state.currUser.status = 'failed'
             state.currUser.error = action.error.message
         })
@@ -448,8 +414,7 @@ const usersSlice=createSlice({
             state.email.status = 'loading'
         })
         .addCase(verifyEmail.fulfilled, (state, action) => {
-            console.log(action.payload)
-            state.email.status = 'idle'
+            state.email.status = 'succeeded'
             state.email.existed = action.payload.existed
         })
         .addCase(verifyEmail.rejected, (state, action) => {
@@ -505,7 +470,6 @@ const usersSlice=createSlice({
         })
         .addCase(editAvatar.fulfilled, (state, action) => {
             state.currUser.status = 'succeeded'
-            console.log(action.payload)
             if(state.user.user.id === action.payload.id){
                 state.user.user.avatar=action.payload.avatar
             }
@@ -533,12 +497,9 @@ const usersSlice=createSlice({
             state.user.status = 'loading'
         })
         .addCase(follow.fulfilled, (state, action) => {
-            state.user.status = 'succeeded'   
-            console.log(action.payload)
-            console.log(state.user.user.id === action.payload.user.id)
+            state.user.status = 'succeeded'     
             state.currUser.currUser.followings.push(action.payload.user)
-            if(state.user.user.id === action.payload.user.id){
-                console.log("pusjing")
+            if(state.user.user && state.user.user.id === action.payload.user.id){
                 state.user.user.followers.push(state.currUser.currUser)
             }
         })
@@ -552,16 +513,14 @@ const usersSlice=createSlice({
         .addCase(unfollow.fulfilled, (state, action) => {
 
             state.user.status = 'succeeded'   
-            console.log(action.payload)
-            console.log(state.user.user.id === action.payload.user_id)
             state.currUser.currUser.followings = 
                 state.currUser.currUser.followings.filter(following=>following.id!==action.payload.user_id) 
                 
-            if(state.user.user.id === action.payload.user_id )
+            if(state.user.user && state.user.user.id === action.payload.user_id )
                 state.user.user.followers=
                     state.user.user.followers.filter(follower=>follower.id!==state.currUser.currUser.id)
 
-            if(state.user.user.id === state.currUser.currUser.id)
+            if(state.user.user && state.user.user.id === state.currUser.currUser.id)
                 state.user.user.followings = 
                     state.user.user.followings.filter(following=>following.id!==action.payload.user_id)
         })
@@ -573,9 +532,8 @@ const usersSlice=createSlice({
             state.user.status = 'loading'
         })
         .addCase(removeFollower.fulfilled, (state, action) => {
-            //currUser === user
+           
             state.user.status = 'succeeded'   
-            console.log(action.payload)
             
             state.currUser.currUser.followers = 
                 state.currUser.currUser.followers.filter(follower=>follower.id!==action.payload.user_id) 
@@ -590,7 +548,7 @@ const usersSlice=createSlice({
    
     }
 })
-export const { logout, clearCurrUserError, clearUserError, clearEmailError } = usersSlice.actions
+export const { logout } = usersSlice.actions
 export default usersSlice.reducer
 
 

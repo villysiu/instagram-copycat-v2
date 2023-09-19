@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { fetchPostsByUserId, fetchPosts, getPostCount, addNewPost, editAPost, deleteAPost, likeAPost, unlikeAPost, addComment } from '../posts/postsSlice'
 import { loginUser, signupUser, logoutUser, verifyEmail, editProfile, editAvatar, deleteAvatar } from '../user/usersSlice'
-
+import { logout } from '../user/usersSlice'
 const messagesSlice = createSlice({
     name: 'messages',
     initialState: {
@@ -17,6 +17,11 @@ const messagesSlice = createSlice({
         state.status= false
         state.type=null
         state.content=null
+      },
+      logoutMessage: (state)=>{
+        state.status= true
+        state.type="success"
+        state.content="Session timed out."
       }
     },
     extraReducers(builder) {
@@ -154,7 +159,7 @@ const messagesSlice = createSlice({
 })
 
 // Action creators are generated for each case reducer function
-export const { removeMessage } = messagesSlice.actions
+export const { removeMessage, logoutMessage } = messagesSlice.actions
 
 export default messagesSlice.reducer
 // export const selectAllPosts = (state) =>{

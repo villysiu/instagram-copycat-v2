@@ -3,33 +3,29 @@ import Login from "./Login"
 import VerifyEmail from "./VerifyEmail"
 import {Button} from "react-bootstrap"
 import { Modal } from "react-bootstrap"
-import { PersonCircle } from 'react-bootstrap-icons'
 
-const User = () =>{
-    // const user=useSelector(currentUser) 
+
+const User = ({display}) =>{
+
     const [show, setShow]=useState(false)
     const [login, toggleLogin] = useState(true)
-    
+
     return (
         <>
             <Modal show={show} onHide={()=>setShow(false)} 
             dialogClassName="user_modal"
             >
                 {login? 
-                    <Login toggleLogin={toggleLogin }  /> 
+                    <Login toggleLogin={toggleLogin } show={show} /> 
                     : 
-                    <VerifyEmail toggleLogin={toggleLogin} setShow={setShow} />}
+                    <VerifyEmail toggleLogin={toggleLogin} show={show} setShow={setShow} />
+                }
             </Modal>
            
-
-            <div  className="flex_row_center  me-2">
-                <PersonCircle className="circle_button mx-2" onClick={()=>setShow(true)}/>
-                <div className='d-none d-lg-block'>
-                    <div style={{cursor: 'pointer'}} onClick={()=>setShow(true)}>
-                        Login
-                    </div>
-                </div>
+            <div onClick={()=>setShow(true)}> 
+                {display}
             </div>
+
             
         </>
 

@@ -10,7 +10,7 @@ import { memo } from "react"
 const Comment = ({comment, postId, descId}) => {
     // const dayCreated = calculateTime(Math.round(Date.now()/1000)-comment.created_at)
     const [dayCreated, setDayCreated] = useState("???")
-    console.log("comment "+ comment.id)
+   
     useEffect(() => {
         var timer = setInterval(()=>
             setDayCreated(calculateTime(Math.round(Date.now()/1000)-comment.created_at))
@@ -53,8 +53,10 @@ const Comment = ({comment, postId, descId}) => {
     )
 }
 const areEqual = (prevProps, nextProps) => {
-   
-    if (prevProps.comment.likes !== nextProps.comment.likes) {
+   console.log(prevProps)
+   console.log(nextProps)
+    if (prevProps.comment.likes !== nextProps.comment.likes || 
+        prevProps.comment !== nextProps.comment ) {
       return false                                    // will re-render
     }
     return true                                  // donot re-render   

@@ -1,10 +1,7 @@
-// import { useHref } from "react-router-dom"
-import { useState } from "react"
+
 import { backendAPI } from "../../../app/helper"
 import placeholder from "../../../images/X (1).png"
 const PostImg = ({postUrl, setPortrait}) =>{
-    // const [portrait, setPortrait] = useState(false)
-    
     const handleImgErr=(e)=>{
         e.target.src = placeholder
     }
@@ -19,7 +16,6 @@ const PostImg = ({postUrl, setPortrait}) =>{
                 onError={handleImgErr}
                 onLoad={onImgLoad} 
             />
-        // </div>
     )
 }
 export default PostImg

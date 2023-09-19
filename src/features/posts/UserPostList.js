@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react"
-import { Container, Row, Col, Image, Modal, CloseButton} from "react-bootstrap"
+import { Container, Row, Col, Image, Modal} from "react-bootstrap"
 import UserPostCarousal from "./post/UserPostCarousal"
 import {Spinner} from "react-bootstrap"
 import placeholder from "../../images/X (1).png"
@@ -12,9 +12,7 @@ import { useDispatch, useSelector } from "react-redux"
 
 const UserPostList = ({idToFetch}) => {
     console.log("userPostList")
-    // const userPosts = useSelector(state=> state.posts.userPosts.posts)
-    // const userPostStatus = useSelector(state=> state.posts.userPosts.status)
-    // const userPostsUserId = useSelector(state=> state.posts.userPosts.userId)
+
     const {posts, status, userId} = useSelector(state=> state.posts.userPosts)
     const [show, setShow]=useState(false)
     const [index, setIndex] = useState(0)
@@ -27,22 +25,38 @@ const UserPostList = ({idToFetch}) => {
         e.target.src = placeholder
     }
     useEffect(()=>{
-        console.log("in user eddect")
         if(userId !== idToFetch)
             dispatch(fetchPostsByUserId(idToFetch))
     }, [])
-    console.log(posts)
+    // console.log(posts)
 
+    const Content = ({post}) =>{
+        return (
+            <>
+                <Image 
+                    className="user_post_square_img" 
+                    src={`${backendAPI}/${post.url}`} 
+                    onError={handleImgErr} 
+                />
+
+                <div className="user_post_square_hover_overlay">
+                </div>
+                <div className="user_post_square_text">
+                    <HeartFill className="me-1"/> {post.desc.likes.length}
+                    <ChatFill className="ms-4 me-1"/> {post.comments.length}
+                </div>
+            </>
+        )
+    }
+    
     if(posts.length===0 ){
-        if(status === 'loading'){
-            return <div><Spinner /></div>
-        }
-        else if(status === 'succeeded' ){
-            return <div>User has no post.</div>
-        }
+        if(status === 'loading') return <div><Spinner /></div>
+        
+        if(status === 'succeeded') return <div>User has no post.</div>
+        
     }   
-    if(userId !== idToFetch)
-        return <Spinner />
+    if(userId !== idToFetch) return <Spinner />
+    
     
     return(
         <>
@@ -55,33 +69,21 @@ const UserPostList = ({idToFetch}) => {
             <Container bsPrefix="user_posts_container">
                 
                 <Row bsPrefix="user_posts_row">
-                    {/* <div style={{height: '500px'}}></div> */}
                     { posts.map((post, idx)=> {
                         return (
+                            
                             <Col key={post.id} sm={4} 
-                            className="user_post_square_wrapper" 
-                            onClick={()=>handleClick(idx)}
+                                className="user_post_square_wrapper" 
+                                onClick={()=>handleClick(idx)}
                             >
-                                <Image 
-                                    className="user_post_square_img" 
-                                    src={`${backendAPI}/${post.url}`} 
-                                    onError={handleImgErr} 
-                                />
-
-                                <div className="user_post_square_hover_overlay">
-                                </div>
-                                <div className="user_post_square_text">
-                                    <HeartFill className="me-1"/> {post.desc.likes.length}
-                                    <ChatFill className="ms-4 me-1"/> {post.comments.length}
-                                </div>
-                                
+                                <Content post={post} /> 
                             </Col>
                         )
+                        
+                        
                     })}
                 </Row>
-    
             </Container>
-
         </>
     )
 }

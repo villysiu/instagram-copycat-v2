@@ -3,6 +3,7 @@ import Avatar from "../profile/Avatar"
 import { useSelector } from "react-redux"
 import FollowButton from "./FollowButton"
 import UnfollowButton from "./UnfollowButton"
+
 const FollowingList = ({followings, userId, setShow}) => {
     console.log(followings)
 
@@ -17,14 +18,14 @@ const FollowingList = ({followings, userId, setShow}) => {
             return null
         }
         if(currUser.id === userId){
-             return <UnfollowButton userId={following.id} />
+             return <div className="follow_btn_wrapper"><UnfollowButton userId={following.id} /></div>
         }
         
         // (currUser.id !== user.id  
         if(currUser.followings.some(f=>f.id === following.id)){
-            return <UnfollowButton userId={following.id} />
+            return <div className="follow_btn_wrapper"><UnfollowButton userId={following.id} /></div>
         }else{
-            return <FollowButton userId={following.id}/>
+            return <div className="follow_btn_wrapper"><FollowButton userId={following.id}/></div>
         }
         
     }
@@ -45,7 +46,7 @@ const FollowingList = ({followings, userId, setShow}) => {
                                 </div>
                                 <div onClick={()=>setShow(false)}>
                                     <UserHover author={following} children={
-                                        <span className="bold_font">{following.name}</span>
+                                        <span className="wrap_text_anywhere"><b>{following.name}</b></span>
                                     } />   
                                 </div>
                             </div>

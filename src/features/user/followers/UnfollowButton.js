@@ -15,13 +15,13 @@ const UnfollowButton = ({userId}) => {
                 Following <ChevronDown className="ms-2"/>
             </Dropdown.Toggle>
             <Dropdown.Menu>
-                <Dropdown.Item onClick={handleClick}>
-                    Unfollow
+                <Dropdown.Item onClick={handleClick} style={{color: 'red'}}>
+                    <b>Unfollow</b>
                 </Dropdown.Item>
                 <Dropdown.Divider />
             
                 <Dropdown.Item>
-                    Cancel
+                <b>Cancel</b>
                 </Dropdown.Item>
             </Dropdown.Menu>
         </Dropdown>

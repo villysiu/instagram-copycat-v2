@@ -10,8 +10,9 @@ import FloatingInputBox from './FloatingInputBox';
 
 import Signup2 from './SignUp2';
 
-const VerifyEmail=({toggleLogin, setShow})=>{
+const VerifyEmail=({toggleLogin, setShow, show})=>{
     console.log("signup form")
+    console.log(show)
     const dispatch=useDispatch()
     // const formRef = useRef()
     const emailExisted = useSelector(state=>state.users.emailExisted)
@@ -49,7 +50,7 @@ const VerifyEmail=({toggleLogin, setShow})=>{
  
         </Modal.Body>
         <Modal.Footer className="user_modal_footer">
-        Already registered, <a href="#" onClick={()=>toggleLogin(true)} >Login</a> here.
+            Already registered, <div className="blue_text" onClick={()=>toggleLogin(true)} >Login</div> here.
         
         </Modal.Footer>
       </>

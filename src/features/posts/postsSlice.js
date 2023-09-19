@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { backendAPI } from '../../app/helper'
-import { editAvatar, deleteAvatar, editProfile } from '../user/usersSlice'
+import { editAvatar, deleteAvatar, editProfile, follow, unfollow } from '../user/usersSlice'
 
 // export const fetchPosts = createAsyncThunk(
 //   'posts/fetchPosts',
@@ -318,20 +318,22 @@ const postsSlice = createSlice({
       })
       .addCase(fetchPostsByUserId.fulfilled, (state, action) => {
        console.log(action.payload)
+       console.log(state.posts.posts.length)
         state.userPosts.status = 'succeeded'
         state.userPosts.posts = action.payload.userPosts
         state.userPosts.userId = action.payload.userId
       })
       .addCase(fetchPostsByUserId.rejected, (state, action) => {
         state.userPosts.status = 'failed'
-        // console.log(action.error.message)
+
         state.userPosts.error = "Failed to fetch posts. Please check if Rails API is setup locally. "
       })
       .addCase(fetchPosts.pending, (state, action) => {
         state.posts.status = 'loading'
       })
       .addCase(fetchPosts.fulfilled, (state, action) => {
-      //  console.log(action.payload)
+       console.log(action.payload)
+       console.log(state.posts.posts.length)
         state.posts.status = 'succeeded'
         state.posts.posts = [...state.posts.posts, ...action.payload.posts]
        
@@ -351,7 +353,7 @@ const postsSlice = createSlice({
       })
       .addCase(getPostCount.rejected, (state, action) => {
         state.count.status = 'failed'
-        // state.count.error = action.error.message
+
       })
       .addCase(addNewPost.fulfilled, (state, action) => {
         state.posts.status = 'succeeded'
@@ -363,8 +365,6 @@ const postsSlice = createSlice({
           state.userPosts.status = 'succeeded'
           state.userPosts.posts.unshift(action.payload.newPost)
         }
-        state.messages.type = "succeeded"
-        state.messages.content = "added a new post yippeueee"
       })
       .addCase(addNewPost.rejected, (state, action) => {
         state.posts.status = 'failed'
@@ -374,10 +374,18 @@ const postsSlice = createSlice({
         state.posts.status = 'loading'
       })
       .addCase(editAPost.fulfilled, (state, action) => {
-        state.posts.status = 'succeeded'
+        const updateList = (list) =>{
+          const post=list.find(post=>post.id===postId)
+          if(post !==undefined)
+            post.desc.comment=desc
+          return list
+        }
+         state.posts.status = 'succeeded'
+         state.userPosts.status = 'succeeded'
         const {postId, desc} = action.payload
-        const post=state.posts.posts.find(post=>post.id===postId)
-        post.desc.comment=desc
+        state.posts.posts = updateList(state.posts.posts)
+        state.userPosts.posts = updateList(state.userPosts.posts)
+      
       })
       .addCase(editAPost.rejected, (state) => {
         
@@ -412,9 +420,9 @@ const postsSlice = createSlice({
         state.posts.status = 'succeeded'
         const addLike = (list) => {
           const post=list.find(post=>post.id===action.payload.post_id)
-          console.log(post)
+          
           if(post!==undefined){
-            console.log(post.id, post.desc)
+            
             if(post.desc.id === action.payload.comment_id)
                 post.desc.likes.push(action.payload.user)
             else{
@@ -444,9 +452,9 @@ const postsSlice = createSlice({
 
         const removeLike=(list )=>{
           const post=list.find(post=>post.id===action.payload.post_id)
-          console.log(post)
+          
           if(post!==undefined){
-            console.log(post.id, post.desc.id)
+            
             if(post.desc.id === action.payload.comment_id){ 
                 console.log(post.desc.id === action.payload.comment_id)
                 post.desc.likes = post.desc.likes.filter(like=>like.id!==action.payload.currUser_id)
@@ -532,6 +540,14 @@ const postsSlice = createSlice({
               comment.user.name = action.payload.name
           })
         })
+    })
+    .addCase(follow.fulfilled, (state, action) => {
+      
+      console.log(action.payload)
+    })
+    .addCase(unfollow.fulfilled, (state, action) => {
+
+      console.log(action.payload)
     })
   }
 })

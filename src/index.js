@@ -5,12 +5,13 @@ import App from './App';
 import store from './app/store'
 import { Provider } from 'react-redux'
 import ReactDOM from 'react-dom/client';
-import { createBrowserRouter, RouterProvider, Navigate} from 'react-router-dom';
-
+// import { createBrowserRouter, RouterProvider, Navigate} from 'react-router-dom';
+import { createHashRouter, RouterProvider, Navigate} from 'react-router-dom';
 import PostList from './features/posts/PostList';
 import Profile from './features/user/profile/Profile';
 import About from './features/header/About';
-const router = createBrowserRouter([
+// const router = createBrowserRouter([
+  const router = createHashRouter([
   {
       path: "/",
       element: <App />,
@@ -18,7 +19,6 @@ const router = createBrowserRouter([
         {
           path: "/",
           element: <PostList />,
-       
         },
         {
           path: "/users/:id",
@@ -32,6 +32,7 @@ const router = createBrowserRouter([
       ],
       
     },
+    
     {
       path: '/*',
       element: <Navigate to="/" replace />

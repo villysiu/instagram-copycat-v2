@@ -1,10 +1,9 @@
 import { Heart, HeartFill } from 'react-bootstrap-icons'
-import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { likeAPost, unlikeAPost } from '../../postsSlice'
 
 const LikeButton = ({likes, currUserId, commentId, postId, smHeart}) => {
-    console.log(likes)
+    
     const dispatch=useDispatch()
     const currUserLike = likes.some(like=>like.id === currUserId)
 

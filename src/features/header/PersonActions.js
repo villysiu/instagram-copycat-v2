@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 
 import ProfileDropdown from './ProfileDropdown';
 import User from '../user/session/User'
-
+import { PersonCircle } from 'react-bootstrap-icons'
 import { Spinner } from 'react-bootstrap';
 
 const PersonActions = () =>{
@@ -11,8 +11,24 @@ const PersonActions = () =>{
     const currUser = useSelector(state => state.users.currUser.currUser)
   
     if (!currUser){
-        return  userStatus === 'loading' ? <Spinner  /> : <User />
-    }
+        return (
+            userStatus === 'loading' ? 
+                <Spinner  /> 
+                : 
+                <User display={
+                    <>
+                        <div  className="flex_row_center  me-2">
+                            <PersonCircle className="circle_button mx-2"/>
+                            <div className='d-none d-lg-block'>
+                                <div style={{cursor: 'pointer'}} >
+                                    Login
+                                </div>
+                            </div>
+                        </div>
+                    </>
+                }/>
+
+        )}
     return(
         <>
             <Plus />
