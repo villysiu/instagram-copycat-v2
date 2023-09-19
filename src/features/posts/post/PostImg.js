@@ -2,6 +2,8 @@
 import { backendAPI } from "../../../app/helper"
 import placeholder from "../../../images/X (1).png"
 const PostImg = ({postUrl, setPortrait}) =>{
+    console.log(backendAPI)
+    console.log(postUrl)
     const handleImgErr=(e)=>{
         e.target.src = placeholder
     }
@@ -13,7 +15,7 @@ const PostImg = ({postUrl, setPortrait}) =>{
         
             <img className="post_img" alt="" 
                 src={`${backendAPI}/${postUrl}`} 
-                onError={handleImgErr}
+                // onError={handleImgErr}
                 onLoad={onImgLoad} 
             />
     )
