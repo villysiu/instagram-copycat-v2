@@ -1,30 +1,124 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { backendAPI } from '../../app/data'
+import { backendAPI } from '../../app/helper'
+import { editAvatar, deleteAvatar, editProfile, follow, unfollow } from '../user/usersSlice'
+
+// export const fetchPosts = createAsyncThunk(
+//   'posts/fetchPosts',
+//   async () => {
+//     try {
+//       const response = await fetch(`${backendAPI}/photos.json`)
+//       const data=await response.json()
+
+//       if(!response.ok) 
+//         throw new Error(response.statusText)
+// console.log(data)
+//       return {
+//         ...data
+//        }
+//     } catch(error){
+//       return Promise.reject(error.message ? error.message : "no data")
+//     }
+//   }
+// )
 
 
-export const fetchPosts = createAsyncThunk(
-  'posts/fetchPosts',
+export const getPostCount = createAsyncThunk(
+  'posts/getPostCount',
   async () => {
+    
     try {
-      const response = await fetch(`${backendAPI}/photos.json`)
-      const data=await response.json()
+      const response=await fetch(`${backendAPI}/get_post_count`, {
+        method: "get",
+        headers: {
+            "Content-Type": "application/json",
+            'Accept' : 'application/json',
+        },
+    })
+    
+    if(!response.ok) {
+        throw new Error(`${response.status} ${response.statusText}`)
+    }
+      const count=await response.json()
 
       if(!response.ok) 
         throw new Error(response.statusText)
 
       return {
-        data,
+        ...count
        }
     } catch(error){
       return Promise.reject(error.message ? error.message : "no data")
     }
   }
 )
+export const fetchPosts = createAsyncThunk(
+  'posts/fetchPosts',
+  
+  async (n) => {
+    console.log("fetching 5 posts")
+    try {
+      const response=await fetch(`${backendAPI}/fetch_posts`, {
+        method: "post",
+        headers: {
+            "Content-Type": "application/json",
+            'Accept' : 'application/json',
+        },
+        body: JSON.stringify({idx: n})
+    })
+    
+    if(!response.ok) {
+        throw new Error(`${response.status} ${response.statusText}`)
+    }
+      const posts=await response.json()
+      // console.log(posts)
+      if(!response.ok) 
+        throw new Error(response.statusText)
+
+      return {
+        posts
+       }
+    } catch(error){
+      return Promise.reject(error.message ? error.message : "no data")
+    }
+  }
+)
+
+export const fetchPostsByUserId = createAsyncThunk(
+  'posts/fetchPostsByUserId',
+  async (userId) => {
+    console.log("fetch posts by user id")
+    try {
+        const response=await fetch(`${backendAPI}/fetch_user_posts`, {
+            method: "post",
+            headers: {
+                "Content-Type": "application/json",
+                'Accept' : 'application/json',
+            },
+            body: JSON.stringify({user_id: userId})
+        })
+        console.log(`${response.status} ${response.statusText}`)
+        if(!response.ok) {
+            throw new Error(`${response.status} ${response.statusText}`)
+        }
+          const data=await response.json()
+          console.log(data)
+         
+
+          return {
+            userId: userId,
+            userPosts: data
+          }
+      } catch(error){
+        return Promise.reject(error.message ? error.message : "no data")
+      }
+  }
+)
 export const addNewPost = createAsyncThunk(
   'posts/addNewPost',
   async (formData)=>{
+    console.log(formData)
     try {
-      const response=await fetch(`${backendAPI}/photos`, {
+      const response=await fetch(`${backendAPI}/photos/`, {
           method: 'POST',
           headers: {
             // "Content-Type": "application/json",
@@ -34,13 +128,13 @@ export const addNewPost = createAsyncThunk(
           body: formData
       })
       console.log(response)
-      const data=await response.json()
-      console.log(data)
+      const newPost=await response.json()
+      console.log(newPost)
       if(!response.ok) {
         throw new Error(response.status+" "+response.statusText)
       }
      return {
-      data,
+      newPost
      }
     }catch(error){
 
@@ -100,11 +194,12 @@ export const deleteAPost = createAsyncThunk(
 )
 export const likeAPost = createAsyncThunk(
   'posts/likeAPost',
-  async (post_id)=>{
-    console.log("like a post "+ post_id)
+  async ({comment_id, post_id})=>{
+    console.log("like a comment "+ comment_id + " "+ post_id)
     try {
 
-      const response=await fetch(`${backendAPI}/photos/${post_id}/likes`, {
+      // const response=await fetch(`${backendAPI}/photos/${post_id}/likes`, {
+        const response=await fetch(`${backendAPI}/comments/${comment_id}/likes`, {
         method: 'POST',
         headers: {
           'Content-type': "application/json",
@@ -117,20 +212,21 @@ export const likeAPost = createAsyncThunk(
       if(!response.ok) 
         throw new Error(response.status+" "+response.statusText)
       return {
-        post_id,
-        data
-        
+        comment_id: comment_id,
+        post_id: post_id,
+        ...data
       }
-    } catch (error) {
+    } 
+    catch (error) {
       return Promise.reject(error)
     }
   }
 )
 export const unlikeAPost = createAsyncThunk(
   'posts/unlikeAPost',
-  async ({post_id}) =>{
+  async ({currUser_id, post_id, comment_id}) =>{
     try {
-        const response=await fetch(`${backendAPI}/photos/${post_id}/likes`, {
+        const response=await fetch(`${backendAPI}/comments/${comment_id}/likes`, {
         method: "delete",
         headers: {
             'Content-type': "application/json",
@@ -141,10 +237,12 @@ export const unlikeAPost = createAsyncThunk(
       if(!response.ok) 
         throw new Error(response.status+" "+response.statusText)
     
-      console.log(data)
+      
       return {
-        post_id: post_id,
-        like_id: data,
+        post_id,
+        comment_id,
+        currUser_id,
+        
       }
 
     } catch (error) {
@@ -169,6 +267,7 @@ export const addComment = createAsyncThunk(
         body: formData
       })
       const data=await response.json()
+      console.log(response)
       console.log(data)
       if(!response.ok) 
         throw new Error(response.status+" "+response.statusText)
@@ -185,134 +284,293 @@ export const addComment = createAsyncThunk(
 const postsSlice = createSlice({
   name: 'posts',
   initialState: {
-    posts: [],
-    status: 'idle',
-    error: null,
+    posts: {
+      posts: [],
+      status: 'idle',
+      error: null,
+    },
+    userPosts: {
+      userId: null,
+      posts: [],
+      status: 'idle',
+      error: null,
+    }, 
+    count: {
+      count: 0,
+      status: 'idle',
+    }
+
   },
   reducers: {
     
+    resetUserPosts: (state)=>{
+      state.userPosts.userId=null
+      state.userPosts.posts= []
+      state.userPosts.status= 'idle'
+
+    }
+
   },
   extraReducers(builder) {
     builder
+      .addCase(fetchPostsByUserId.pending, (state, action) => {
+        state.userPosts.status = 'loading'
+      })
+      .addCase(fetchPostsByUserId.fulfilled, (state, action) => {
+       console.log(action.payload)
+       console.log(state.posts.posts.length)
+        state.userPosts.status = 'succeeded'
+        state.userPosts.posts = action.payload.userPosts
+        state.userPosts.userId = action.payload.userId
+      })
+      .addCase(fetchPostsByUserId.rejected, (state, action) => {
+        state.userPosts.status = 'failed'
+
+        state.userPosts.error = "Failed to fetch posts. Please check if Rails API is setup locally. "
+      })
       .addCase(fetchPosts.pending, (state, action) => {
-        state.status = 'loading'
+        state.posts.status = 'loading'
       })
       .addCase(fetchPosts.fulfilled, (state, action) => {
-       
-        state.status = 'succeeded'
-        state.posts = action.payload.data
+       console.log(action.payload)
+       console.log(state.posts.posts.length)
+        state.posts.status = 'succeeded'
+        state.posts.posts = [...state.posts.posts, ...action.payload.posts]
        
       })
       .addCase(fetchPosts.rejected, (state, action) => {
-        state.status = 'failed'
-        // console.log(action.error.message)
-        state.error = "Failed to fetch posts. Please check if Rails API is setup locally. "
+        state.posts.status = 'failed'
+        state.posts.error = "Failed to fetch posts. Please check if Rails API is setup locally. "
       })
+      .addCase(getPostCount.pending, (state, action) => {
+        state.count.status = 'loading'
+      })
+      .addCase(getPostCount.fulfilled, (state, action) => {
 
+        state.count.status = 'succeeded'
+        state.count.count = action.payload.count
+       
+      })
+      .addCase(getPostCount.rejected, (state, action) => {
+        state.count.status = 'failed'
+
+      })
       .addCase(addNewPost.fulfilled, (state, action) => {
-        
-        state.status = 'succeeded'
-        // state.posts.push(action.payload.data)
-        state.posts.unshift(action.payload.data)
+        state.posts.status = 'succeeded'
+        state.posts.count += 1
+        // state.posts.unshift(action.payload.data)
+        state.posts.posts = [action.payload.newPost, ...state.posts.posts]
+
+        if(state.userPosts.userId === action.payload.newPost.owner.id){
+          state.userPosts.status = 'succeeded'
+          state.userPosts.posts.unshift(action.payload.newPost)
+        }
       })
       .addCase(addNewPost.rejected, (state, action) => {
-
-        state.status = 'failed'
-        state.error = "Adding new post failed. Please try again later"
+        state.posts.status = 'failed'
+        state.userPosts.status = 'failed'
       })
       .addCase(editAPost.pending, (state) => {
-        state.status = 'loading'
+        state.posts.status = 'loading'
       })
       .addCase(editAPost.fulfilled, (state, action) => {
-        state.status = 'succeeded'
+        const updateList = (list) =>{
+          const post=list.find(post=>post.id===postId)
+          if(post !==undefined)
+            post.desc.comment=desc
+          return list
+        }
+         state.posts.status = 'succeeded'
+         state.userPosts.status = 'succeeded'
         const {postId, desc} = action.payload
-        const post=state.posts.find(post=>post.id===postId)
-        post.desc=desc
+        state.posts.posts = updateList(state.posts.posts)
+        state.userPosts.posts = updateList(state.userPosts.posts)
+      
       })
       .addCase(editAPost.rejected, (state) => {
         
-        state.status = 'failed'
-        state.error = `Editing post failed. Please try again later`
+        state.posts.status = 'failed'
+        // state.posts.error = `Editing post failed. Please try again later`
      
       })
       .addCase(deleteAPost.pending, (state) => {
-        state.status = 'loading'
+        state.posts.status = 'loading'
+        state.userPosts.status = 'loading'
       })
       .addCase(deleteAPost.fulfilled, (state, action) => {
         
-        state.status = 'succeeded'
-        state.posts=state.posts.filter(post=>post.id!==action.payload.postId)
+        state.posts.status = 'succeeded'
+        state.posts.posts=state.posts.posts.filter(post=>post.id!==action.payload.postId)
+        state.posts.count -= 1
+
+        state.userPosts.status = 'succeeded'
+        state.userPosts.posts=state.userPosts.posts.filter(post=> post.id!==action.payload.postId)
+        
       })
       .addCase(deleteAPost.rejected, (state) => {
-        state.status = 'failed'
-        state.error = `Deleting post failed. Please try again later`
+        state.posts.status = 'failed'
+        state.userPosts.status = 'failed'
       })
       .addCase(likeAPost.pending, (state) => {
-        state.status = 'loading'
+        state.posts.status = 'loading'
       })
       .addCase(likeAPost.fulfilled, (state, action)=>{
-        state.status = 'succeeded'
-        const post=state.posts.find(post=>post.id===action.payload.post_id)
- 
-        post.likes.push(action.payload.data)
+        console.log(action.payload)
+        // post_id, comment_id, user
+        state.posts.status = 'succeeded'
+        const addLike = (list) => {
+          const post=list.find(post=>post.id===action.payload.post_id)
+          
+          if(post!==undefined){
+            
+            if(post.desc.id === action.payload.comment_id)
+                post.desc.likes.push(action.payload.user)
+            else{
+                const comment= post.comments.find(comment=>comment.id === action.payload.comment_id)
+                comment.likes.push(action.payload.user)
+            }
+          }
+          return list
+        }
+        state.posts.posts = addLike(state.posts.posts)
+        state.userPosts.posts = addLike(state.userPosts.posts)
+        
+        
       })
       .addCase(likeAPost.rejected, (state) => {
-        state.status = 'failed'
-        state.error = `Like a post failed. Please try again later`
+        state.posts.status = 'failed'
+        state.posts.error = `Like a post failed. Please try again later`
       })
 
       .addCase(unlikeAPost.pending, (state) => {
-        state.status = 'loading'
+        state.posts.status = 'loading'
       })
       .addCase(unlikeAPost.fulfilled, (state, action)=>{
+        state.posts.status = 'succeeded'
+        console.log(action.payload)
+        //post_id, comment_id, currUser_id,
+
+        const removeLike=(list )=>{
+          const post=list.find(post=>post.id===action.payload.post_id)
+          
+          if(post!==undefined){
+            
+            if(post.desc.id === action.payload.comment_id){ 
+                console.log(post.desc.id === action.payload.comment_id)
+                post.desc.likes = post.desc.likes.filter(like=>like.id!==action.payload.currUser_id)
+            }
+            else {
+                const comment = post.comments.find(comment=>comment.id === action.payload.comment_id)
+                comment.likes=comment.likes.filter(like=>like.id!==action.payload.currUser_id)
+            }
+          }
+          return list
+        }
+        state.posts.posts = removeLike(state.posts.posts)
+        state.userPosts.posts = removeLike(state.userPosts.posts)
         
-        const {post_id, like_id} = action.payload
-        state.status = 'succeeded'
-        const post=state.posts.find(post=>post.id===post_id)
-        post.likes=post.likes.filter(like=>like.id!==like_id)
       })
       .addCase(unlikeAPost.rejected, (state) => {
-        state.status = 'failed'
-        state.error = `Unlike a post failed. Please try again later`
+        state.posts.status = 'failed'
+        state.posts.error = `Unlike a post failed. Please try again later`
       })
       .addCase(addComment.pending, (state) => {
-        state.status = 'loading'
+        state.posts.status = 'loading'
       })
       .addCase(addComment.fulfilled, (state, action)=>{
+  
+        state.posts.status = 'succeeded'
+        const addComment = (list) =>{
+          const post=list.find(post=>post.id===action.payload.postId)
+          if(post !== undefined){
+            post.comments.push(action.payload.data)
+          }
+          return list
+          
+        }
+        state.posts.posts = addComment(state.posts.posts)
+        state.userPosts.posts = addComment(state.userPosts.posts)
 
-        state.status = 'succeeded'
-        const post=state.posts.find(post=>post.id===action.payload.postId)
-       
-        post.comments.push(action.payload.data)
       })
       .addCase(addComment.rejected, (state) => {
-        state.status = 'failed'
-        state.error = `Comment a post failed. Please try again later`
+        state.posts.status = 'failed'
+        state.posts.error = `Comment a post failed. Please try again later`
       })
+      .addCase(editAvatar.fulfilled, (state, action) => {
+        console.log(state.posts)
+        console.log(action.payload)
+
+        state.posts.posts.map(post=>{
+          if(post.owner.id === action.payload.id){
+            post.owner.avatar = action.payload.avatar
+            post.desc.user.avatar = action.payload.avatar
+          }
+          post.comments.map(comment=>{
+            if(comment.user.id===action.payload.id)
+              comment.user.avatar = action.payload.avatar
+          })
+        })
+      })
+      .addCase(deleteAvatar.fulfilled, (state, action) => {
+        console.log(state.posts)
+        console.log(action.payload)
+        state.posts.posts.map(post=>{
+          if(post.owner.id === action.payload.id){
+            post.owner.avatar = null
+            post.desc.user.avatar = null
+          }
+          post.comments.map(comment=>{
+            if(comment.user.id===action.payload.id)
+              comment.user.avatar = null
+          })
+        })
+       
+      })
+      .addCase(editProfile.fulfilled, (state, action) => {
+        console.log(state.posts)
+        console.log(action.payload)
+
+        state.posts.posts.map(post=>{
+          if(post.owner.id === action.payload.id){
+            post.owner.name = action.payload.name
+            post.desc.user.name = action.payload.name
+          }
+          post.comments.map(comment=>{
+            if(comment.user.id===action.payload.id)
+              comment.user.name = action.payload.name
+          })
+        })
+    })
+    .addCase(follow.fulfilled, (state, action) => {
+      
+      console.log(action.payload)
+    })
+    .addCase(unfollow.fulfilled, (state, action) => {
+
+      console.log(action.payload)
+    })
   }
 })
 
 // Action creators are generated for each case reducer function
-export const { postAdded, postsFetched } = postsSlice.actions
+export const { resetUserPosts } = postsSlice.actions
 
 export default postsSlice.reducer
 export const selectAllPosts = (state) =>{
- 
-  return state.posts.posts
+  return state.posts.posts 
 } 
 export const selectPostsbyUserId = (state, userId) =>{
- 
- 
-  return state.posts.posts.filter(post=>post.owner_id===userId)
+  return state.posts.posts.filter(post=>post.owner.id===userId)
 } 
 export const selectPostbyId = (state, postId) => {
   return state.posts.posts.find(post => post.id === postId)
 }
-export const likedByUserId = (state, postId) => {
- 
-  const post = state.posts.posts.find(p=>p.id===postId)
-  const userId=state.user.currentUserId
- 
-  return post.likes.find(l=>l.user_id === userId) ? true : false
+
+export const getPostByUserCount = (state, userId) => {
+  return state.posts.posts.filter(p=>p.owner.id === userId).length
+}
+export const getDescByCommentId = (state, postId, descId) => {
+  const post = state.posts.posts.find(p=>p.id === postId)
+  return post.comments.find(c=>c.id === descId)
 }
 

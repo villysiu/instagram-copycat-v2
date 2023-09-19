@@ -1,9 +1,8 @@
 import { useDispatch } from 'react-redux';
-import { logoutUser } from '../userSlice';
+import { logoutUser } from '../usersSlice';
 import { NavDropdown } from 'react-bootstrap';
 
 const Logout = () =>{
-    console.log("in Logout")
     const dispatch=useDispatch();
     const handleClick=()=>{
         dispatch(logoutUser())

@@ -7,17 +7,23 @@ const UploadImage = ({handlePreview}) => {
         fileRef.current.click();
       };
     return (
-        <div className="upload_window">
+        <div 
+        className="upload_modal"
+        >
                 
-            <Modal.Header style={{justifyContent: "center"}}><h5>Create new post</h5></Modal.Header>
-            <div style={{ justifyContent: "center", alignItems: "center", display: "grid", paddingTop: "150px" }}>
-                <div>
+            <Modal.Header className="upload_header">
+                <Modal.Title className="add_post_modal_title ">Create new post</Modal.Title>
+            </Modal.Header>
+            <div className="upload_body">
+                {/* <div>
                     Drag image here 
                     <CloudUploadFill />
-                </div>
+                </div> */}
                 
                 <div>
-                    <Form.Control ref={fileRef} type="file" name="url" accept="image/*" style={{display: "none"}} onChange={e=>handlePreview(e)}/>
+                    <Form.Control ref={fileRef} type="file" name="url" accept="image/*" 
+                    style={{display: "none"}} 
+                    onChange={e=>handlePreview(e)}/>
                     <Button onClick={handleClick}>Select from Computer</Button>
                 </div>
             

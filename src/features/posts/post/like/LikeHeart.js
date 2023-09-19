@@ -1,17 +1,21 @@
 import LikeButton from "./LikeButton"
 import { Heart } from "react-bootstrap-icons"
 import { useSelector } from "react-redux"
-import { currentUserId } from "../../../user/userSlice"
-const LikeHeart = ({postId}) => {
-    const currUserId=useSelector(currentUserId)
+import User from "../../../user/session/User"
+
+const LikeHeart = ({desc, postId, smHeart}) => {
+    const currUser = useSelector(state=> state.users.currUser.currUser)
+    
+    if(currUser)
+        return <LikeButton likes={desc.likes} currUserId={currUser.id} commentId={desc.id} postId={postId} smHeart={smHeart} /> 
+
+    
     return (
         <>
-        { currUserId?  
-            <LikeButton postId={postId} /> 
-            : 
-            <Heart /> 
-        }
-        </>       
+                <User display={
+                    <Heart className={smHeart ? "hollow smheart" : "hollow heart"}  />
+                }/> 
+        </>
     )
 }
 export default LikeHeart

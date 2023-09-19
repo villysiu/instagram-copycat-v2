@@ -2,18 +2,17 @@ import { useState } from "react"
 import { Modal, NavDropdown } from "react-bootstrap"
 import EditPost from "./EditPost"
 
-const EditPostButton = ({postId}) =>{
-    const [edit, showEdit] = useState(false)
+const EditPostButton = ({post}) =>{
+    const [show, setShow] = useState(false)
     
     return (
         <>
-            <Modal show={edit} 
-                onHide={() => showEdit(false)}
-                dialogClassName="modal-60w">
-                <EditPost postId={postId} showEdit={showEdit} />
+            <Modal show={show} onHide={() => setShow(false)}
+                dialogClassName="add_post_modal" centered>
+                <EditPost post={post} setShow={setShow} />
             </Modal>
         
-            <NavDropdown.Item onClick={()=>showEdit(true)} >
+            <NavDropdown.Item onClick={()=>setShow(true)} >
                 Edit Post
             </NavDropdown.Item>
         </>

@@ -1,90 +1,70 @@
-import { useState, memo } from "react"
+import { useState } from "react"
 import { Modal, Form, Button } from "react-bootstrap"
-import { useDispatch, useSelector } from "react-redux"
-import { currentUserId } from "../userSlice"
-import { editProfile } from "../userSlice"
-import { editAvatar, deleteAvatar } from "../userSlice"
-import { selectUserbyId } from "../usersSlice"
+import { useDispatch } from "react-redux"
+import { editProfile } from "../usersSlice"
+import { editAvatar, deleteAvatar } from "../usersSlice"
+import BioTextareaBox from "../session/BioTextareaBox"
+// import { selectUserbyId } from "../usersSlice"
 import EditAvatar from "./editAvatar/EditAvatar"
+import FloatingInputBox from "../session/FloatingInputBox"
 
-const EditProfile = ({setShow}) =>{
-    console.log("in edit porfile")
-
+const EditProfile = ({setShow, currUser}) =>{
+    
     const dispatch=useDispatch();
-    const currUserId = useSelector(currentUserId)
-    const currUser=useSelector(state=>selectUserbyId(state, currUserId))
     const [avatar, setAvatar] = useState(currUser? currUser.avatar : null)
-
+    const [username, setUsername] = useState(currUser.name)
+    const [bio, setBio] = useState(currUser.bio)
     const handleSubmit = (e) =>{
         e.preventDefault()
-        console.log(e.target.username.value)
-        const formData=new FormData()
-        if(e.target.username.value !== currUser.name || e.target.bio.value !== currUser.bio ){
-            formData.append("name", e.target.username.value)
-            formData.append("bio", e.target.bio.value)
-            
-            dispatch(editProfile({formData: formData}))
+        
+        if(username !== currUser.name || bio !== currUser.bio){
+            const formData=new FormData()
+            if(username !== currUser.name) 
+                formData.append("name", username)
+            if(bio !== currUser.bio)
+                formData.append("bio", bio)
+            dispatch(editProfile({user: Object.fromEntries(formData)}))
         }
-
-        const formData2=new FormData()
+            
         if(avatar !== currUser.avatar){
-            // console.log("different")
+            const formData2=new FormData()
             if(avatar){
                 formData2.append("avatar", avatar)
-                dispatch(editAvatar({formData: formData2}))
+                console.log(formData2)
+                dispatch(editAvatar(formData2))
             }
             else{
-                dispatch(deleteAvatar())}
+                dispatch(deleteAvatar())
+            }
         }
         setShow(false)
-
     }
-   
-    const handleCancel = () => setShow(false)
-
-
     return (
-        <>
-        <Form onSubmit={handleSubmit}>
-            <Modal.Header>
-                
-                <Button variant="primary" onClick={handleCancel} className="transparent_button">
-                    Cancel
-                </Button>
-                <Modal.Title>Edit porfile</Modal.Title>
-                <Button className="transparent_button" type="submit">
-                    Done
-                </Button>
+
+        <Form>
+
+            <Modal.Header className="add_post_modal_header" >
+                <div className="cancel_button" onClick={()=>setShow(false)}>Cancel</div>
+                <Modal.Title className="add_post_modal_title">Edit porfile</Modal.Title>
+                <div className="done_button" onClick={handleSubmit}>Done</div>
             </Modal.Header>
 
-            <EditAvatar currUser={currUser} setAvatar={setAvatar} />
-
-            <Modal.Body>    
-                <fieldset disabled>
-
-                    <Form.Group className="mb-3 float-group">
-                    <Form.Control className="float-input" htmlFor="email-input" value={currUser.email} readOnly />
-                    <Form.Label className='float-label' htmlFor="email-input">Email address</Form.Label> 
-                </Form.Group>
-                </fieldset>
+            <Modal.Body className="py-0">   
+                <EditAvatar initial={currUser.name[0]} avatar={currUser.avatar} setAvatar={setAvatar} /> 
                 
+                <fieldset disabled>
+                    <FloatingInputBox itemNameTxt="email" itemDisplayTxt="Email address" item={currUser.email} setItem={null} />
+                </fieldset>
+            
+                <FloatingInputBox itemNameTxt="username" itemDisplayTxt="User Name" item={username} setItem={setUsername} />
+        
+                <BioTextareaBox bio={bio} setBio={setBio} />
 
-                <Form.Group className="mb-3 float-group">
-                    <Form.Control required type="text" id="username-input" className="float-input" name="username" placeholder="User name"
-                        defaultValue={currUser.name} />
-                    <Form.Label className='float-label' htmlFor="username-input">User name</Form.Label> 
-                </Form.Group>
-
-                <Form.Group className="mb-3 float-group">
-                    <Form.Control required type="text" as="textarea" rows="5" id="bio-input" className="float-input" name="bio" placeholder="Bio"
-                        defaultValue={currUser.bio} />
-                    <Form.Label className='float-label' htmlFor="bio-input">Bio</Form.Label> 
-                </Form.Group>
 
             </Modal.Body>            
+            
         </Form>
-        
-        </>
+    
     )
 }
-export default memo(EditProfile)
+export default EditProfile

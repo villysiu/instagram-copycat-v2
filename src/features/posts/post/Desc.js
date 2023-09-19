@@ -1,40 +1,37 @@
 import { useState } from "react"
-import UserName from "../../user/UserName"
-
-const Desc = ({ownerId, desc}) => {
+import UsernameLink from "../../user/user/UsernameLink"
+const Desc = ({desc}) => {
+    
     const [hide, setHide]=useState(true)
-
-   return (
-        <div className="mb-2" style={{textAlign: "left", fontSize: "13.6px"}}>
-            
-            <span  style={{display: "inline"}} ><UserName userId={ownerId} /></span>
-            &nbsp;
-            {hide? 
+   
+    const HiddenDesc=(remainDesc)=>{
+        return(
+            hide ?  
                 <>
-                    <span style={{display: "inline"}} >{desc.slice(0,100)}</span>
-                    {
-                        desc.length>100 && 
-                        <>
-                            &nbsp;...&nbsp;
-                            <span style={{display: "inline", cursor: "pointer", color: "gray" }} 
-                                onClick={()=>setHide(false)} > 
-                                more
-                            </span>
-                        </>
-                    }
+                    <span className="post_desc mx-2">...</span>
+                    <span className="post_desc hide_link" onClick={()=>setHide(false)} > 
+                        more
+                    </span>
                 </>
                 :
                 <>
-                    <span style={{display: "inline"}} >{desc} &nbsp;</span>
-                 
-                    <span style={{display: "inline", cursor: "pointer", color: "gray" }} 
-                        onClick={()=>setHide(true)} >
-                            hide
+                    <span className="post_desc me-2">{remainDesc}</span>
+                    <span className="post_desc hide_link" onClick={()=>setHide(true)} >
+                        hide
                     </span>
                 </>
-            }
-</div>
-   )
+        )
+    }
+    if(!desc)
+        return null
+    return (
+        <div className="post_desc_wrapper">
+            
+            <UsernameLink author={desc.user} />
+            <span className="ms-2" style={{display: "inline"}} >{desc.comment.slice(0,100)}</span>
+            { desc.comment.length>=100 && HiddenDesc(desc.comment.slice(100)) }
+        </div>
+    )
  
 }
 export default Desc

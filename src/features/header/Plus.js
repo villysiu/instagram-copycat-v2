@@ -2,20 +2,27 @@ import { useState } from "react"
 import { Modal } from "react-bootstrap"
 import { PlusCircle } from 'react-bootstrap-icons'
 import AddPost from '../posts/newPost/AddPost'
-
+import { Link } from "react-router-dom"
 
 const Plus = () =>{
-    const [add, showAdd]=useState(false)
-    
-    const handleClick = () => (showAdd(true))
+    const [show, setShow]=useState(false)
 
     return (
         <>
-            <Modal show={add} onHide={() => showAdd(false)} dialogClassName="modal-60w" aria-labelledby="contained-modal-title-vcenter" centered>
-                <AddPost closeModal={()=>showAdd(false)} />
+            <Modal show={show} onHide={() => setShow(false)} dialogClassName="add_post_modal" >
+                <AddPost setShow={setShow} />
             </Modal>
 
-            <PlusCircle className="circle_button" onClick={handleClick} />
+            
+            <div  className="flex_row_center ">
+                <PlusCircle className="circle_button" onClick={()=>setShow(true)} />
+                
+                <div className='d-none d-lg-block'>
+                    <div onClick={()=>setShow(true)}>
+                        Create
+                    </div>
+                </div>
+            </div>
         </>
     )
 }

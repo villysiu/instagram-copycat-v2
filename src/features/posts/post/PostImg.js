@@ -1,16 +1,21 @@
-import { useHref } from "react-router-dom"
-import { Link } from "react-router-dom"
-import { backendAPI } from "../../../app/data"
+
+import { backendAPI } from "../../../app/helper"
 import placeholder from "../../../images/X (1).png"
-const PostImg = ({postId, postUrl}) =>{
-    const href=useHref()
+const PostImg = ({postUrl, setPortrait}) =>{
     const handleImgErr=(e)=>{
         e.target.src = placeholder
     }
-    
-    
+    const onImgLoad = ({target:img}) =>{
+        // console.log( mg.naturalHeight, img.naturalWidth )
+        setPortrait( img.naturalHeight > img.naturalWidth)
+    }
     return(
-        <img className="card_img mb-1" alt="" src={`${backendAPI}/${postUrl}`} onError={handleImgErr} />
+        
+            <img className="post_img" alt="" 
+                src={`${backendAPI}/${postUrl}`} 
+                onError={handleImgErr}
+                onLoad={onImgLoad} 
+            />
     )
 }
 export default PostImg

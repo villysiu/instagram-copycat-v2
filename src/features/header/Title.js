@@ -1,12 +1,16 @@
-
-import { memo } from "react"
 import { Link } from "react-router-dom"
+import { Instagram } from "react-bootstrap-icons"
 const Title = () => {
     return (
-        <Link to={"/instagram-copycat-v2"} className="titleLink">
-            <div className="title px-3">Villy's Instagram</div>
-        </Link>
+        <div className="title_wrapper">
+            <Link to={"/"} className="link_black ">
+                <Instagram className="circle_button" />
+            </Link>
+            <Link to={"/"} className="link_black title ms-2 ">
+                Villy's Instagram
+            </Link>
+        </div>
         
     )
 }
-export default memo(Title)
+export default Title

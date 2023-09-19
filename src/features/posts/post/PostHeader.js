@@ -1,44 +1,18 @@
-import { Link } from 'react-router-dom';
-import PostDropdown from './PostDropdown';
-import UserName from '../../user/UserName';
-import Avatar from '../../user/Avatar';
-import UserAvatar from '../../user/UserAvatar';
-import PostTime from './PostTIme';
-
-export const PostHeader=({ownerId, postId, handleClick, postTime})=>{
-    // console.log("in PostHeader")
-    
-    // const PostHeaderDetails = () =>{
-    //     return(
-            
-    //         // <div style={{display: "flex", alignItems: "center"}}>
-    //         //     <Avatar userId={ownerId} initialStyle={"initialStyle"} circleSize={"thumbsize"}  />
-    //         //     <UserName userId={ownerId}  nameSize={"13.6px"} />
-    //         // </div>
-    //     )
-    // }
+import PostTime from "./PostTime"
+import PostDropdown from "./PostDropdown"
+import UsernameLink from "../../user/user/UsernameLink"
+import UserAvatarLink from "../../user/user/UserAvatarLink"
+const PostHeader = ({post}) =>{
+    console.log(post.owner.name)
     return (
-
-    
-        <div className='post_header'>
-            <div style={{display: "flex", alignItems: "center", height: '100%'}}>
-                {handleClick ? 
-                    <div className="post_header_user_link" onClick={()=>handleClick()} >
-                        {/* <PostHeaderDetails /> */}
-                        <UserAvatar userId={ownerId} />
-                    </div>
-
-                :
-                    <Link to={`../users/${ownerId}`} className="post_header_user_link">
-                        {/* <PostHeaderDetails /> */}
-                        <UserAvatar userId={ownerId} />
-                    </Link>
-                }
-                <PostTime postTime={postTime} />
+        <div className='flex_space_between m-2'>
+            <div className="flex_row_center">
+                <UserAvatarLink author={post.owner} />
+                <UsernameLink author={post.owner} />
+                <PostTime postTime={post.created_at} />
             </div>
-            <PostDropdown postId={postId} ownerId={ownerId}/>
-            
+            <PostDropdown post={post} />
         </div>
     )
-          
 }
+export default PostHeader
